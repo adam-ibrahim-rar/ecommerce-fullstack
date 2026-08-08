@@ -1,9 +1,12 @@
-import Express from 'express';
-import {config} from 'dotenv';
+import express, { urlencoded } from "express";
 
-config();
-const app = Express();
+import cookieParser from "cookie-parser";
+const app = express();
+const port = process.env.PORT || 3000;
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running on port ${process.env.PORT || 3000}`);
-})
+app.use(urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.listen(port, () => {
+  console.log(`the server is listen on port ${port}`);
+});
