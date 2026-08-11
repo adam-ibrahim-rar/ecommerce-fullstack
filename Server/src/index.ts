@@ -1,12 +1,11 @@
-import express, { urlencoded } from "express";
-
-import cookieParser from "cookie-parser";
+import express from "express";
+import env from "./config/env";
+import connectDB from "./config/db";
 const app = express();
-const port = process.env.PORT || 3000;
+const port = env.PORT;
+connectDB();
 
-app.use(urlencoded({ extended: true }));
-app.use(cookieParser());
 
 app.listen(port, () => {
-  console.log(`the server is listen on port ${port}`);
+  console.log(`the server is listening on port ${port}`);
 });
