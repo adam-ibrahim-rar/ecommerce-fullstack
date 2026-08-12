@@ -53,17 +53,16 @@ export default function Search() {
         className="w-[200px] bg-transparent placeholder:text-one placeholder:text-xs focus:outline-none"
       />
 
-        {search.trim() ? (
-          <TbLocationSearch 
-            className="text-2xl cursor-pointer hover:text-blue-700 transition-all duration-200"
-            onClick={handleSearch}
-          />
-        ) : (
-          <IoSearch
-            className="text-2xl cursor-pointer"
-            onClick={focusSearch}
-          />
-        )}
+        <button
+  type={search.trim() ? "submit" : "button"}
+  onClick={!search.trim() ? focusSearch : undefined}
+>
+  {search.trim() ? (
+    <TbLocationSearch className="text-2xl" />
+  ) : (
+    <IoSearch className="text-2xl" />
+  )}
+</button>
       </form>
 
         {isFocused && search.trim() && (
