@@ -1,10 +1,10 @@
 import NavBar from "./NavBar";
-import UpNavBar from "./UpNavBar";
+import News from "./News";
 
 export default function Header() {
   return (
     <div >
-        <UpNavBar />
+        <News />
         <NavBar/>
     </div>
   )

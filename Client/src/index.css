@@ -5,3 +5,19 @@
 .text-one{
     color: #7D8184;
 }
+
+
+.hero-swiper .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: #808080;
+  opacity: 1;
+  margin: 0 6px !important;
+  transition: all 0.3s ease;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  background: #db4444;
+  border: 2px solid #ffffff;
+  box-sizing: border-box;
+}

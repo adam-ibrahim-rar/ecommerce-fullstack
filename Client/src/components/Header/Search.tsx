@@ -15,9 +15,9 @@ const products = [
 
 export default function Search() {
   const ref = useRef<HTMLInputElement>(null);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>("");
   const navigate = useNavigate();
-  const [isFocused, setIsFocused] = useState(false);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
   function focusSearch() {
     ref.current?.focus();
   }
