@@ -6,7 +6,13 @@ export default function Dropdown() {
   return (
            <div className="relative">
   <button
-    onClick={() => setOpen(!open)}
+    onClick={() => 
+      {setOpen(!open);
+      setTimeout(() => {
+        setOpen(false);
+      }, 1500);
+    }}
+    onBlur={() => setOpen(false)}
     className="flex items-center gap-1 cursor-pointer"
   >
     <span>{language}</span>

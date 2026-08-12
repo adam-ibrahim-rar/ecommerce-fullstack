@@ -8,7 +8,6 @@ export default function NavBar() {
     <>
       <div className="w-[1170px] mx-auto mt-2 h-10 flex items-center justify-between">
         
-        {/* Left Side */}
         <div className="flex items-center gap-40">
           <Link to="/">
             <h1 className="text-2xl font-bold">Exclusive</h1>
@@ -61,7 +60,6 @@ export default function NavBar() {
           </ul>
         </div>
 
-        {/* Right Side */}
         <div className="flex items-center gap-6">
           <Search />
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 export default function Categories() {
 
@@ -11,7 +12,12 @@ export default function Categories() {
     
       <ul  className=" w-[217px] h-[344px] flex flex-col justify-between  ">
         {categories.map((category, index) => (
-        <li key={index} className="h-[24px] capitalize text-sm">{category}</li>
+        <Link to={`/categories/${category.toLowerCase()}`}
+         key={index} className="cursor-default">
+        <li  className="h-[24px] 
+        hover:cursor-pointer hover:text-blue-500 
+        w-fit capitalize text-sm">{category} </li>
+        </Link>
         ))}
       </ul>
    
