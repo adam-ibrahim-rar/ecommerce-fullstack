@@ -17,7 +17,7 @@ export default function Search() {
   const ref = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-
+  const [isFocused, setIsFocused] = useState(false);
   function focusSearch() {
     ref.current?.focus();
   }
@@ -41,13 +41,17 @@ export default function Search() {
         className="px-2 h-10 flex items-center bg-secondary rounded"
       >
         <input
-          ref={ref}
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="What are you looking for?"
-          className="w-[200px] bg-transparent placeholder:text-one placeholder:text-xs focus:outline-none"
-        />
+        ref={ref}
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => {
+          setTimeout(() => setIsFocused(false), 150);
+        }}
+        placeholder="What are you looking for?"
+        className="w-[200px] bg-transparent placeholder:text-one placeholder:text-xs focus:outline-none"
+      />
 
         {search.trim() ? (
           <TbLocationSearch 
@@ -62,7 +66,7 @@ export default function Search() {
         )}
       </form>
 
-      {search.trim() && (
+        {isFocused && search.trim() && (
         <div className="absolute top-full left-0 mt-2 w-full rounded-md bg-white shadow-lg z-50 overflow-hidden">
           {filteredProducts.length ? (
             filteredProducts.map((product) => (
