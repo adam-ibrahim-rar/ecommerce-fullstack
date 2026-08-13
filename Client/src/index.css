@@ -5,7 +5,12 @@
 .text-one{
     color: #7D8184;
 }
-
+.text-secondary-two{
+    color: #DB4444;
+}
+.bg-secondary-two{
+    background-color: #DB4444;
+}
 
 .hero-swiper .swiper-pagination-bullet {
   width: 12px;
