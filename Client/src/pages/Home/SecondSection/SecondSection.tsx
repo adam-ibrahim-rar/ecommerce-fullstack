@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import Frame from "./Frame";
-import Swapers from "../../components/Swapers";
-import ProductCard from "../../components/ProductCard";
-import iphone from "../../assets/iphone.jpg";
-import Button from "../../components/Button";
+import Frame from "../../../components/Frame";
+import Swapers from "../../../components/Swapers";
+import ProductCard from "../../../components/ProductCard";
+import iphone from "../../../assets/iphone.jpg";
+import Button from "../../../components/Button";
+import Countdown from "./CountDown";
 
 const products = [
   {
@@ -48,33 +49,29 @@ const products = [
   },
 ];
 export default function SecondSection() {
-    const navigate = useNavigate();
-    function handleClick(){
-        navigate("/products");
-    }
+  const navigate = useNavigate();
+  function handleClick() {
+    navigate("/products");
+  }
   return (
     <div className="flex flex-col  gap-5 w-[1170px]">
       <Frame
-     title="Second Section"
-     functionality={<Swapers />}
-     description="This is the second section."/>
+        title="Today’s"
+        functionality={<Swapers />}
+        counter={<Countdown endsAt="2026-08-20T18:00:00Z" />}
+        description="Flash Sales"
+      />
 
+      <div className="grid grid-cols-4 mt-2 gap-[30px]">
+        {products.map((product) => (
+          <ProductCard key={product.id} {...product} />
+        ))}
+      </div>
 
-
-          <div className="grid grid-cols-4 mt-2 gap-[30px]">
-      {products.map((product) => (
-        <ProductCard key={product.id} {...product} />
-      ))}
-    </div>
-
-<div className="self-center mt-14">
-  <Button content="view all products" handleClick={handleClick} />
-
-</div>
+      <div className="self-center mt-14">
+        <Button content="view all products" handleClick={handleClick} />
+      </div>
       <hr className="mt-2 h-[1.5px] bg-black border-none opacity-40" />
-<div className="self-center mt-14">
-
-</div>
     </div>
-  )
+  );
 }

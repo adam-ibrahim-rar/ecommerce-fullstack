@@ -7,7 +7,6 @@ export default function NavBar() {
   return (
     <>
       <div className="w-[1170px] mx-auto mt-2 h-10 flex items-center justify-between">
-        
         <div className="flex items-center gap-40">
           <Link to="/">
             <h1 className="text-2xl font-bold">Exclusive</h1>

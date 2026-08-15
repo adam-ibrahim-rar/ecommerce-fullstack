@@ -13,8 +13,8 @@ export default function NotFound() {
         </h2>
 
         <p className="mt-4 text-gray-500 max-w-md mx-auto">
-          Sorry, we couldn't find the page you're looking for.
-          It may have been moved or deleted.
+          Sorry, we couldn't find the page you're looking for. It may have been
+          moved or deleted.
         </p>
 
         <div className="mt-10 flex justify-center gap-4">
