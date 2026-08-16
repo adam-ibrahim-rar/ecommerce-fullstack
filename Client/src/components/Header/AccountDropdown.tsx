@@ -30,8 +30,12 @@ const menuItems = [
   },
 ];
 
-export default function AccountDropdown({setOpen}:{setOpen:(open:boolean)=>void}) {
-  const navigate=useNavigate()
+export default function AccountDropdown({
+  setOpen,
+}: {
+  setOpen: (open: boolean) => void;
+}) {
+  const navigate = useNavigate();
   return (
     <div
       className="
@@ -50,10 +54,9 @@ export default function AccountDropdown({setOpen}:{setOpen:(open:boolean)=>void}
         px-4
         py-[14px]
       "
-      onMouseLeave={()=>{
-        setTimeout(()=>setOpen(false),700)
+      onMouseLeave={() => {
+        setTimeout(() => setOpen(false), 2500);
       }}
-      
     >
       <div className="flex flex-col justify-between h-full">
         {menuItems.map((item) => {
@@ -63,8 +66,9 @@ export default function AccountDropdown({setOpen}:{setOpen:(open:boolean)=>void}
             <button
               key={item.label}
               type="button"
-              onClick={()=>{
-                navigate(`/${item.label.toLowerCase().split(" ").join("")}`)
+              onClick={() => {
+                navigate(item.label.toLowerCase().split(" ").join("-"));
+                setOpen(false);
               }}
               className="
                 w-[192px]
@@ -78,9 +82,14 @@ export default function AccountDropdown({setOpen}:{setOpen:(open:boolean)=>void}
                 hover:opacity-80
                 transition-opacity
               "
+              onMouseLeave={() => {
+                setTimeout(() => setOpen(false), 2500);
+              }}
             >
-              <span className="flex
-                items-center justify-center w-[32px] h-[32px] ">
+              <span
+                className="flex
+                items-center justify-center w-[32px] h-[32px] "
+              >
                 <Icon size={24} strokeWidth={1.8} className="shrink-0" />
               </span>
 

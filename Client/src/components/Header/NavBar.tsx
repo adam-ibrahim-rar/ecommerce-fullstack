@@ -10,6 +10,7 @@ export default function NavBar() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const login = true;
+  const number = 1;
   return (
     <>
       <div className="w-[1170px] mx-auto mt-2 h-10 flex items-center justify-between">
@@ -69,28 +70,42 @@ export default function NavBar() {
           {location.pathname == "/account/register" ||
           location.pathname == "/account/login" ? null : (
             <div className="flex items-center gap-4">
-              <Link to="/wishlist">
-                <FaRegHeart className="size-6 cursor-pointer" />
-              </Link>
-
-              {login ? (<Link className="relative" to="/cart">
-                <GrCart className="size-6 cursor-pointer" />
-                <span className="bg-secondary-two absolute bottom-4/6 left-5 w-[18px] h-[18px] rounded-full flex justify-center items-center text-white text-[12px]">
-                  {1}
-                </span>
-              </Link>):(<Link to="/cart">
-                <GrCart className="size-6 cursor-pointer" />
-              </Link>)
-              }
+              {login ? (
+                <Link className="relative" to="/cart">
+                  <FaRegHeart className="size-6 cursor-pointer" />
+                  {number > 0 && (
+                    <span className="bg-secondary-two absolute bottom-3.5 left-4 w-[18px] h-[18px] rounded-full flex justify-center items-center text-white text-[12px]">
+                      {number}
+                    </span>
+                  )}
+                </Link>
+              ) : (
+                <Link to="/wishlist">
+                  <FaRegHeart className="size-6 cursor-pointer" />
+                </Link>
+              )}
+              {login ? (
+                <Link className="relative" to="/cart">
+                  <GrCart className="size-6 cursor-pointer" />
+                  {number > 0 && (
+                    <span className="bg-secondary-two absolute bottom-3.5 left-4 w-[18px] h-[18px] rounded-full flex justify-center items-center text-white text-[12px]">
+                      {number}
+                    </span>
+                  )}
+                </Link>
+              ) : (
+                <Link to="/cart">
+                  <GrCart className="size-6 cursor-pointer" />
+                </Link>
+              )}
               {login && (
                 <div className="relative">
                   <button
                     type="button"
                     onClick={() => {
-                      setOpen((prev) => !prev)
-                      setTimeout(()=>setOpen(false),2500)
+                      setOpen((prev) => !prev);
                     }}
-                    
+
                     className="
                       w-[40px]
                       h-[40px]
