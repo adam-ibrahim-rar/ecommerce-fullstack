@@ -1,12 +1,12 @@
 import PathLocation from "../..//components/Helpers/PathLocation";
 import Frame from "../..//components/Helpers/Frame";
 import ProductCard from "../..//components/Helpers/ProductCard";
-import iphone from "../../assets/iphone.jpg"
-import ProductDetails from "./ProductDetails"
+import iphone from "../../assets/iphone.jpg";
+import ProductDetails from "./ProductDetails";
 import { useEffect, useState } from "react";
 import ProductsSkeletonContainer from "../../components/Skeletons/Products/ProductsSkeleton";
 const relatedProducts = [
-    {
+  {
     id: 1,
     image: iphone,
     title: "AK-900 Wired Keyboard",
@@ -45,7 +45,7 @@ const relatedProducts = [
     discount: 20,
     rating: 4,
     reviews: 99,
-  }
+  },
 ];
 const product = {
   id: 1,
@@ -62,12 +62,7 @@ const product = {
 
   reviews: 150,
 
-  images: [
-    iphone,
-    iphone,
-    iphone,
-    iphone,
-  ],
+  images: [iphone, iphone, iphone, iphone],
 
   colors: [
     {
@@ -88,18 +83,16 @@ const product = {
   inStock: true,
 
   delivery: {
-    freeDeliveryText:
-      "Enter your postal code for Delivery Availability",
+    freeDeliveryText: "Enter your postal code for Delivery Availability",
 
-    returnText:
-      "Free 30 Days Delivery Returns.",
+    returnText: "Free 30 Days Delivery Returns.",
 
     returnDetails: "Details",
   },
 };
 
 export default function Products() {
-const [loading, setlodaing] = useState(true);
+  const [loading, setlodaing] = useState(true);
   useEffect(() => {
     setTimeout(() => setlodaing(false), 500);
   }, []);
@@ -110,20 +103,16 @@ const [loading, setlodaing] = useState(true);
     <div className="w-[1170px] flex flex-col gap-10 mx-auto">
       <PathLocation />
 
-     
-        <ProductDetails  product={product} />
+      <ProductDetails product={product} />
       <div className="flex flex-col  gap-5">
         <Frame title="Related Item" />
 
         <div className="grid grid-cols-4 gap-[30px]">
           {relatedProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              {...product}
-            />
+            <ProductCard key={product.id} {...product} />
           ))}
         </div>
       </div>
     </div>
-  )
+  );
 }

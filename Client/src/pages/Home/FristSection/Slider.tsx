@@ -51,7 +51,7 @@ export default function Slider() {
         disableOnInteraction: false,
       }}
       loop
-      className="hero-swiper w-[892px] h-[344px] mt-8 bg-black "
+      className="hero-swiper  w-[892px] h-[344px] mt-8 bg-black "
     >
       {slides.map((slide) => (
         <SwiperSlide key={slide.id}>
