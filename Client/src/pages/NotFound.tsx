@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
+import PathLocation from "../components/PathLocation";
 
 export default function NotFound() {
   return (
-    <main className="min-h-[80vh] flex items-center justify-center px-6">
+    <main className=" flex flex-col items-center justify-center w-[1170px] mx-auto">
+      <div className="self-start">
+        <PathLocation/>
+      </div>
       <div className="text-center">
-        <h1 className="text-[120px] font-bold text-red-500 leading-none">
+        <h1 className="text-[120px] font-bold text-secondary-two leading-none">
           404
         </h1>
 
@@ -20,7 +24,7 @@ export default function NotFound() {
         <div className="mt-10 flex justify-center gap-4">
           <Link
             to="/"
-            className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md transition"
+            className="bg-secondary-two hover:bg-secondary-two text-white px-6 py-3 rounded-md transition"
           >
             Back to Home
           </Link>

@@ -16,20 +16,14 @@ export default function Footer() {
     <footer className="w-full bg-black text-white mt-20">
       <div className="w-[1170px] mx-auto py-8">
         <div className="grid grid-cols-5 gap-[60px]">
-
           <div className="flex flex-col gap-4">
             <Link to={"/"}>
-            <h2 className="text-[24px] font-semibold">
-              Exclusive
-            </h2></Link>
+              <h2 className="text-[24px] font-semibold">Exclusive</h2>
+            </Link>
 
-            <h3 className="text-[18px] font-medium">
-              Subscribe
-            </h3>
+            <h3 className="text-[18px] font-medium">Subscribe</h3>
 
-            <p className="text-[14px]">
-              Get 10% off your first order
-            </p>
+            <p className="text-[14px]">Get 10% off your first order</p>
 
             <div className="relative w-[170px]">
               <input
@@ -67,9 +61,7 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h2 className="text-[18px] font-medium">
-              Support
-            </h2>
+            <h2 className="text-[18px] font-medium">Support</h2>
 
             <p className="text-[14px] leading-6">
               111 Bijoy sarani, Dhaka,
@@ -93,9 +85,7 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h2 className="text-[18px] font-medium">
-              Account
-            </h2>
+            <h2 className="text-[18px] font-medium">Account</h2>
 
             <Link
               to="/account"
@@ -105,7 +95,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              to="/login"
+              to="/account/register"
               className="text-[14px] hover:text-gray-400 transition"
             >
               Login / Register
@@ -134,9 +124,7 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h2 className="text-[18px] font-medium">
-              Quick Link
-            </h2>
+            <h2 className="text-[18px] font-medium">Quick Link</h2>
 
             <Link
               to="/privacy-policy"
@@ -168,9 +156,7 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col gap-3">
-            <h2 className="text-[18px] font-medium">
-              Download App
-            </h2>
+            <h2 className="text-[18px] font-medium">Download App</h2>
 
             <p className="text-[11px] text-gray-400">
               Save $3 with App New User Only
@@ -199,31 +185,19 @@ export default function Footer() {
             </div>
 
             <div className="flex items-center gap-5 mt-2">
-              <a
-                href="#"
-                className="hover:text-gray-400 transition"
-              >
+              <a href="#" className="hover:text-gray-400 transition">
                 <FaFacebookF size={16} />
               </a>
 
-              <a
-                href="#"
-                className="hover:text-gray-400 transition"
-              >
+              <a href="#" className="hover:text-gray-400 transition">
                 <FaTwitter size={17} />
               </a>
 
-              <a
-                href="#"
-                className="hover:text-gray-400 transition"
-              >
+              <a href="#" className="hover:text-gray-400 transition">
                 <FaInstagram size={18} />
               </a>
 
-              <a
-                href="#"
-                className="hover:text-gray-400 transition"
-              >
+              <a href="#" className="hover:text-gray-400 transition">
                 <FaLinkedinIn size={17} />
               </a>
             </div>

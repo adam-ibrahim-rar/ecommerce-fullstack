@@ -8,6 +8,7 @@
 .bg-one {
   background-color: #7d8184;
 }
+
 .border-one {
   border: 1px solid #00000024;
 }
@@ -21,7 +22,7 @@
   color: #ffad33;
 }
 .bg-secondary-three {
-  background-color: #00ff66 !important;
+  background-color: #00ff66;
 }
 .bg-secondary-two {
   background-color: #db4444;
@@ -29,6 +30,8 @@
 .bg-secondary-two-hover:hover {
   background-color: #db4444;
 }
+
+
 .hero-swiper .swiper-pagination-bullet {
   width: 12px;
   height: 12px;

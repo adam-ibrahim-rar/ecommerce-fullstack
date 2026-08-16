@@ -11,7 +11,6 @@ export default function SeventhSection() {
       <Frame title="Featured" description="New Arrival" />
 
       <div className="h-[600px] flex gap-7 justify-between">
-
         <section className="w-[570px] h-[600px] bg-black flex items-end relative overflow-hidden">
           <img
             src={iphone}
@@ -37,7 +36,6 @@ export default function SeventhSection() {
         </section>
 
         <section className="w-[570px] h-[600px] flex flex-col gap-7">
-
           <div className="w-[570px] h-[284px] bg-black relative overflow-hidden">
             <img
               src={women}
@@ -63,12 +61,8 @@ export default function SeventhSection() {
           </div>
 
           <div className="w-[570px] h-[284px] flex gap-7">
-
             <div className="w-[270px] h-[284px] bg-black relative overflow-hidden">
-              <img
-                src={speakers}
-                className="w-full h-full object-cover"
-              />
+              <img src={speakers} className="w-full h-full object-cover" />
 
               <caption className="text-white absolute bottom-5 left-5 flex flex-col items-start gap-1">
                 <h1 className="capitalize text-[22px] font-semibold">
@@ -89,19 +83,14 @@ export default function SeventhSection() {
             </div>
 
             <div className="w-[270px] h-[284px] bg-black relative overflow-hidden">
-              <img
-                src={perfume}
-                className="w-full h-full object-cover"
-              />
+              <img src={perfume} className="w-full h-full object-cover" />
 
               <caption className="text-white absolute bottom-5 left-5 flex flex-col items-start gap-1">
                 <h1 className="capitalize text-[22px] font-semibold">
                   Perfume
                 </h1>
 
-                <p className="capitalize text-[13px]">
-                  GUCCI INTENSE OUD EDP
-                </p>
+                <p className="capitalize text-[13px]">GUCCI INTENSE OUD EDP</p>
 
                 <Link
                   to="/"
@@ -111,11 +100,9 @@ export default function SeventhSection() {
                 </Link>
               </caption>
             </div>
-
           </div>
         </section>
       </div>
-
     </div>
   );
 }

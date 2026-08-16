@@ -22,7 +22,8 @@ export default function FifthSection() {
 
         <Button
           content="Buy Now!"
-          classes="mt-9 w-fit hover:opacity-80 font-medium bg-secondary-three "
+          bg=" bg-secondary-three "
+          classes="mt-9 w-fit hover:opacity-80 font-medium"
           handleClick={() => {}}
         />
       </section>

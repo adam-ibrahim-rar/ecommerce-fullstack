@@ -1,6 +1,6 @@
 import { FaTruck, FaHeadphones, FaShieldAlt } from "react-icons/fa";
 
-export default function EighthSection() {
+export default function OurServices() {
   return (
     <section className="w-[943px] h-[161px] mx-auto flex justify-between">
 

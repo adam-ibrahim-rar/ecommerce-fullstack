@@ -1,9 +1,10 @@
 import { FaRegHeart } from "react-icons/fa";
 import { GrCart } from "react-icons/gr";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import Search from "./Search";
 
 export default function NavBar() {
+  const location = useLocation();
   return (
     <>
       <div className="w-[1170px] mx-auto mt-2 h-10 flex items-center justify-between">
@@ -48,7 +49,7 @@ export default function NavBar() {
 
             <li>
               <NavLink
-                to="/signup"
+                to="/account/register"
                 className={({ isActive }) =>
                   `pb-1 ${isActive ? "border-b-2 border-black" : ""}`
                 }
@@ -62,15 +63,18 @@ export default function NavBar() {
         <div className="flex items-center gap-6">
           <Search />
 
-          <div className="flex items-center gap-4">
-            <Link to="/wishlist">
-              <FaRegHeart className="size-6 cursor-pointer" />
-            </Link>
+          {location.pathname == "/account/register" ||
+          location.pathname == "/account/login" ? null : (
+            <div className="flex items-center gap-4">
+              <Link to="/wishlist">
+                <FaRegHeart className="size-6 cursor-pointer" />
+              </Link>
 
-            <Link to="/cart">
-              <GrCart className="size-6 cursor-pointer" />
-            </Link>
-          </div>
+              <Link to="/cart">
+                <GrCart className="size-6 cursor-pointer" />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
