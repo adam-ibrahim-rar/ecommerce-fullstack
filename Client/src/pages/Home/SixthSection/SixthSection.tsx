@@ -112,14 +112,14 @@ export default function SixthSection() {
     navigate("/products");
   }
   return (
-    <div className="flex flex-col  gap-5 w-[1170px]">
+    <div className="flex flex-col  w-[1170px]">
       <Frame
         title="Our Products"
         functionality={<Swapers />}
         description="explore Our Products"
       />
 
-      <div className="grid grid-cols-4 mt-2 gap-[30px]">
+      <div className="grid grid-cols-4 gap-[30px]">
         {products.map((product) => (
           <ProductCard key={product.id} {...product} />
         ))}

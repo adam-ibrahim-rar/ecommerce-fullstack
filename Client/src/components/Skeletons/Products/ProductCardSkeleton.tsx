@@ -1,13 +1,13 @@
-import Skeleton from "./Skeleton";
+import Skeleton from "../Skeleton";
 
-
-export default function ProductSkeleton({
+export default function ProductCardSkeleton({
   withColors = false,
 }: {
   withColors?: boolean;
 }) {
   return (
     <div className="w-[270px]">
+
       <Skeleton ClassName="w-[270px] h-[250px] rounded" />
 
       <div className="mt-2 flex flex-col gap-2">

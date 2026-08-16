@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 export default function PathLocation() {
   const { pathname } = useLocation();
 
-  const paths = pathname.split("/").filter(Boolean);//avoid the / 
+  const paths = pathname.split("/").filter(Boolean); //avoid the /
 
   return (
     <div className="flex gap-3 mt-8 mb-4 text-[14px]">
@@ -16,9 +16,7 @@ export default function PathLocation() {
           <span className="text-one font-medium text-lg">/</span>
 
           {index === paths.length - 1 ? (
-            <span className="capitalize font-medium text-lg">
-              {path}
-            </span>
+            <span className="capitalize font-medium text-lg">{path}</span>
           ) : (
             <Link
               to={`/${path}`}

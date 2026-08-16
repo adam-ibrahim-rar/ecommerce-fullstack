@@ -9,18 +9,16 @@ export default function Contact() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  const [loading,setlodaing]=useState(true)
-    useEffect(() => {
-      setTimeout(
-        ()=>setlodaing(false),500
-      )
-    }, []);
-  
-    return loading ? (
+  const [loading, setlodaing] = useState(true);
+  useEffect(() => {
+    setTimeout(() => setlodaing(false), 500);
+  }, []);
+
+  return loading ? (
     <ContactSkeleton />
   ) : (
     <div className="w-[1170px] mx-auto">
-    <PathLocation/>
+      <PathLocation />
       <div className="flex gap-5">
         <div className="w-[340px] shadow-lg inset-shadow-xs h-[457px] flex flex-col items-start px-[50px] justify-center gap-6">
           <div className="flex flex-col gap-4 w-[262px]">
@@ -36,9 +34,7 @@ export default function Contact() {
               We are available 24/7, 7 days a week.
             </p>
 
-            <p className="text-[14px] font-medium">
-              Phone: +880161112222
-            </p>
+            <p className="text-[14px] font-medium">Phone: +880161112222</p>
           </div>
 
           <div className="bg-gray-700 h-[1.5px] w-[270px]"></div>
@@ -71,8 +67,7 @@ export default function Contact() {
         <div className="w-[800px] h-[457px] p-7 shadow-lg inset-shadow-xs">
           <form className="flex flex-col gap-8 w-[737px] h-[377px]">
             <div className="flex gap-3">
-
-            <div className="relative w-full">
+              <div className="relative w-full">
                 <input
                   type="text"
                   value={name}
@@ -125,7 +120,6 @@ export default function Contact() {
                   *
                 </span>
               </div>
-
             </div>
 
             <textarea
@@ -134,10 +128,7 @@ export default function Contact() {
             />
 
             <div className="self-end">
-              <Button
-                content="Send Message"
-                handleClick={() => {}}
-              />
+              <Button content="Send Message" handleClick={() => {}} />
             </div>
           </form>
         </div>

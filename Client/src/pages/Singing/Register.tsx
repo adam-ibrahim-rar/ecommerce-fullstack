@@ -6,16 +6,13 @@ import RegisterSkeleton from "../../components/Skeletons/RegisterSkeleton";
 import { useEffect, useState } from "react";
 
 export default function Register() {
-  const [loading,setlodaing]=useState(true)
-      useEffect(() => {
-        setTimeout(
-          ()=>setlodaing(false),500
-        )
-      }, []);
+  const [loading, setlodaing] = useState(true);
+  useEffect(() => {
+    setTimeout(() => setlodaing(false), 500);
+  }, []);
   return loading ? (
-  <RegisterSkeleton />
-) : (
-  
+    <RegisterSkeleton />
+  ) : (
     <div className="w-[1420px] h-[784px] flex gap-[129px] justify-between ">
       <img src={iphone} className="w-[905px] h-[784px] object-cover" />
       <div className="w-[371px] h-[530px] flex flex-col gap-12 my-auto">

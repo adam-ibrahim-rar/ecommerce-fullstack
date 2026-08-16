@@ -3,14 +3,11 @@ import Skeleton from "./Skeleton";
 export default function ContactSkeleton() {
   return (
     <div className="w-[1170px] mx-auto">
-     
-     <div className="h-[24px] my-7">
-             <Skeleton ClassName="w-[150px] h-[30px] rounded" />
-           </div>
+      <div className="h-[24px] my-7">
+        <Skeleton ClassName="w-[150px] h-[30px] rounded" />
+      </div>
 
-      
       <div className="flex gap-5">
-     
         <div className="w-[340px] shadow-lg inset-shadow-xs h-[457px] flex flex-col items-start px-[50px] justify-center gap-6">
           <div className="flex flex-col gap-4 w-[262px]">
             <div className="flex items-center gap-3">
@@ -52,15 +49,10 @@ export default function ContactSkeleton() {
               ))}
             </div>
 
-           
-            <Skeleton
-              ClassName="w-full h-[207px] rounded-none"
-            />
+            <Skeleton ClassName="w-full h-[207px] rounded-none" />
 
             <div className="self-end">
-              <Skeleton
-                ClassName="w-[210px] h-[56px] rounded"
-              />
+              <Skeleton ClassName="w-[210px] h-[56px] rounded" />
             </div>
           </div>
         </div>

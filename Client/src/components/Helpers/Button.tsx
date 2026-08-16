@@ -18,7 +18,7 @@ export default function Button({
   return (
     <button
       onClick={handleClick}
-      className={` ${classes}  hover:opacity-95 px-[48px]
+      className={` ${classes}  hover:opacity-95 px-[40px]
        ${text ? text : "text-white"} ${bg ? bg : "bg-secondary-two"}
       capitalize rounded-sm text-[18px] cursor-pointer py-[16px]  
           flex items-center justify-center gap-4`}

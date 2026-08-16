@@ -5,18 +5,14 @@ import { useEffect, useState } from "react";
 import LoginSkeleton from "../../components/Skeletons/LoginSkeleton";
 
 export default function Login() {
-   const [loading,setlodaing]=useState(true)
-        useEffect(() => {
-          setTimeout(
-            ()=>setlodaing(false),500
-          )
-        }, []);
-    return loading ? (
+  const [loading, setlodaing] = useState(true);
+  useEffect(() => {
+    setTimeout(() => setlodaing(false), 500);
+  }, []);
+  return loading ? (
     <LoginSkeleton />
   ) : (
-    
     <div className="w-[1420px] h-[784px] flex gap-[129px] justify-between ">
-
       <img src={iphone} className="w-[905px] h-[784px] object-cover" />
       <div className="w-[371px] h-[530px] flex flex-col gap-12 my-auto">
         <div className="gap-7 flex flex-col">

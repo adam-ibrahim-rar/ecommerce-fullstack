@@ -5,26 +5,29 @@ export default function Frame({
   counter,
 }: {
   title: string;
-  description: string;
+  description?: string;
   functionality?: React.ReactNode;
   counter?: React.ReactNode;
 }) {
   return (
-    <div className="h-[103px] space-y-5">
+    <div className="max-h-[103px] h-fit space-y-5">
       <p
-        className="h-[40px] 
-  px-2  border-l-12 font-semibold text-secondary-two capitalize flex items-center"
+        className="h-[40px]  gap-3
+     font-semibold text-secondary-two capitalize flex items-center"
       >
+        <div className="h-[40px] w-[20px] rounded-[5px] bg-secondary-two"></div>
         {title}
       </p>
-      <div className="flex justify-between h-12 items-center">
-        <p className=" text-3xl flex gap-20 items-center font-bold capitalize">
-          {description}
-          {counter && counter}
-        </p>
+      {(description || functionality) && (
+        <div className="flex justify-between h-12 items-center">
+          <p className=" text-3xl flex gap-20 items-center font-bold capitalize">
+            {description}
+            {counter && counter}
+          </p>
 
-        {functionality}
-      </div>
+          {functionality}
+        </div>
+      )}
     </div>
   );
 }

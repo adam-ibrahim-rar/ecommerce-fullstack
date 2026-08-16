@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound.tsx";
 import Contact from "./pages/Contact.tsx";
 import Register from "./pages/Singing/Register.tsx";
 import Login from "./pages/Singing/Login.tsx";
+import Products from "./pages/Products/Products.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "products/:id",
+        element: <Products  />,
       },
       {
         path: "account/register",

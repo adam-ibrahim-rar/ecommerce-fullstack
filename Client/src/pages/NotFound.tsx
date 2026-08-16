@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <main className=" flex flex-col items-center justify-center w-[1170px] mx-auto">
       <div className="self-start">
-        <PathLocation/>
+        <PathLocation />
       </div>
       <div className="text-center">
         <h1 className="text-[120px] font-bold text-secondary-two leading-none">

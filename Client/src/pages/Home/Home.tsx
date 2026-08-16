@@ -19,41 +19,39 @@ export default function Home() {
     };
     window.addEventListener("scroll", handleScroll);
   }, []);
-  const [loading,setlodaing]=useState(true)
+  const [loading, setlodaing] = useState(true);
   useEffect(() => {
-    setTimeout(
-      ()=>setlodaing(false),500
-    )
+    setTimeout(() => setlodaing(false), 500);
   }, []);
 
   return loading ? (
-  <HomeSkeleton />
-) : (
-  <div className="relative">
-    <div className="w-[1170px] flex flex-col gap-8 mx-auto">
-      <FristSection />
-      <SecondSection />
-      <ThirdSection />
-      <ForthSection />
-      <FifthSection />
-      <SixthSection />
-      <SeventhSection />
-      <OurServices />
-    </div>
-
-    {scroll > 200 && (
-      <div className="fixed bottom-10 right-14 text-secondary-two animate-bounce ">
-        <Arrow
-          onClick={() => {
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            });
-          }}
-          icon={<HiArrowLongUp />}
-        />
+    <HomeSkeleton />
+  ) : (
+    <div className="relative">
+      <div className="w-[1170px] flex flex-col gap-8 mx-auto">
+        <FristSection />
+        <SecondSection />
+        <ThirdSection />
+        <ForthSection />
+        <FifthSection />
+        <SixthSection />
+        <SeventhSection />
+        <OurServices />
       </div>
-    )}
-  </div>
-);
+
+      {scroll > 200 && (
+        <div className="fixed bottom-10 right-14 text-secondary-two animate-bounce ">
+          <Arrow
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+            }}
+            icon={<HiArrowLongUp />}
+          />
+        </div>
+      )}
+    </div>
+  );
 }

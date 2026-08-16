@@ -1,11 +1,10 @@
-import ProductSkeleton from "./ProductSkeleton";
+import ProductSkeleton from "./Products/ProductCardSkeleton";
 import Skeleton from "./Skeleton";
 
 export default function HomeSkeleton() {
   return (
     <div className="relative">
       <div className="w-[1170px] flex flex-col gap-8 mx-auto">
-       
         <div className="flex">
           <div className="pr-4 border-r border-gray-300 h-[384px]">
             <div className="mt-8">
@@ -20,9 +19,7 @@ export default function HomeSkeleton() {
             </div>
           </div>
 
-          <Skeleton
-            ClassName="w-[892px] h-[344px] mt-8 ml-4 rounded"
-          />
+          <Skeleton ClassName="w-[892px] h-[344px] mt-8 ml-4 rounded" />
         </div>
 
         <div className="flex flex-col  gap-5 w-[1170px]">
@@ -34,8 +31,8 @@ export default function HomeSkeleton() {
                 <Skeleton ClassName="w-[180px] h-[36px] rounded" />
 
                 <div className="ml-4 mb-6  flex flex-col justify-between h-12 ">
-                    <Skeleton ClassName="ml-4  rounded-lg w-[320px] h-5"/>
-                <Skeleton ClassName="ml-4  rounded-lg w-[320px] h-5"/> 
+                  <Skeleton ClassName="ml-4  rounded-lg w-[320px] h-5" />
+                  <Skeleton ClassName="ml-4  rounded-lg w-[320px] h-5" />
                 </div>
               </div>
 
@@ -56,11 +53,9 @@ export default function HomeSkeleton() {
             <Skeleton ClassName="w-[180px] h-[48px] rounded" />
           </div>
 
-          {/* Divider */}
           <Skeleton ClassName="mt-2 w-full h-[1.5px]" />
         </div>
 
-       
         <div className="flex flex-col gap-14 w-[1170px]">
           <div className="h-[103px] space-y-5">
             <Skeleton ClassName="w-[100px] h-[40px] rounded" />
@@ -146,10 +141,7 @@ export default function HomeSkeleton() {
 
           <div className="grid grid-cols-4 mt-2 gap-[30px]">
             {Array.from({ length: 9 }).map((_, index) => (
-              <ProductSkeleton
-                key={index}
-                withColors
-              />
+              <ProductSkeleton key={index} withColors />
             ))}
           </div>
 
@@ -169,9 +161,7 @@ export default function HomeSkeleton() {
 
           <div className="h-[600px] flex gap-7 justify-between">
             <div className="w-[570px] h-[600px] bg-one relative overflow-hidden">
-              <Skeleton
-                ClassName="w-[511px] h-[511px] rounded mx-auto"
-              />
+              <Skeleton ClassName="w-[511px] h-[511px] rounded mx-auto" />
 
               <div className="absolute bottom-10 left-10 flex flex-col items-start gap-2">
                 <Skeleton ClassName="w-[180px] h-[30px] rounded" />
@@ -182,9 +172,7 @@ export default function HomeSkeleton() {
 
             <div className="w-[570px] h-[600px] flex flex-col gap-7">
               <div className="w-[570px] h-[284px] bg-one relative overflow-hidden">
-                <Skeleton
-                  ClassName="absolute right-0 bottom-0 w-full h-full rounded-none"
-                />
+                <Skeleton ClassName="absolute right-0 bottom-0 w-full h-full rounded-none" />
 
                 <div className="absolute bottom-6 left-5 flex flex-col items-start gap-2">
                   <Skeleton ClassName="w-[230px] h-[30px] rounded" />
@@ -218,16 +206,13 @@ export default function HomeSkeleton() {
           </div>
         </div>
 
-        
         <div className="w-[943px] h-[161px] mx-auto flex justify-between">
           {Array.from({ length: 3 }).map((_, index) => (
             <div
               key={index}
               className="w-[280px] flex flex-col items-center text-center"
             >
-              <Skeleton
-                ClassName="w-[62px] h-[62px] rounded-full mb-5"
-              />
+              <Skeleton ClassName="w-[62px] h-[62px] rounded-full mb-5" />
 
               <Skeleton ClassName="w-[210px] h-[20px] rounded" />
 
@@ -239,5 +224,3 @@ export default function HomeSkeleton() {
     </div>
   );
 }
-
-
