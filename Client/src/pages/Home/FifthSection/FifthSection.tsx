@@ -1,5 +1,5 @@
 import iphone from "../../../assets/iphone.jpg";
-import Button from "../../../components/Button";
+import Button from "../../../components/Helpers/Button";
 
 export default function FifthSection() {
   return (

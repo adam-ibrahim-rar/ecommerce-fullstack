@@ -1,5 +1,5 @@
-import Frame from "../../../components/Frame";
-import Swapers from "../../../components/Swapers";
+import Frame from "../../../components/Helpers/Frame";
+import Swapers from "../../../components/Helpers/Swapers";
 import Categories from "./Categories";
 
 export default function ThirdSection() {

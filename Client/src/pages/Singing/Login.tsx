@@ -1,9 +1,20 @@
 import { Link } from "react-router-dom";
 import iphone from "../../assets/iphone.jpg";
-import Button from "../../components/Button";
+import Button from "../../components/Helpers/Button";
+import { useEffect, useState } from "react";
+import LoginSkeleton from "../../components/Skeletons/LoginSkeleton";
 
 export default function Login() {
-  return (
+   const [loading,setlodaing]=useState(true)
+        useEffect(() => {
+          setTimeout(
+            ()=>setlodaing(false),500
+          )
+        }, []);
+    return loading ? (
+    <LoginSkeleton />
+  ) : (
+    
     <div className="w-[1420px] h-[784px] flex gap-[129px] justify-between ">
 
       <img src={iphone} className="w-[905px] h-[784px] object-cover" />

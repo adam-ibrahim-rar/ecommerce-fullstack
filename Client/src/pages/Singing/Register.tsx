@@ -1,10 +1,21 @@
 import { Link } from "react-router-dom";
 import iphone from "../../assets/iphone.jpg";
-import Button from "../../components/Button";
+import Button from "../../components/Helpers/Button";
 import { FcGoogle } from "react-icons/fc";
+import RegisterSkeleton from "../../components/Skeletons/RegisterSkeleton";
+import { useEffect, useState } from "react";
 
 export default function Register() {
-  return (
+  const [loading,setlodaing]=useState(true)
+      useEffect(() => {
+        setTimeout(
+          ()=>setlodaing(false),500
+        )
+      }, []);
+  return loading ? (
+  <RegisterSkeleton />
+) : (
+  
     <div className="w-[1420px] h-[784px] flex gap-[129px] justify-between ">
       <img src={iphone} className="w-[905px] h-[784px] object-cover" />
       <div className="w-[371px] h-[530px] flex flex-col gap-12 my-auto">

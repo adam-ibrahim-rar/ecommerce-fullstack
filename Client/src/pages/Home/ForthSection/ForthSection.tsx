@@ -1,7 +1,7 @@
-import Button from "../../../components/Button";
-import Frame from "../../../components/Frame";
+import Button from "../../../components/Helpers/Button";
+import Frame from "../../../components/Helpers/Frame";
 import iphone from "../../../assets/iphone.jpg";
-import ProductCard from "../../../components/ProductCard";
+import ProductCard from "../../../components/Helpers/ProductCard";
 const products = [
   {
     id: 1,

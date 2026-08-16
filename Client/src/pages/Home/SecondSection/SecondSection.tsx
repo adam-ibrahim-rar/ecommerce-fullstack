@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import Frame from "../../../components/Frame";
-import Swapers from "../../../components/Swapers";
-import ProductCard from "../../../components/ProductCard";
+import Frame from "../../../components/Helpers/Frame";
+import Swapers from "../../../components/Helpers/Swapers";
+import ProductCard from "../../../components/Helpers/ProductCard";
 import iphone from "../../../assets/iphone.jpg";
-import Button from "../../../components/Button";
+import Button from "../../../components/Helpers/Button";
 import Countdown from "./CountDown";
 
 const products = [

@@ -11,9 +11,10 @@ import ourStory from "../assets/iphone.jpg";
 import tomCruise from "../assets/iphone.jpg";
 import emmaWatson from "../assets/iphone.jpg";
 import willSmith from "../assets/iphone.jpg";
-import PathLocation from "../components/PathLocation";
-import OurServices from "../components/OurServices";
-import { useState } from "react";
+import PathLocation from "../components/Helpers/PathLocation";
+import OurServices from "../components/Helpers/OurServices";
+import { useEffect, useState } from "react";
+import AboutSkeleton from "../components/Skeletons/AboutSkeleton";
 
 const statistics = [
   {
@@ -38,7 +39,6 @@ const statistics = [
     icon: FiBriefcase,
   },
 ];
-
 const team = [
   {
     name: "Tom Cruise",
@@ -59,26 +59,34 @@ const team = [
 
 export default function About() {
   const [page, setPage] = useState(1);
+  const pages = [1, 2, 3, 4, 5];
+  const [loading,setlodaing]=useState(true)
+    useEffect(() => {
+      setTimeout(
+        ()=>setlodaing(false),500
+      )
+    }, []);
 
-const pages = [1, 2, 3, 4, 5];
-  return (
+    return loading ? (
+    <AboutSkeleton />
+  ) : (
     <div className="w-[1170px] mx-auto">
 <PathLocation/>
       <div className="flex items-center justify-between ">
 
         <div className="w-[500px]">
-          <h1 className="text-[36px] font-semibold mb-7">
+          <h1 className="text-[54px] font-semibold mb-7">
             Our Story
           </h1>
 
-          <p className="text-[13px] leading-5 mb-5">
+          <p className="text-[16px] leading-6 font-medium mb-5">
             Launched in 2015, Exclusive is South Asia's premier online
             shopping marketplace with an active presence in Bangladesh.
             Supported by wide range of tailored marketing, data and
             service solutions.
           </p>
 
-          <p className="text-[13px] leading-5">
+          <p className="text-[16px] leading-6 font-medium">
             Exclusive has more than 1 Million products to offer, growing
             at a very fast. Exclusive offers a diverse assortment in
             categories ranging from consumer.
@@ -88,7 +96,7 @@ const pages = [1, 2, 3, 4, 5];
         <img
           src={ourStory}
           alt="Our Story"
-          className="w-[585px] h-[400px] object-cover"
+          className="w-[585px] h-[620px] object-cover"
         />
 
       </div>

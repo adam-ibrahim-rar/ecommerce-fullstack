@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiPhone, FiMail } from "react-icons/fi";
-import Button from "../components/Button";
-import PathLocation from "../components/PathLocation";
+import Button from "../components/Helpers/Button";
+import PathLocation from "../components/Helpers/PathLocation";
+import ContactSkeleton from "../components/Skeletons/ContactSkeleton";
 
 export default function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  return (
+  const [loading,setlodaing]=useState(true)
+    useEffect(() => {
+      setTimeout(
+        ()=>setlodaing(false),500
+      )
+    }, []);
+  
+    return loading ? (
+    <ContactSkeleton />
+  ) : (
     <div className="w-[1170px] mx-auto">
     <PathLocation/>
       <div className="flex gap-5">

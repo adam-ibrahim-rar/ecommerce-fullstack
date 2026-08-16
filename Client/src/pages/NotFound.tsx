@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import PathLocation from "../components/PathLocation";
+import PathLocation from "../components/Helpers/PathLocation";
 
 export default function NotFound() {
   return (

@@ -81,7 +81,7 @@ export default function Slider() {
               <img
                 src={slide.image}
                 alt=""
-                className="w-[500px] h-[320px] object-contain"
+                className="w-[500px] h-[320px] object-contain self-center"
               />
             </div>
           </div>

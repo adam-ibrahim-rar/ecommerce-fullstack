@@ -1,4 +1,4 @@
-import Frame from "../../../components/Frame";
+import Frame from "../../../components/Helpers/Frame";
 import iphone from "../../../assets/iphone.jpg";
 import women from "../../../assets/iphone.jpg";
 import speakers from "../../../assets/iphone.jpg";
