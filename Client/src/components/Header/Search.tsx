@@ -54,6 +54,7 @@ export default function Search() {
           onChange={(e) => {
             const value = e.target.value;
             setSearch(value);
+              setIsFocused(true);
           }}
           onFocus={() => setIsFocused(true)}
           onBlur={() => {

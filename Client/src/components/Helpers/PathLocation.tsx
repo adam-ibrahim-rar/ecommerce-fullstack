@@ -16,7 +16,9 @@ export default function PathLocation() {
           <span className="text-one font-medium text-lg">/</span>
 
           {index === paths.length - 1 ? (
-            <span className="capitalize font-medium text-lg">{path.split("-").join(" ")}</span>
+            <span className="capitalize font-medium text-lg">
+              {path.split("-").join(" ")}
+            </span>
           ) : (
             <Link
               to={`/${path}`}

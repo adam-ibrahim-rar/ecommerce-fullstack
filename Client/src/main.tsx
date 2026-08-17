@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
 import Home from "./pages/Home/Home.tsx";
@@ -10,6 +10,10 @@ import Contact from "./pages/Contact.tsx";
 import Register from "./pages/Singing/Register.tsx";
 import Login from "./pages/Singing/Login.tsx";
 import Products from "./pages/Products/Products.tsx";
+import MyAccount from "./pages/User/Settings.tsx";
+import ProfileForm from "./pages/User/ProfileForm.tsx";
+import AddressForm from "./pages/User/AddressForm.tsx";
+import Settings from "./pages/User/Settings.tsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +44,31 @@ const router = createBrowserRouter([
         path: "account/login",
         element: <Login />,
       },
+      {
+       
+  path: "Settings",
+  element: <Settings />,
+  children: [
+     {
+      index: true,
+      element: <Navigate to="my-account" replace />,
+    },
+    {
+      path: "my-account",
+      element: (
+        <ProfileForm/>
+      ),
+    },
+    {
+      path: "my-address",
+      element: <AddressForm />,
+    },
+    {
+      path: "*",
+      element: <Navigate to="/Settings/my-account" replace />,
+    },
+  ],
+},
       {
         path: "*",
         element: <NotFound />,
