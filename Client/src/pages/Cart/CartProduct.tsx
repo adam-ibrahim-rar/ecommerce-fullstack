@@ -1,8 +1,5 @@
 import { TbXboxXFilled } from "react-icons/tb";
-import {
-  MdKeyboardArrowDown,
-  MdKeyboardArrowUp,
-} from "react-icons/md";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
 type CartProductProps = {
   Product: any;
@@ -17,7 +14,6 @@ export default function CartProduct({
 }: CartProductProps) {
   return (
     <div className="h-[102px] shadow-lg inset-shadow-xs select-none w-full px-10 grid grid-cols-4 items-center">
-
       <div className="relative flex items-center gap-5">
         <TbXboxXFilled
           className="
@@ -35,14 +31,10 @@ export default function CartProduct({
           className="w-[55px] h-[55px] object-contain"
         />
 
-        <span className="text-sm">
-          {Product.name}
-        </span>
+        <span className="text-sm">{Product.name}</span>
       </div>
 
-      <div className="text-center text-sm">
-        ${Product.price}
-      </div>
+      <div className="text-center text-sm">${Product.price}</div>
 
       <div className="flex justify-center">
         <div
@@ -62,10 +54,7 @@ export default function CartProduct({
             <MdKeyboardArrowUp
               className="cursor-pointer"
               onClick={() => {
-                  onQuantityChange(
-                    Product.id,
-                    Product.quantity + 1
-                  );
+                onQuantityChange(Product.id, Product.quantity + 1);
               }}
             />
 
@@ -73,10 +62,7 @@ export default function CartProduct({
               className="cursor-pointer"
               onClick={() => {
                 if (Product.quantity > 1) {
-                  onQuantityChange(
-                    Product.id,
-                    Product.quantity - 1
-                  );
+                  onQuantityChange(Product.id, Product.quantity - 1);
                 }
               }}
             />

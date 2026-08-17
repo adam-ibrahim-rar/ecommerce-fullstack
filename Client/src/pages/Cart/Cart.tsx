@@ -53,9 +53,7 @@ export default function Cart() {
 
   // Delete product
   function handleDelete(id: number) {
-    setCartProducts((prev) =>
-      prev.filter((product) => product.id !== id)
-    );
+    setCartProducts((prev) => prev.filter((product) => product.id !== id));
   }
 
   // Change quantity
@@ -67,16 +65,15 @@ export default function Cart() {
               ...product,
               quantity,
             }
-          : product
-      )
+          : product,
+      ),
     );
   }
 
   // Calculate subtotal
   const subtotal = cartProducts.reduce(
-    (total, product) =>
-      total + product.price * product.quantity,
-    0
+    (total, product) => total + product.price * product.quantity,
+    0,
   );
 
   // Shipping
@@ -85,8 +82,7 @@ export default function Cart() {
   // Final total
   const total = subtotal + shipping;
 
-
-const [loading, setlodaing] = useState(true);
+  const [loading, setlodaing] = useState(true);
   useEffect(() => {
     setTimeout(() => setlodaing(false), 500);
   }, []);
@@ -99,16 +95,13 @@ const [loading, setlodaing] = useState(true);
 
       {cartProducts.length > 0 ? (
         <div className="flex flex-col gap-10">
-
           {/* Cart Header */}
           <header className="h-[72px] shadow-lg px-10 grid grid-cols-4 items-center">
             {details.map((item, index) => (
               <span
                 key={index}
                 className={`text-[16px] capitalize ${
-                  index === 0
-                    ? "text-left"
-                    : "text-center"
+                  index === 0 ? "text-left" : "text-center"
                 }`}
               >
                 {item}
@@ -144,34 +137,25 @@ const [loading, setlodaing] = useState(true);
           </div>
 
           <div className="w-[470px] min-h-[324px] self-center border border-black px-6 py-7">
-
-            <h2 className="text-xl font-medium mb-6">
-              Cart Total
-            </h2>
+            <h2 className="text-xl font-medium mb-6">Cart Total</h2>
 
             <div className="flex justify-between pb-4 border-b border-gray-300">
               <span>Subtotal:</span>
 
-              <span>
-                ${subtotal}
-              </span>
+              <span>${subtotal}</span>
             </div>
 
             {/* Shipping */}
             <div className="flex justify-between py-4 border-b border-gray-300">
               <span>Shipping:</span>
 
-              <span>
-                Free
-              </span>
+              <span>Free</span>
             </div>
 
             <div className="flex justify-between pt-4">
               <span>Total:</span>
 
-              <span>
-                ${total}
-              </span>
+              <span>${total}</span>
             </div>
 
             <div className="flex  justify-center mt-6">
@@ -183,7 +167,6 @@ const [loading, setlodaing] = useState(true);
                 handleClick={() => navigate("/checkout")}
               />
             </div>
-
           </div>
         </div>
       ) : (

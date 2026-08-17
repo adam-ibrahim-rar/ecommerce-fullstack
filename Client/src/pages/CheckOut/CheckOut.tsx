@@ -29,15 +29,14 @@ export default function Checkout() {
   const [coupon, setCoupon] = useState("");
 
   const subtotal = cartProducts.reduce(
-    (total, product) =>
-      total + product.price * product.quantity,
-    0
+    (total, product) => total + product.price * product.quantity,
+    0,
   );
 
   const shipping = 0;
 
   const total = subtotal + shipping;
-const [loading, setlodaing] = useState(true);
+  const [loading, setlodaing] = useState(true);
   useEffect(() => {
     setTimeout(() => setlodaing(false), 500);
   }, []);
@@ -46,18 +45,13 @@ const [loading, setlodaing] = useState(true);
     <CheckoutSkeleton />
   ) : (
     <div className="w-[1170px] mx-auto">
-
       <PathLocation />
 
       <div className="mt-14 grid grid-cols-2 gap-[100px]">
-
         <div>
-          <h1 className="text-3xl font-medium mb-8">
-            Billing Details
-          </h1>
+          <h1 className="text-3xl font-medium mb-8">Billing Details</h1>
 
           <form className="flex flex-col gap-6">
-
             <div>
               <label className="text-[16px] text-gray-500">
                 First Name<span className="text-red-500">*</span>
@@ -77,9 +71,7 @@ const [loading, setlodaing] = useState(true);
             </div>
 
             <div>
-              <label className="text-[16px] text-gray-500">
-                Company Name
-              </label>
+              <label className="text-[16px] text-gray-500">Company Name</label>
 
               <input
                 type="text"
@@ -185,7 +177,6 @@ const [loading, setlodaing] = useState(true);
             </div>
 
             <label className="flex items-center gap-3 cursor-pointer select-none">
-
               <input
                 type="checkbox"
                 className="w-5 h-5 accent-secondary-two  cursor-pointer"
@@ -194,76 +185,56 @@ const [loading, setlodaing] = useState(true);
               <span className="text-[16px]">
                 Save this information for faster check-out next time
               </span>
-
             </label>
-
           </form>
         </div>
 
         <div className="pt-[90px]">
-
           <div className="flex flex-col gap-7">
-
             {cartProducts.map((product) => (
               <div
                 key={product.id}
                 className="flex items-center justify-between"
               >
-
                 <div className="flex items-center gap-5">
-
                   <img
                     src={product.image}
                     alt={product.name}
                     className="w-[55px] h-[55px] object-contain"
                   />
 
-                  <span className="text-[18px]">
-                    {product.name}
-                  </span>
-
+                  <span className="text-[18px]">{product.name}</span>
                 </div>
 
                 <span className="text-[18px]">
                   ${product.price * product.quantity}
                 </span>
-
               </div>
             ))}
-
           </div>
 
           <div className="flex justify-between py-5 border-b border-gray-300 mt-5">
             <span>Subtotal:</span>
 
-            <span>
-              ${subtotal}
-            </span>
+            <span>${subtotal}</span>
           </div>
 
           <div className="flex justify-between py-5 border-b border-gray-300">
             <span>Shipping:</span>
 
-            <span>
-              Free
-            </span>
+            <span>Free</span>
           </div>
 
           <div className="flex justify-between py-5">
             <span>Total:</span>
 
-            <span>
-              ${total}
-            </span>
+            <span>${total}</span>
           </div>
 
           <div className="flex flex-col gap-6 mt-2">
-
             {/* Bank */}
             <label className="flex items-center justify-between cursor-pointer">
-
               <div className="flex items-center gap-4">
-
                 <input
                   type="radio"
                   name="payment"
@@ -273,10 +244,7 @@ const [loading, setlodaing] = useState(true);
                   className="w-5 h-5 accent-black"
                 />
 
-                <span>
-                  Bank
-                </span>
-
+                <span>Bank</span>
               </div>
 
               <div className="flex items-center gap-2 text-xs font-bold">
@@ -285,12 +253,10 @@ const [loading, setlodaing] = useState(true);
                 <span className="text-red-500">MasterCard</span>
                 <span>nagad</span>
               </div>
-
             </label>
 
             {/* Cash */}
             <label className="flex items-center gap-4 cursor-pointer">
-
               <input
                 type="radio"
                 name="payment"
@@ -300,16 +266,11 @@ const [loading, setlodaing] = useState(true);
                 className="w-5 h-5 accent-black"
               />
 
-              <span>
-                Cash on delivery
-              </span>
-
+              <span>Cash on delivery</span>
             </label>
-
           </div>
 
           <div className="flex gap-3 mt-7">
-
             <input
               type="text"
               placeholder="Coupon Code"
@@ -335,11 +296,9 @@ const [loading, setlodaing] = useState(true);
                 console.log("Coupon:", coupon);
               }}
             />
-
           </div>
 
           <div className="mt-6">
-
             <Button
               bg="bg-secondary-two"
               text="text-white"
@@ -355,11 +314,8 @@ const [loading, setlodaing] = useState(true);
                 });
               }}
             />
-
           </div>
-
         </div>
-
       </div>
     </div>
   );

@@ -54,7 +54,6 @@ export default function AccountDropdown({
         px-4
         py-[14px]
       "
-      
     >
       <div className="flex flex-col justify-between h-full">
         {menuItems.map((item) => {
@@ -85,7 +84,6 @@ export default function AccountDropdown({
               onMouseLeave={() => {
                 setTimeout(() => setOpen(false), 1500);
               }}
-              
             >
               <span
                 className="flex
