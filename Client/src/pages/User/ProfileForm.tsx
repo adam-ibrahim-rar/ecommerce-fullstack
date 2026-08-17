@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import FormSkeleton from '../../components/Skeletons/FormSkeleton';
-const user={
-            firstName: "Md",
-            lastName: "Rimel",
-            email: "rimell1111@gmail.com",
-            address: "Kingston, 5236, United State",
-          }
+import React, { useEffect, useState } from "react";
+import FormSkeleton from "../../components/Skeletons/FormSkeleton";
+const user = {
+  firstName: "Md",
+  lastName: "Rimel",
+  email: "rimell1111@gmail.com",
+  address: "Kingston, 5236, United State",
+};
 export default function ProfileForm() {
   const [loading, setlodaing] = useState(true);
-      useEffect(() => {
-        setTimeout(() => setlodaing(false), 500);
-      }, []);
-    
-      return loading ? (
-        <FormSkeleton />
-      ) : (
+  useEffect(() => {
+    setTimeout(() => setlodaing(false), 500);
+  }, []);
+
+  return loading ? (
+    <FormSkeleton />
+  ) : (
     <form>
       <h1 className="text-[20px] font-medium text-secondary-two mb-[18px]">
         Edit Your Profile

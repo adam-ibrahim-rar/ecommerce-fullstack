@@ -67,7 +67,9 @@ export default function AccountDropdown({
               key={item.label}
               type="button"
               onClick={() => {
-                navigate("/settings/"+item.label.toLowerCase().split(" ").join("-"));
+                navigate(
+                  "/settings/" + item.label.toLowerCase().split(" ").join("-"),
+                );
                 setOpen(false);
               }}
               className="

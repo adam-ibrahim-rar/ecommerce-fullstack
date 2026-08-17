@@ -1,10 +1,8 @@
 import PathLocation from "../../components/Helpers/PathLocation";
 import { NavLink, Outlet } from "react-router-dom";
 
-
 export default function Settings() {
-  
-   return(
+  return (
     <div className="w-[1170px] mx-auto flex flex-col">
       <div className="flex justify-between items-center mt-4 mb-6">
         <PathLocation />
@@ -26,9 +24,7 @@ export default function Settings() {
                 to="/Settings/my-account"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${
-                    isActive
-                      ? "text-secondary-two"
-                      : "text-gray-500"
+                    isActive ? "text-secondary-two" : "text-gray-500"
                   }`
                 }
               >
@@ -39,9 +35,7 @@ export default function Settings() {
                 to="/Settings/my-address"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${
-                    isActive
-                      ? "text-secondary-two"
-                      : "text-gray-500"
+                    isActive ? "text-secondary-two" : "text-gray-500"
                   }`
                 }
               >
@@ -52,9 +46,7 @@ export default function Settings() {
                 to="/Settings/payment-options"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${
-                    isActive
-                      ? "text-secondary-two"
-                      : "text-gray-500"
+                    isActive ? "text-secondary-two" : "text-gray-500"
                   }`
                 }
               >
@@ -64,18 +56,14 @@ export default function Settings() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h2 className="text-[20px] font-medium">
-              My Orders
-            </h2>
+            <h2 className="text-[20px] font-medium">My Orders</h2>
 
             <div className="flex flex-col gap-3 pl-[29px]">
               <NavLink
                 to="/Settings/my-returns"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${
-                    isActive
-                      ? "text-secondary-two"
-                      : "text-gray-500"
+                    isActive ? "text-secondary-two" : "text-gray-500"
                   }`
                 }
               >
@@ -86,9 +74,7 @@ export default function Settings() {
                 to="/Settings/my-cancellations"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${
-                    isActive
-                      ? "text-secondary-two"
-                      : "text-gray-500"
+                    isActive ? "text-secondary-two" : "text-gray-500"
                   }`
                 }
               >
@@ -102,9 +88,7 @@ export default function Settings() {
               to="/my-wishlist"
               className={({ isActive }) =>
                 `text-[20px] font-medium cursor-pointer ${
-                  isActive
-                    ? "text-secondary-two"
-                    : "text-black"
+                  isActive ? "text-secondary-two" : "text-black"
                 }`
               }
             >
@@ -127,7 +111,6 @@ export default function Settings() {
           "
         >
           <Outlet />
-          
         </div>
       </div>
     </div>

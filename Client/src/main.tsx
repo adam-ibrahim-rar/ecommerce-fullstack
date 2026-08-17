@@ -1,6 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
 import Home from "./pages/Home/Home.tsx";
@@ -45,30 +49,27 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-       
-  path: "Settings",
-  element: <Settings />,
-  children: [
-     {
-      index: true,
-      element: <Navigate to="my-account" replace />,
-    },
-    {
-      path: "my-account",
-      element: (
-        <ProfileForm/>
-      ),
-    },
-    {
-      path: "my-address",
-      element: <AddressForm />,
-    },
-    {
-      path: "*",
-      element: <Navigate to="/Settings/my-account" replace />,
-    },
-  ],
-},
+        path: "Settings",
+        element: <Settings />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to="my-account" replace />,
+          },
+          {
+            path: "my-account",
+            element: <ProfileForm />,
+          },
+          {
+            path: "my-address",
+            element: <AddressForm />,
+          },
+          {
+            path: "*",
+            element: <Navigate to="/Settings/my-account" replace />,
+          },
+        ],
+      },
       {
         path: "*",
         element: <NotFound />,
