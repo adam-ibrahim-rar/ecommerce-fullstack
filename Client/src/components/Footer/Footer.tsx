@@ -13,7 +13,7 @@ import appStore from "../../assets/iphone.jpg";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-black text-white mt-20">
+    <footer className=" w-full bg-black text-white mt-20">
       <div className="w-[1170px] mx-auto py-8">
         <div className="grid grid-cols-5 gap-[60px]">
           <div className="flex flex-col gap-4">

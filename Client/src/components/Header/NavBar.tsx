@@ -1,6 +1,6 @@
 import { FaRegHeart } from "react-icons/fa";
 import { GrCart } from "react-icons/gr";
-import { AiOutlineUser } from "react-icons/ai";
+import { FiUser } from "react-icons/fi";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import Search from "./Search";
 import { useState } from "react";
@@ -106,19 +106,26 @@ export default function NavBar() {
                       setOpen((prev) => !prev);
                     }}
 
-                    className="
+                    className={`
                       w-[40px]
                       h-[40px]
                       rounded-full
-                      bg-secondary-two
-                      text-white
                       flex
                       items-center
                       justify-center
                       cursor-pointer
-                "
+                      ${
+                        location.pathname == "/settings/my-account"
+                          ? "bg-secondary-two text-white"
+                          : "text-black"
+                      }
+                      `}
                   >
-                    <AiOutlineUser size={22} />
+                    <FiUser
+                      size={
+                        location.pathname == "/settings/my-account" ? 22 : 38
+                      }
+                    />
                   </button>
                   {open && <AccountDropdown setOpen={setOpen} />}
                 </div>

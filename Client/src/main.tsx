@@ -14,10 +14,11 @@ import Contact from "./pages/Contact.tsx";
 import Register from "./pages/Singing/Register.tsx";
 import Login from "./pages/Singing/Login.tsx";
 import Products from "./pages/Products/Products.tsx";
-import MyAccount from "./pages/User/Settings.tsx";
 import ProfileForm from "./pages/User/ProfileForm.tsx";
 import AddressForm from "./pages/User/AddressForm.tsx";
 import Settings from "./pages/User/Settings.tsx";
+import Cart from "./pages/Cart/Cart.tsx";
+import Checkout from "./pages/CheckOut/CheckOut.tsx";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
+      },
+      {
+        path: "checkout",
+        element: <Checkout />,
       },
       {
         path: "contact",

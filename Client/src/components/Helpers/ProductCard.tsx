@@ -18,7 +18,7 @@ type ProductCardProps = {
 
 export default function ProductCard({
   image,
-  id,
+  // id,
   title,
   price,
   oldPrice,
@@ -68,7 +68,7 @@ export default function ProductCard({
 
         <div
           onClick={() => {
-            navigate(`/products/${id}`);
+            navigate(`/products/${title.split(" ").join("-")}`);
           }}
           className="w-[190px] cursor-pointer h-[180px] flex justify-start "
         >

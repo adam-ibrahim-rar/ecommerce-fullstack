@@ -134,7 +134,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     key={color.name ?? index}
                     onClick={() => setSelectedColor(color.value)}
                     className={`
-                        rounded-full
+                        rounded-full cursor-pointer
                         ${color.name ?? ""}
                         ${
                           selectedColor === color.value

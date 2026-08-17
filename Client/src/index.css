@@ -15,6 +15,9 @@
 .text-secondary-two {
   color: #db4444;
 }
+.accent-secondary-two {
+  accent-color: #db4444;
+}
 .text-secondary-three {
   color: #00ff66;
 }
