@@ -8,8 +8,8 @@ datasource db {
 }
 
 enum Role {
-  ADMIN
-  USER
+  admin
+  user
 }
 
 enum OrderStatus {
@@ -22,14 +22,16 @@ enum OrderStatus {
 }
 
 model User {
-  id           String  @id @default(uuid())
-  name         String
-  email        String  @unique
-  password     String
-  role         Role    @default(USER)
+  id        String @id @default(uuid())
+  username  String @unique
+  firstName String @default("")
+  lastName  String @default("")
+  email     String @unique
+  password  String
+  role      Role   @default(user)
 
-  cart    Cart?
-  orders  Order[]
+  cart   Cart?
+  orders Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -53,32 +55,23 @@ model Product {
   price       Decimal  @db.Decimal(10, 2)
   oldPrice    Decimal? @db.Decimal(10, 2)
   discount    Int?
-  image       String
+  images      String[]
+  rating      Float    @default(0)
+  reviews     Int      @default(0)
+  inStock     Boolean  @default(true)
+
+  colors Json?
 
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
 
-  variants   ProductVariant[]
   cartItems  CartItem[]
   orderItems OrderItem[]
-  reviews    Int 
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
   @@index([categoryId])
-}
-
-model ProductVariant {
-  id    String @id @default(uuid())
-  color String
-
-  productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-
-  @@unique([productId, color])
 }
 
 model Cart {
@@ -139,4 +132,3 @@ model OrderItem {
   @@index([orderId])
   @@index([productId])
 }
-

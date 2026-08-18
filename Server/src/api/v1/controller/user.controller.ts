@@ -1,0 +1,77 @@
+import type { Request, Response } from "express";
+
+import type {
+  CreateUserInput,
+  UpdateUserInput,
+  UserQuery,
+  UserParams,
+} from "../types/user.type";
+import {
+  createUserService,
+  deleteUserService,
+  getUserService,
+  getUsersService,
+  updateUserService,
+} from "../services/user.service";
+
+export const createUser = async (
+  req: Request<{}, {}, CreateUserInput>,
+
+  res: Response,
+) => {
+  // Request<{}, {}, CreateUserInput> or req.body as CreateUserInput
+  // نوحد السيستم بقى ونعمل Request<{}, {}, CreateUserInput>
+  const user = await createUserService(req.body);
+
+  return res.status(201).json({
+    success: true,
+    message: "User created successfully",
+    data: user,
+  });
+};
+
+
+export const getUsers = async (
+  req: Request<{}, {}, {}, UserQuery>,
+  res: Response
+) => {
+  const users = await getUsersService(req.query);
+
+  return res.status(200).json({
+    success: true,
+    data: users,
+  });
+};
+
+export const getUser = async (req: Request<UserParams>, res: Response) => {
+  const user = await getUserService(req.params.id);
+
+  return res.status(200).json({
+    success: true,
+    data: user,
+  });
+};
+
+export const updateUser = async (
+  req: Request<UserParams, {}, UpdateUserInput>,
+  res: Response,
+) => {
+  const user = await updateUserService(req.params.id, req.body);
+
+  return res.status(200).json({
+    success: true,
+    message: "User updated successfully",
+    data: user,
+  });
+};
+
+export const deleteUser = async (req: Request<UserParams>, res: Response) => {
+  await deleteUserService(req.params.id);
+
+  return res.status(204).send();
+};
+// Request<P = core.ParamsDictionary, // دلوقتي بقى اليوزر برامس
+//  ResBody = any,
+//  ReqBody = any,
+//  ReqQuery = QueryString.ParsedQs,
+//  Locals extends Record<string, any> = Record<string, any>>

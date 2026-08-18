@@ -26,7 +26,7 @@ export default function Register() {
           <div className="flex flex-col gap-10">
             <input
               type="text"
-              placeholder="name"
+              placeholder="username"
               className="focus:outline-none border-b-1 placeholder:capitalize placeholder:text-gray-600"
             />
             <input

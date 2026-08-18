@@ -51,12 +51,10 @@ export default function Cart() {
 
   const navigate = useNavigate();
 
-  // Delete product
   function handleDelete(id: number) {
     setCartProducts((prev) => prev.filter((product) => product.id !== id));
   }
 
-  // Change quantity
   function handleQuantityChange(id: number, quantity: number) {
     setCartProducts((prev) =>
       prev.map((product) =>
@@ -70,16 +68,13 @@ export default function Cart() {
     );
   }
 
-  // Calculate subtotal
   const subtotal = cartProducts.reduce(
     (total, product) => total + product.price * product.quantity,
     0,
   );
 
-  // Shipping
   const shipping = 0;
 
-  // Final total
   const total = subtotal + shipping;
 
   const [loading, setlodaing] = useState(true);
@@ -145,7 +140,6 @@ export default function Cart() {
               <span>${subtotal}</span>
             </div>
 
-            {/* Shipping */}
             <div className="flex justify-between py-4 border-b border-gray-300">
               <span>Shipping:</span>
 
