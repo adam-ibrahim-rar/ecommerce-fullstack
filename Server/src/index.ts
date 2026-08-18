@@ -2,12 +2,14 @@ import express from "express";
 import env from "./config/env";
 import apiRoutes from "./api/v1/routes";
 import { errorMiddleware } from "./api/v1/middlewares/error.middleware";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 const port = env.PORT;
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/v1", apiRoutes);
 

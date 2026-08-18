@@ -34,8 +34,8 @@ export type ProductParams = z.infer<
 >;
 
 export const productQuerySchema = z.object({
-  title: z.string().optional(),
-  categoryId: z.string().uuid().optional(),
+  title: z.string(),
+  categoryId: z.string().uuid()
 });
 
 export type ProductQuery = z.infer<

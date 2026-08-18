@@ -1,11 +1,25 @@
 import prisma from "../../../config/prisma";
+
 import type {
   CreateUserInput,
   UpdateUserInput,
 } from "../types/user.type";
 
+const userSelect = {
+  id: true,
+  username: true,
+  firstName: true,
+  lastName: true,
+  email: true,
+  role: true,
+  createdAt: true,
+  updatedAt: true,
+};
+
 export const findAll = async () => {
-  return prisma.user.findMany();
+  return prisma.user.findMany({
+    select: userSelect,
+  });
 };
 
 export const findByEmail = async (email: string) => {
@@ -13,6 +27,7 @@ export const findByEmail = async (email: string) => {
     where: {
       email,
     },
+    select: userSelect,
   });
 };
 
@@ -21,19 +36,22 @@ export const findByUsername = async (username: string) => {
     where: {
       username,
     },
+    select: userSelect,
+  });
+};
+
+export const findByEmailForLogin = async (email: string) => {
+  return prisma.user.findUnique({
+    where: {
+      email,
+    },
   });
 };
 
 export const create = async (data: CreateUserInput) => {
   return prisma.user.create({
     data,
-    select: {
-      id: true,
-      username: true,
-      firstName: true,
-      lastName: true,
-      email: true,
-    },
+    select: userSelect,
   });
 };
 
@@ -42,18 +60,20 @@ export const findById = async (id: string) => {
     where: {
       id,
     },
+    select: userSelect,
   });
 };
 
 export const update = async (
   id: string,
-  data: UpdateUserInput
+  data: UpdateUserInput,
 ) => {
   return prisma.user.update({
     where: {
       id,
     },
     data,
+    select: userSelect,
   });
 };
 

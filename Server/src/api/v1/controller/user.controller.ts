@@ -12,7 +12,9 @@ import {
   getUserService,
   getUsersService,
   updateUserService,
+  loginUserService,
 } from "../services/user.service";
+import type { LoginUserInput } from "../../../schemas/user.schema";
 
 export const createUser = async (
   req: Request<{}, {}, CreateUserInput>,
@@ -26,6 +28,23 @@ export const createUser = async (
   return res.status(201).json({
     success: true,
     message: "User created successfully",
+    data: user,
+  });
+};
+export const loginUser = async (
+  req: Request<{}, {}, LoginUserInput>,
+  res: Response,
+) => {
+  const { user, token } = await loginUserService(req.body);
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Login successful",
     data: user,
   });
 };
@@ -53,10 +72,13 @@ export const getUser = async (req: Request<UserParams>, res: Response) => {
 };
 
 export const updateUser = async (
-  req: Request<UserParams, {}, UpdateUserInput>,
+  req: Request<{}, {}, UpdateUserInput>,
   res: Response,
 ) => {
-  const user = await updateUserService(req.params.id, req.body);
+  const user = await updateUserService(
+    req.user.id,
+    req.body,
+  );
 
   return res.status(200).json({
     success: true,
