@@ -4,7 +4,7 @@ import prisma from "./config/prisma";
 
 const app = express();
 const port = env.PORT;
-
+app.use(express.json());
 
 
 app.listen(port, () => {
