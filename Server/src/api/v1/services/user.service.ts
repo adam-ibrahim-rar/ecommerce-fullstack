@@ -40,7 +40,7 @@ export const loginUserService = async (data: LoginUserInput) => {
   const user = await userRepository.findByEmailForLogin(data.email);
 
   if (!user) {
-    throw new AppError("Invalid email or password", 401);
+    throw new AppError("Email does not exists", 401);
   }
 
   const isPasswordValid = await bcrypt.compare(
@@ -49,7 +49,7 @@ export const loginUserService = async (data: LoginUserInput) => {
   );
 
   if (!isPasswordValid) {
-    throw new AppError("Invalid email or password", 401);
+    throw new AppError("Wrong password", 401);
   }
 
   const token = jwt.sign(

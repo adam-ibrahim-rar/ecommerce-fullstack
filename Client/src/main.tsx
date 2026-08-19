@@ -5,8 +5,11 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import "./index.css";
 import App from "./App.tsx";
+
 import Home from "./pages/Home/Home.tsx";
 import About from "./pages/About.tsx";
 import NotFound from "./pages/NotFound.tsx";
@@ -19,6 +22,13 @@ import AddressForm from "./pages/User/AddressForm.tsx";
 import Settings from "./pages/User/Settings.tsx";
 import Cart from "./pages/Cart/Cart.tsx";
 import Checkout from "./pages/CheckOut/CheckOut.tsx";
+import { Provider } from "react-redux";
+import { store } from "./reduxtoolkit/store.ts";
+import RemoveAccount from "./features/auth/components/RemoveAccount.tsx";
+import AdminLogin from "./features/admin/pages/AdminLogin.tsx";
+import AdminHome from "./features/admin/pages/AdminHome.tsx";
+import Admin from "./features/admin/pages/Admin.tsx";
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -33,6 +43,7 @@ const router = createBrowserRouter([
         path: "about",
         element: <About />,
       },
+      
       {
         path: "cart",
         element: <Cart />,
@@ -58,7 +69,7 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "Settings",
+        path: "settings",
         element: <Settings />,
         children: [
           {
@@ -74,6 +85,10 @@ const router = createBrowserRouter([
             element: <AddressForm />,
           },
           {
+            path: "remove-account",
+            element: <RemoveAccount />,
+          },
+          {
             path: "*",
             element: <Navigate to="/Settings/my-account" replace />,
           },
@@ -85,10 +100,56 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "admin",
+    children: [
+      {
+        path: "login",
+        element: <AdminLogin />,
+      },
+      {
+        element: <Admin />,
+        children: [
+          {
+            index: true,
+            element: <AdminHome />,
+          },
+
+          {
+            path: "products",
+            element: <div>Products</div>,
+          },
+
+          {
+            path: "categories",
+            element: <div>Categories</div>,
+          },
+
+          {
+            path: "orders",
+            element: <div>Orders</div>,
+          },
+
+          {
+            path: "users",
+            element: <div>Users</div>,
+          },
+        ],
+      },
+      {path:"*",
+        element:<Navigate to={"/"}/>
+      }
+    ],
+  },
 ]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      
+    </QueryClientProvider>
+    </Provider>
   </StrictMode>,
 );

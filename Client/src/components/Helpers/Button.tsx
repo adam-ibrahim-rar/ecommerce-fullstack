@@ -7,21 +7,28 @@ export default function Button({
   bg,
   text,
   icon,
+  type = "button",
+  disabled = false,
 }: {
   content: string;
-  handleClick: () => void;
+  handleClick?: () => void;
   classes?: string;
   bg?: string;
   text?: string;
   icon?: React.ReactNode;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }) {
   return (
     <button
       onClick={handleClick}
-      className={` ${classes}  hover:opacity-95 px-[40px]
+      type={type}
+      disabled={disabled}
+      className={`${classes} hover:opacity-95 px-[40px]
        ${text ? text : "text-white"} ${bg ? bg : "bg-secondary-two"}
-      capitalize rounded-sm text-[18px] cursor-pointer py-[16px]  
-          flex items-center justify-center gap-4`}
+       capitalize rounded-sm text-[18px] cursor-pointer py-[16px]
+       flex items-center justify-center gap-4
+       disabled:opacity-50 disabled:cursor-not-allowed`}
     >
       {icon}
       {content}

@@ -1,6 +1,6 @@
 export default function AddressForm() {
   return (
-    <form className="flex flex-col items-center">
+    <form className="flex flex-col  items-center">
       <h1 className="text-[20px] font-medium text-secondary-two mb-[18px]">
         Address Book
       </h1>

@@ -87,8 +87,8 @@ export const updateUser = async (
   });
 };
 
-export const deleteUser = async (req: Request<UserParams>, res: Response) => {
-  await deleteUserService(req.params.id);
+export const deleteUser = async (req: Request, res: Response) => {
+  await deleteUserService(req.user.id);
 
   return res.status(204).send();
 };

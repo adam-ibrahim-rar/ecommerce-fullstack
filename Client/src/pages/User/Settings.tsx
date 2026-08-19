@@ -13,7 +13,7 @@ export default function Settings() {
       </div>
 
       <div className="flex justify-between">
-        <aside className="w-[200px] flex flex-col gap-4">
+        <aside className=" flex flex-col gap-4">
           <div className="flex flex-col gap-4">
             <h2 className="text-[20px] font-medium whitespace-nowrap">
               Manage My Account
@@ -52,6 +52,16 @@ export default function Settings() {
               >
                 My Payment Options
               </NavLink>
+               <NavLink
+              to="remove-account"
+              className={({ isActive }) =>
+                `text-[16px] text-left cursor-pointer capitalize ${
+                    isActive ? "text-secondary-two" : "text-gray-500"
+                  }`
+              }
+            >
+              remove account
+            </NavLink>
             </div>
           </div>
 
@@ -83,24 +93,13 @@ export default function Settings() {
             </div>
           </div>
 
-          <div>
-            <NavLink
-              to="/my-wishlist"
-              className={({ isActive }) =>
-                `text-[20px] font-medium cursor-pointer ${
-                  isActive ? "text-secondary-two" : "text-black"
-                }`
-              }
-            >
-              My WishList
-            </NavLink>
-          </div>
+          
         </aside>
 
         <div
           className="
             w-[870px]
-            h-[630px]
+            
             px-[80px]
             py-[20px]
             flex flex-col justify-center

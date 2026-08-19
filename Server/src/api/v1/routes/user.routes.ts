@@ -53,8 +53,8 @@ router.patch(
 
 
 router.delete<UserParams>(
-  "/:id",
-  validate(userParamsSchema, "params"),
+  "/me",
+  authMiddleware,
   asyncHandler(deleteUser),
 );
 

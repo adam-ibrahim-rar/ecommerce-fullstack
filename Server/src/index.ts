@@ -11,6 +11,12 @@ const port = env.PORT;
 app.use(express.json());
 app.use(cookieParser());
 
+const logger = (req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+};
+
+app.use(logger);
 app.use("/api/v1", apiRoutes);
 
 app.use(errorMiddleware);

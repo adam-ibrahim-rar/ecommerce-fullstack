@@ -31,7 +31,6 @@ export const validate = <
           400
         );
       }
-
       next(error);
     }
   };

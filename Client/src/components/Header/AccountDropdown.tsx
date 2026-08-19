@@ -6,6 +6,8 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../reduxtoolkit/slices/auth/authSlice";
+import { useAppDispatch } from "../../reduxtoolkit/hooks";
 
 const menuItems = [
   {
@@ -24,10 +26,6 @@ const menuItems = [
     label: "My Reviews",
     icon: FiStar,
   },
-  {
-    label: "Logout",
-    icon: FiLogOut,
-  },
 ];
 
 export default function AccountDropdown({
@@ -36,6 +34,8 @@ export default function AccountDropdown({
   setOpen: (open: boolean) => void;
 }) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   return (
     <div
       className="
@@ -65,7 +65,8 @@ export default function AccountDropdown({
               type="button"
               onClick={() => {
                 navigate(
-                  "/settings/" + item.label.toLowerCase().split(" ").join("-"),
+                  "/settings/" +
+                    item.label.toLowerCase().split(" ").join("-")
                 );
                 setOpen(false);
               }}
@@ -85,19 +86,44 @@ export default function AccountDropdown({
                 setTimeout(() => setOpen(false), 1500);
               }}
             >
-              <span
-                className="flex
-                items-center justify-center w-[32px] h-[32px] "
-              >
+              <span className="flex items-center justify-center w-[32px] h-[32px]">
                 <Icon size={24} strokeWidth={1.8} className="shrink-0" />
               </span>
 
-              <span className="text-[14px] w-[144px]  whitespace-nowrap">
+              <span className="text-[14px] w-[144px] whitespace-nowrap">
                 {item.label}
               </span>
             </button>
           );
         })}
+
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(logout());
+            setOpen(false);
+          }}
+          className="
+            w-[192px]
+            h-[32px]
+            flex
+            items-center
+            gap-4
+            text-white
+            cursor-pointer
+            text-left
+            hover:opacity-80
+            transition-opacity
+          "
+        >
+          <span className="flex items-center justify-center w-[32px] h-[32px]">
+            <FiLogOut size={24} strokeWidth={1.8} className="shrink-0" />
+          </span>
+
+          <span className="text-[14px] w-[144px] whitespace-nowrap">
+            Logout
+          </span>
+        </button>
       </div>
     </div>
   );
