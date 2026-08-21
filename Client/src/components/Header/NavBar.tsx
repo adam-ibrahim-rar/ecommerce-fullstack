@@ -12,88 +12,77 @@ export default function NavBar() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
 
-  const isAuthenticated = useAppSelector(
-    (state) => state.auth.isAuthenticated
-  );
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   const number = 1;
 
   return (
     <>
       <div className="w-[1170px] mx-auto mt-2 h-10 flex items-center justify-between">
-        
         <Link to="/">
-          <h1 className="text-2xl font-bold">
-            Exclusive
-          </h1>
+          <h1 className="text-2xl font-bold">Exclusive</h1>
         </Link>
 
         <ul
-  className={`flex items-center justify-end  w-100  ${
-    isAuthenticated ? " gap-24" : "gap-13"
-  }`}
->
-  <li>
-    <NavLink
-      to="/"
-      className={({ isActive }) =>
-        `pb-1 ${isActive ? "border-b-2 border-black" : ""}`
-      }
-    >
-      Home
-    </NavLink>
-  </li>
+          className={`flex items-center justify-end  w-100  ${
+            isAuthenticated ? " gap-24" : "gap-13"
+          }`}
+        >
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `pb-1 ${isActive ? "border-b-2 border-black" : ""}`
+              }
+            >
+              Home
+            </NavLink>
+          </li>
 
-  <li>
-    <NavLink
-      to="/contact"
-      className={({ isActive }) =>
-        `pb-1 ${isActive ? "border-b-2 border-black" : ""}`
-      }
-    >
-      Contact
-    </NavLink>
-  </li>
+          <li>
+            <NavLink
+              to="/contact"
+              className={({ isActive }) =>
+                `pb-1 ${isActive ? "border-b-2 border-black" : ""}`
+              }
+            >
+              Contact
+            </NavLink>
+          </li>
 
-  <li>
-    <NavLink
-      to="/about"
-      className={({ isActive }) =>
-        `pb-1 ${isActive ? "border-b-2 border-black" : ""}`
-      }
-    >
-      About
-    </NavLink>
-  </li>
+          <li>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                `pb-1 ${isActive ? "border-b-2 border-black" : ""}`
+              }
+            >
+              About
+            </NavLink>
+          </li>
 
-  {!isAuthenticated && (
-    <li>
-      <NavLink
-        to="/account/register"
-        className={({ isActive }) =>
-          `pb-1 ${isActive ? "border-b-2 border-black" : ""}`
-        }
-      >
-        Sign Up
-      </NavLink>
-    </li>
-  )}
-</ul>
+          {!isAuthenticated && (
+            <li>
+              <NavLink
+                to="/account/register"
+                className={({ isActive }) =>
+                  `pb-1 ${isActive ? "border-b-2 border-black" : ""}`
+                }
+              >
+                Sign Up
+              </NavLink>
+            </li>
+          )}
+        </ul>
 
         <div className="flex items-center gap-6">
-
           <Search />
 
           {location.pathname === "/account/register" ||
           location.pathname === "/account/login" ? null : (
-
             <div className="flex items-center gap-4">
-
               {/* WISHLIST */}
-              <Link
-                className="relative"
-                to="/wishlist"
-              >
+              <Link className="relative" to="/wishlist">
                 <FaRegHeart className="size-6 cursor-pointer" />
 
                 {number > 0 && (
@@ -119,10 +108,7 @@ export default function NavBar() {
               </Link>
 
               {/* CART */}
-              <Link
-                className="relative"
-                to="/cart"
-              >
+              <Link className="relative" to="/cart">
                 <GrCart className="size-6 cursor-pointer" />
 
                 {number > 0 && (
@@ -149,7 +135,6 @@ export default function NavBar() {
 
               {isAuthenticated && (
                 <div className="relative">
-
                   <button
                     type="button"
                     onClick={() => {
@@ -164,8 +149,7 @@ export default function NavBar() {
                       justify-center
                       cursor-pointer
                       ${
-                        location.pathname ===
-                        "/settings/my-account"
+                        location.pathname === "/settings/my-account"
                           ? "bg-secondary-two text-white"
                           : "text-black"
                       }
@@ -173,23 +157,14 @@ export default function NavBar() {
                   >
                     <FiUser
                       size={
-                        location.pathname ===
-                        "/settings/my-account"
-                          ? 22
-                          : 38
+                        location.pathname === "/settings/my-account" ? 22 : 38
                       }
                     />
                   </button>
 
-                  {open && (
-                    <AccountDropdown
-                      setOpen={setOpen}
-                    />
-                  )}
-
+                  {open && <AccountDropdown setOpen={setOpen} />}
                 </div>
               )}
-
             </div>
           )}
         </div>

@@ -2,9 +2,7 @@ type SuccessToastProps = {
   message: string;
 };
 
-export default function SuccessToast({
-  message,
-}: SuccessToastProps) {
+export default function SuccessToast({ message }: SuccessToastProps) {
   return (
     <div
       className="
@@ -26,9 +24,7 @@ export default function SuccessToast({
     >
       <span className="text-xl">✓</span>
 
-      <p className="font-medium">
-        {message}
-      </p>
+      <p className="font-medium">{message}</p>
     </div>
   );
 }

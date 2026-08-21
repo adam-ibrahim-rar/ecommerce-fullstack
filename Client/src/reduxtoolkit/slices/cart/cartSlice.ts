@@ -1,12 +1,6 @@
-import {
-  createAsyncThunk,
-  createSlice,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import type {
-  Cart,
-  CartState,
-} from "./CartTypes";
+import type { Cart, CartState } from "./CartTypes";
 
 import api from "../../../lib/axios";
 
@@ -29,11 +23,10 @@ export const getCart = createAsyncThunk(
       return response.data as Cart;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message ||
-          "Failed to get cart"
+        error.response?.data?.message || "Failed to get cart",
       );
     }
-  }
+  },
 );
 
 // =========================
@@ -50,25 +43,21 @@ export const addToCart = createAsyncThunk(
       productId: string;
       quantity?: number;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
-      const response = await api.post(
-        "/cart/items",
-        {
-          productId,
-          quantity,
-        }
-      );
+      const response = await api.post("/cart/items", {
+        productId,
+        quantity,
+      });
 
       return response.data as Cart;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message ||
-          "Failed to add product to cart"
+        error.response?.data?.message || "Failed to add product to cart",
       );
     }
-  }
+  },
 );
 
 // =========================
@@ -85,24 +74,20 @@ export const updateCartItem = createAsyncThunk(
       itemId: string;
       quantity: number;
     },
-    { rejectWithValue }
+    { rejectWithValue },
   ) => {
     try {
-      const response = await api.patch(
-        `/cart/items/${itemId}`,
-        {
-          quantity,
-        }
-      );
+      const response = await api.patch(`/cart/items/${itemId}`, {
+        quantity,
+      });
 
       return response.data as Cart;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message ||
-          "Failed to update cart item"
+        error.response?.data?.message || "Failed to update cart item",
       );
     }
-  }
+  },
 );
 
 // =========================
@@ -111,23 +96,17 @@ export const updateCartItem = createAsyncThunk(
 
 export const deleteCartItem = createAsyncThunk(
   "cart/deleteCartItem",
-  async (
-    itemId: string,
-    { rejectWithValue }
-  ) => {
+  async (itemId: string, { rejectWithValue }) => {
     try {
-      const response = await api.delete(
-        `/cart/items/${itemId}`
-      );
+      const response = await api.delete(`/cart/items/${itemId}`);
 
       return response.data as Cart;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message ||
-          "Failed to delete cart item"
+        error.response?.data?.message || "Failed to delete cart item",
       );
     }
-  }
+  },
 );
 
 // =========================
@@ -143,11 +122,10 @@ export const clearCart = createAsyncThunk(
       return null;
     } catch (error: any) {
       return rejectWithValue(
-        error.response?.data?.message ||
-          "Failed to clear cart"
+        error.response?.data?.message || "Failed to clear cart",
       );
     }
-  }
+  },
 );
 
 // =========================
@@ -217,21 +195,15 @@ const cartSlice = createSlice({
         state.error = null;
       })
 
-      .addCase(
-        updateCartItem.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.cart = action.payload;
-        }
-      )
+      .addCase(updateCartItem.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+      })
 
-      .addCase(
-        updateCartItem.rejected,
-        (state, action) => {
-          state.loading = false;
-          state.error = action.payload as string;
-        }
-      );
+      .addCase(updateCartItem.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
 
     // =========================
     // DELETE ITEM
@@ -243,21 +215,15 @@ const cartSlice = createSlice({
         state.error = null;
       })
 
-      .addCase(
-        deleteCartItem.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.cart = action.payload;
-        }
-      )
+      .addCase(deleteCartItem.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+      })
 
-      .addCase(
-        deleteCartItem.rejected,
-        (state, action) => {
-          state.loading = false;
-          state.error = action.payload as string;
-        }
-      );
+      .addCase(deleteCartItem.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
 
     // =========================
     // CLEAR CART
@@ -284,7 +250,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { clearCartState } =
-  cartSlice.actions;
+export const { clearCartState } = cartSlice.actions;
 
 export default cartSlice.reducer;

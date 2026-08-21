@@ -16,10 +16,7 @@ export default function Register() {
     <RegisterSkeleton />
   ) : (
     <div className="w-[1420px] h-[784px] flex gap-[129px] justify-between">
-      <img
-        src={iphone}
-        className="w-[905px] h-[784px] object-cover"
-      />
+      <img src={iphone} className="w-[905px] h-[784px] object-cover" />
 
       <RegisterForm />
     </div>

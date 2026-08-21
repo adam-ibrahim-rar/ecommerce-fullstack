@@ -70,6 +70,15 @@ export const getUser = async (req: Request<UserParams>, res: Response) => {
     data: user,
   });
 };
+export const getMe = async (req: Request, res: Response) => {
+  const user = await getUserService(req.user.id);
+
+  return res.status(200).json({
+    success: true,
+    data: user,
+  });
+};
+
 
 export const updateUser = async (
   req: Request<{}, {}, UpdateUserInput>,

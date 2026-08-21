@@ -1,9 +1,8 @@
   import prisma from "../../../config/prisma";
+import type { Prisma } from "../../../generated/prisma/client";
+import type { CreateUserInput, UpdateUserInput } from "../../../schemas/user.schema";
 
-  import type {
-    CreateUserInput,
-    UpdateUserInput,
-  } from "../types/user.type";
+
 
   const userSelect = {
     id: true,
@@ -64,9 +63,17 @@
     });
   };
 
+  export const findForUpdate = async (id: string) => {
+    return prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+  };
+
   export const update = async (
     id: string,
-    data: UpdateUserInput,
+    data: Prisma.UserUpdateInput,
   ) => {
     return prisma.user.update({
       where: {

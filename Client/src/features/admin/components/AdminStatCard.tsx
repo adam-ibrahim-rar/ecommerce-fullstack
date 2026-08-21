@@ -4,11 +4,7 @@ type Props = {
   icon: React.ReactNode;
 };
 
-export default function AdminStatCard({
-  title,
-  value,
-  icon,
-}: Props) {
+export default function AdminStatCard({ title, value, icon }: Props) {
   return (
     <div>
       {icon}

@@ -9,10 +9,7 @@ import axios from "axios";
 
 import Button from "../../../components/Helpers/Button";
 
-import {
-  createUserSchema,
-  type CreateUserInput,
-} from "../schemas/auth.schema";
+import { createUserSchema, type CreateUserInput } from "../schemas/auth.schema";
 
 import { useRegisterMutation } from "../api/authQueries";
 
@@ -38,17 +35,14 @@ export default function RegisterForm() {
       success: () => {
         setTimeout(() => {
           navigate("/account/login");
-        }, 1000);
+        }, 500);
 
         return "Account created successfully!";
       },
 
       error: (error) => {
         if (axios.isAxiosError(error)) {
-          return (
-            error.response?.data?.message ??
-            "Could not create account."
-          );
+          return error.response?.data?.message ?? "Could not create account.";
         }
 
         return "Something went wrong.";
@@ -63,9 +57,7 @@ export default function RegisterForm() {
           Create an account
         </h1>
 
-        <p className="h-6 w-[191px] text-[16px]">
-          Enter your details below
-        </p>
+        <p className="h-6 w-[191px] text-[16px]">Enter your details below</p>
       </div>
 
       <form
@@ -73,7 +65,6 @@ export default function RegisterForm() {
         className="flex flex-col h-[404px] gap-10"
       >
         <div className="flex flex-col gap-6">
-
           <div>
             <input
               type="text"
@@ -133,9 +124,7 @@ export default function RegisterForm() {
 
             <button
               type="button"
-              onClick={() =>
-                setShowPassword((prev) => !prev)
-              }
+              onClick={() => setShowPassword((prev) => !prev)}
               className="
                 absolute
                 right-0
@@ -160,20 +149,14 @@ export default function RegisterForm() {
 
         <div>
           <div className="flex flex-col gap-4">
-
             <Button
-              content={
-                isPending
-                  ? "Creating..."
-                  : "Create Account"
-              }
+              content={isPending ? "Creating..." : "Create Account"}
               classes="w-full"
               type="submit"
               disabled={isPending}
             />
 
             <div className="flex flex-col gap-8">
-
               <Button
                 icon={<FcGoogle size={24} />}
                 content="Sign up with Google"
@@ -203,7 +186,6 @@ export default function RegisterForm() {
                   Log in
                 </Link>
               </div>
-
             </div>
           </div>
         </div>

@@ -2,14 +2,9 @@ import { useState } from "react";
 import { FaRegHeart, FaStar } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../reduxtoolkit/hooks";
+import { useAppDispatch, useAppSelector } from "../../reduxtoolkit/hooks";
 
-import {
-  addToCart,
-} from "../../reduxtoolkit/slices/cart/cartSlice";
+import { addToCart } from "../../reduxtoolkit/slices/cart/cartSlice";
 type ProductCardProps = {
   id: number;
   image: string;
@@ -38,9 +33,7 @@ export default function ProductCard({
   const [addToCartHovered, setAddToCartHovered] = useState(false);
   const dispatch = useAppDispatch();
 
-const isAuthenticated = useAppSelector(
-  (state) => state.auth.isAuthenticated
-);
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   return (
     <div className="w-[270px] ">
@@ -91,26 +84,22 @@ const isAuthenticated = useAppSelector(
             className="w-[172px]  h-[152px] object-contain"
           />
         </div>
-       <button
-  className={`absolute bottom-0 w-full h-[41px] inset-x-0
+        <button
+          className={`absolute bottom-0 w-full h-[41px] inset-x-0
     bg-black text-white rounded transition cursor-pointer
-    ${
-      addToCartHovered
-        ? "opacity-100"
-        : "opacity-0"
-    }
+    ${addToCartHovered ? "opacity-100" : "opacity-0"}
   `}
-  onClick={() => {
-    dispatch(
-      addToCart({
-        productId: String(id),
-        quantity: 1,
-      })
-    );
-  }}
->
-  Add to Cart
-</button>
+          onClick={() => {
+            dispatch(
+              addToCart({
+                productId: String(id),
+                quantity: 1,
+              }),
+            );
+          }}
+        >
+          Add to Cart
+        </button>
       </div>
 
       <div className="mt-1">

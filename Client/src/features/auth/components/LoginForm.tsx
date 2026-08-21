@@ -2,30 +2,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import {
-  IoEyeOutline,
-  IoEyeOffOutline,
-} from "react-icons/io5";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import axios from "axios";
 import { toast } from "sonner";
 
 import Button from "../../../components/Helpers/Button";
 
-import {
-  loginUserSchema,
-  type LoginUserInput,
-} from "../schemas/auth.schema";
+import { loginUserSchema, type LoginUserInput } from "../schemas/auth.schema";
 
 import { useLoginMutation } from "../api/authQueries";
 
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../reduxtoolkit/hooks";
+import { useAppDispatch } from "../../../reduxtoolkit/hooks";
 
-import {
-  setUser,
-} from "../../../reduxtoolkit/slices/auth/authSlice";
+import { setUser } from "../../../reduxtoolkit/slices/auth/authSlice";
 import { getCart } from "../../../reduxtoolkit/slices/cart/cartSlice";
 
 export default function LoginForm() {
@@ -35,13 +24,7 @@ export default function LoginForm() {
 
   const dispatch = useAppDispatch();
 
-
-
-
-  const {
-    mutateAsync,
-    isPending,
-  } = useLoginMutation();
+  const { mutateAsync, isPending } = useLoginMutation();
 
   const {
     register,
@@ -51,46 +34,38 @@ export default function LoginForm() {
     resolver: zodResolver(loginUserSchema),
   });
 
- const onSubmit = async (
-  data: LoginUserInput
-) => {
-  toast.promise(mutateAsync(data), {
-    loading: "Logging in...",
+  const onSubmit = async (data: LoginUserInput) => {
+    toast.promise(mutateAsync(data), {
+      loading: "Logging in...",
 
-    success: (response) => {
-      dispatch(setUser(response.data));
-      
-      dispatch(getCart());
+      success: (response) => {
+        dispatch(setUser(response.data));
 
-      navigate("/");
+        dispatch(getCart());
 
-      return "Login successful!";
-    },
+        navigate("/");
 
-    error: (error) => {
-      if (axios.isAxiosError(error)) {
-        return (
-          error.response?.data?.message ??
-          "Login failed."
-        );
-      }
+        return "Login successful!";
+      },
 
-      return "Something went wrong.";
-    },
-  });
-};
+      error: (error) => {
+        if (axios.isAxiosError(error)) {
+          return error.response?.data?.message ?? "Login failed.";
+        }
+
+        return "Something went wrong.";
+      },
+    });
+  };
 
   return (
-    <div className="w-[371px] h-[530px] flex flex-col gap-12 my-auto">
-
-      <div className="gap-7 flex flex-col">
-        <h1 className="h-[30px] capitalize font-normal text-4xl">
+    <div className="w-[371px] h-[530px] flex flex-col gap-9 my-auto">
+      <div className="gap-7  flex flex-col">
+        <h1 className="h-[30px] capitalize font-normal text-3xl">
           Log in to Exclusive
         </h1>
 
-        <p className="h-6 w-[191px] text-[16px]">
-          Enter your details below
-        </p>
+        <p className="h-6 w-[191px] text-[16px]">Enter your details below</p>
       </div>
 
       <form
@@ -98,7 +73,6 @@ export default function LoginForm() {
         className="flex flex-col h-[404px] gap-10"
       >
         <div className="flex flex-col gap-6">
-
           <div>
             <input
               type="text"
@@ -137,9 +111,7 @@ export default function LoginForm() {
 
             <button
               type="button"
-              onClick={() =>
-                setShowPassword((prev) => !prev)
-              }
+              onClick={() => setShowPassword((prev) => !prev)}
               className="
                 absolute
                 right-1
@@ -163,22 +135,17 @@ export default function LoginForm() {
         </div>
 
         <div className="flex flex-col gap-8">
-    <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
+            <Button
+              content={isPending ? "Logging in..." : "Log In"}
+              classes="w-fit !py-2"
+              type="submit"
+              disabled={isPending}
+            />
 
-          <Button
-            content={
-              isPending
-              ? "Logging in..."
-              : "Log In"
-            }
-            classes="w-fit !py-2"
-            type="submit"
-            disabled={isPending}
-          />
-
-          <Link
-            to="/resetpassword"
-            className="
+            <Link
+              to="/resetpassword"
+              className="
             text-[18px]
             font-medium
             underline
@@ -186,18 +153,20 @@ export default function LoginForm() {
             text-secondary-two
             "
             >
-            Forget Password?
-          </Link>
-            </div>
-                <div className="flex gap-3 self-center ">
-                <span className="text-[18px] capitalize
-                 text-gray-600">
-                  Create account?
-                </span>
+              Forget Password?
+            </Link>
+          </div>
+          <div className="flex gap-3 self-center ">
+            <span
+              className="text-[18px] capitalize
+                 text-gray-600"
+            >
+              Create account?
+            </span>
 
-                <Link
-                  to="/account/register"
-                  className="
+            <Link
+              to="/account/register"
+              className="
                     text-[18px]
                     font-medium
                     underline
@@ -205,10 +174,10 @@ export default function LoginForm() {
                     text-gray-600
                     text-secondary-two-hover
                   "
-                >
-                  Create account
-                </Link>
-              </div>
+            >
+              Create account
+            </Link>
+          </div>
         </div>
       </form>
     </div>

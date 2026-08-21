@@ -1,18 +1,18 @@
 import {
-  FiUser,
   FiShoppingBag,
   FiXCircle,
   FiStar,
   FiLogOut,
 } from "react-icons/fi";
+import {IoSettingsOutline  } from "react-icons/io5"
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../reduxtoolkit/slices/auth/authSlice";
 import { useAppDispatch } from "../../reduxtoolkit/hooks";
 
 const menuItems = [
   {
-    label: "My Account",
-    icon: FiUser,
+    label: "Settings",
+    icon: IoSettingsOutline ,
   },
   {
     label: "My Order",
@@ -65,8 +65,7 @@ export default function AccountDropdown({
               type="button"
               onClick={() => {
                 navigate(
-                  "/settings/" +
-                    item.label.toLowerCase().split(" ").join("-")
+                  "/settings/" + item.label.toLowerCase().split(" ").join("-"),
                 );
                 setOpen(false);
               }}

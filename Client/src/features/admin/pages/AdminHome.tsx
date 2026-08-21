@@ -31,11 +31,8 @@ export default function AdminHome() {
 
   return (
     <div className="flex flex-col gap-8">
-
       <div>
-        <h1 className="text-3xl font-semibold">
-          Dashboard
-        </h1>
+        <h1 className="text-3xl font-semibold">Dashboard</h1>
 
         <p className="text-gray-500 mt-1">
           Welcome back to your admin dashboard.
@@ -43,7 +40,6 @@ export default function AdminHome() {
       </div>
 
       <div className="grid grid-cols-4 gap-6">
-
         {stats.map((stat) => (
           <div
             key={stat.title}
@@ -57,26 +53,16 @@ export default function AdminHome() {
               justify-between
             "
           >
-
             <div>
-              <p className="text-gray-500 text-sm">
-                {stat.title}
-              </p>
+              <p className="text-gray-500 text-sm">{stat.title}</p>
 
-              <p className="text-3xl font-semibold mt-2">
-                {stat.value}
-              </p>
+              <p className="text-3xl font-semibold mt-2">{stat.value}</p>
             </div>
 
-            <div className="text-3xl">
-              {stat.icon}
-            </div>
-
+            <div className="text-3xl">{stat.icon}</div>
           </div>
         ))}
-
       </div>
-
     </div>
   );
 }

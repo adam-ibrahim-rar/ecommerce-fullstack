@@ -1,15 +1,16 @@
 import jwt from "jsonwebtoken";
 import * as userRepository from "../repositories/user.repository";
 
-import type {
-  CreateUserInput,
-  LoginUserInput,
-  UpdateUserInput,
-  UserQuery,
-} from "../types/user.type";
+import type { UserQuery } from "../types/user.type";
 import { AppError } from "../utils/app-error.util";
 import bcrypt from "bcrypt";
 import env from "../../../config/env";
+import type {
+  CreateUserInput,
+  LoginUserInput,
+  updateUserSchemaFromClient,
+  
+} from "../../../schemas/user.schema";
 
 export const createUserService = async (data: CreateUserInput) => {
   const existingUserByEmail = await userRepository.findByEmail(data.email);
@@ -43,10 +44,7 @@ export const loginUserService = async (data: LoginUserInput) => {
     throw new AppError("Email does not exists", 401);
   }
 
-  const isPasswordValid = await bcrypt.compare(
-    data.password,
-    user.password,
-  );
+  const isPasswordValid = await bcrypt.compare(data.password, user.password);
 
   if (!isPasswordValid) {
     throw new AppError("Wrong password", 401);
@@ -103,41 +101,62 @@ export const getUserService = async (id: string) => {
   return user;
 };
 
-export const updateUserService = async (id: string, data: UpdateUserInput) => {
-  const existingUser = await userRepository.findById(id);
+export const updateUserService = async (
+  id: string,
+  data: updateUserSchemaFromClient
+) => {
+  const existingUser = await userRepository.findForUpdate(id);
 
   if (!existingUser) {
     throw new AppError("User not found", 404);
   }
 
-  if (data.email) {
-    const existingEmail = await userRepository.findByEmail(data.email);
+  const {
+    password,
+    newPassword,
+    ...rest
+  } = data;
 
-    if (existingEmail && existingEmail.id !== id) {
-      throw new AppError("Email already exists", 409);
+  const updateData = Object.fromEntries(
+    Object.entries(rest).filter(
+      ([, value]) => value !== undefined && value !== ""
+    )
+  );
+
+  if (newPassword) {
+    if (!password) {
+      throw new AppError(
+        "Current password is required",
+        400
+      );
     }
+
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+
+    if (!isPasswordValid) {
+      throw new AppError(
+        "Current password is incorrect",
+        400
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(
+      newPassword,
+      10
+    );
+
+    return userRepository.update(id, {
+      ...updateData,
+      password: hashedPassword,
+    });
   }
 
-  if (data.username) {
-    const existingUsername = await userRepository.findByUsername(data.username);
-
-    if (existingUsername && existingUsername.id !== id) {
-      throw new AppError("Username already exists", 409);
-    }
-  }
-
-  const updateData = {
-    ...data,
-    ...(data.password
-      ? {
-          password: await bcrypt.hash(data.password, 10),
-        }
-      : {}),
-  };
-
+  // Normal update
   return userRepository.update(id, updateData);
 };
-
 export const deleteUserService = async (id: string) => {
   const existingUser = await userRepository.findById(id);
 

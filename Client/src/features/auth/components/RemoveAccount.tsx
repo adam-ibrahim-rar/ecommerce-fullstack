@@ -3,21 +3,15 @@ import Button from "../../../components/Helpers/Button";
 import { useReomvingMutation } from "../api/authQueries";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import {
-  useAppDispatch,
-} from "../../../reduxtoolkit/hooks";
+import { useAppDispatch } from "../../../reduxtoolkit/hooks";
 
-import {
-  logout,
-} from "../../../reduxtoolkit/slices/auth/authSlice";
+import { logout } from "../../../reduxtoolkit/slices/auth/authSlice";
 export default function RemoveAccount() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const {
-      mutateAsync,
-    } = useReomvingMutation();
-    const onSubmit = async () => {
+  const { mutateAsync } = useReomvingMutation();
+  const onSubmit = async () => {
     toast.promise(mutateAsync(), {
       loading: "Looding...",
 
@@ -30,10 +24,7 @@ export default function RemoveAccount() {
 
       error: (error) => {
         if (axios.isAxiosError(error)) {
-          return (
-            error.response?.data?.message ??
-            "Login failed."
-          );
+          return error.response?.data?.message ?? "Login failed.";
         }
 
         return "Something went wrong.";

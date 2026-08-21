@@ -7,6 +7,8 @@ import {
   updateUser,
   deleteUser,
   loginUser,
+  getMe,
+
 } from "../controller/user.controller";
 
 import { asyncHandler } from "../utils/asyncHandler";
@@ -24,6 +26,7 @@ import { authMiddleware } from "../middlewares/auth.middleware";
 const router = Router();
 
 router.get("/", asyncHandler(getUsers));
+router.get("/me", authMiddleware,asyncHandler(getMe));
 
 router.post(
   "/",
@@ -33,7 +36,6 @@ router.post(
 
 router.post(
   "/login",
-  
   validate(loginUserSchema, "body"),
   asyncHandler(loginUser),
 );
@@ -50,7 +52,6 @@ router.patch(
   validate(updateUserSchema, "body"),
   asyncHandler(updateUser),
 );
-
 
 router.delete<UserParams>(
   "/me",
