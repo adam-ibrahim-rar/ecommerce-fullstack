@@ -1,3 +1,6 @@
+import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
   FiEdit2,
   FiEye,
@@ -8,6 +11,8 @@ import {
   FiStar,
   FiTrash2,
 } from "react-icons/fi";
+
+import { toast } from "sonner";
 
 import {
   Card,
@@ -40,7 +45,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -48,68 +52,75 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 
-import AddProductForm from "./components/AddProductForm"; // -----------------------------------------------------
-// Dummy Products
-// -----------------------------------------------------
+import AddProductForm from "./components/AddProductForm";
 
-const products = [
-  {
-    id: "1",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
-    title: "Nike Air Max 270",
-    category: "Shoes",
-    price: 120,
-    oldPrice: 150,
-    discount: 20,
-    rating: 4.8,
-    reviews: 124,
-    inStock: true,
-  },
-  {
-    id: "2",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
-    title: "Classic Watch",
-    category: "Accessories",
-    price: 85,
-    oldPrice: 110,
-    discount: 23,
-    rating: 4.6,
-    reviews: 89,
-    inStock: true,
-  },
-  {
-    id: "3",
-    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12",
-    title: "Smart Watch Pro",
-    category: "Electronics",
-    price: 250,
-    oldPrice: 300,
-    discount: 17,
-    rating: 4.7,
-    reviews: 213,
-    inStock: true,
-  },
-  {
-    id: "4",
-    image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3",
-    title: "Premium Hoodie",
-    category: "Clothing",
-    price: 65,
-    rating: 4.4,
-    reviews: 56,
-    inStock: false,
-  },
-];
+import {
+  useDeleteProductMutation,
+  useProductsQuery,
+} from "./api/productsQueries";
+
+import { useCategoriesQuery } from "../Categories/api/categoriesQueries";
+
+import type { Product } from "./types/product.types";
 
 // -----------------------------------------------------
 // Component
 // -----------------------------------------------------
 
 export default function AdminProducts() {
+  const [search, setSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+
+  const { data: categories = [] } = useCategoriesQuery();
+
+  // بيانات كل المنتجات من غير أي فلتر، عشان نحسب منها الإحصائيات
+  const { data: allProducts = [] } = useProductsQuery();
+
+  // بيانات مفلترة (بترجع من الباك اند نفسه، مش client-side)
+  const { data: products = [], isLoading } = useProductsQuery({
+    ...(search.trim() && { title: search.trim() }),
+    ...(categoryFilter !== "all" && { categoryId: categoryFilter }),
+  });
+
+  const { mutate: deleteProduct, isPending: isDeleting } =
+    useDeleteProductMutation();
+
+  // ----------------------------------------
+  // Stats (محسوبة من كل المنتجات)
+  // ----------------------------------------
+
+  const stats = useMemo(() => {
+    const total = allProducts.length;
+    const inStock = allProducts.filter((p) => p.inStock).length;
+    const outOfStock = total - inStock;
+
+    return {
+      total,
+      inStock,
+      outOfStock,
+      categories: categories.length,
+    };
+  }, [allProducts, categories]);
+
+  const handleDelete = (product: Product) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${product.title}"? This action cannot be undone.`,
+    );
+
+    if (!confirmed) return;
+
+    deleteProduct(product.id, {
+      onSuccess: () => {
+        toast.success("Product deleted successfully");
+      },
+      onError: () => {
+        toast.error("Could not delete product");
+      },
+    });
+  };
+
   return (
     <div className="space-y-8">
-
-
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Products</h1>
@@ -132,7 +143,7 @@ export default function AdminProducts() {
             <div>
               <p className="text-sm text-muted-foreground">Total Products</p>
 
-              <p className="mt-2 text-2xl font-bold">124</p>
+              <p className="mt-2 text-2xl font-bold">{stats.total}</p>
             </div>
 
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
@@ -146,7 +157,7 @@ export default function AdminProducts() {
             <div>
               <p className="text-sm text-muted-foreground">In Stock</p>
 
-              <p className="mt-2 text-2xl font-bold">108</p>
+              <p className="mt-2 text-2xl font-bold">{stats.inStock}</p>
             </div>
 
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-500/10">
@@ -160,7 +171,7 @@ export default function AdminProducts() {
             <div>
               <p className="text-sm text-muted-foreground">Out of Stock</p>
 
-              <p className="mt-2 text-2xl font-bold">16</p>
+              <p className="mt-2 text-2xl font-bold">{stats.outOfStock}</p>
             </div>
 
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-500/10">
@@ -174,7 +185,7 @@ export default function AdminProducts() {
             <div>
               <p className="text-sm text-muted-foreground">Categories</p>
 
-              <p className="mt-2 text-2xl font-bold">12</p>
+              <p className="mt-2 text-2xl font-bold">{stats.categories}</p>
             </div>
 
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10">
@@ -213,12 +224,14 @@ export default function AdminProducts() {
                 <Input
                   placeholder="Search products..."
                   className="w-full pl-10 sm:w-[250px]"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
                 />
               </div>
 
               {/* Category */}
 
-              <Select>
+              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger className="w-full sm:w-[160px]">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -226,13 +239,11 @@ export default function AdminProducts() {
                 <SelectContent>
                   <SelectItem value="all">All Categories</SelectItem>
 
-                  <SelectItem value="shoes">Shoes</SelectItem>
-
-                  <SelectItem value="clothing">Clothing</SelectItem>
-
-                  <SelectItem value="electronics">Electronics</SelectItem>
-
-                  <SelectItem value="accessories">Accessories</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -240,206 +251,245 @@ export default function AdminProducts() {
         </CardHeader>
 
         <CardContent>
-          {/* Desktop Table */}
+          {isLoading ? (
+            <p className="py-10 text-center text-sm text-muted-foreground">
+              Loading products...
+            </p>
+          ) : products.length === 0 ? (
+            <p className="py-10 text-center text-sm text-muted-foreground">
+              No products found.
+            </p>
+          ) : (
+            <>
+              {/* Desktop Table */}
 
-          <div className="hidden overflow-x-auto md:block">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b text-left text-sm text-muted-foreground">
-                  <th className="pb-4 font-medium">Product</th>
+              <div className="hidden overflow-x-auto md:block">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b text-left text-sm text-muted-foreground">
+                      <th className="pb-4 font-medium">Product</th>
 
-                  <th className="pb-4 font-medium">Category</th>
+                      <th className="pb-4 font-medium">Category</th>
 
-                  <th className="pb-4 font-medium">Price</th>
+                      <th className="pb-4 font-medium">Price</th>
 
-                  <th className="pb-4 font-medium">Rating</th>
+                      <th className="pb-4 font-medium">Rating</th>
 
-                  <th className="pb-4 font-medium">Stock</th>
+                      <th className="pb-4 font-medium">Stock</th>
 
-                  <th className="pb-4 text-right font-medium">Actions</th>
-                </tr>
-              </thead>
+                      <th className="pb-4 text-right font-medium">Actions</th>
+                    </tr>
+                  </thead>
 
-              <tbody>
+                  <tbody>
+                    {products.map((product) => (
+                      <tr key={product.id} className="border-b last:border-0">
+                        {/* Product */}
+
+                        <td className="py-4">
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={
+                                product.images?.[0] ??
+                                "/placeholder-product.png"
+                              }
+                              alt={product.title}
+                              className="h-12 w-12 rounded-lg object-cover"
+                            />
+
+                            <div>
+                              <p className="font-medium">{product.title}</p>
+
+                              <p className="text-sm text-muted-foreground">
+                                #{product.id.slice(0, 8)}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* Category */}
+
+                        <td className="py-4">
+                          <Badge variant="secondary">
+                            {product.category?.name ?? "Uncategorized"}
+                          </Badge>
+                        </td>
+
+                        {/* Price */}
+
+                        <td className="py-4">
+                          <div className="flex items-center gap-2">
+                            <span className="font-semibold">
+                              ${product.price}
+                            </span>
+
+                            {product.oldPrice && (
+                              <span className="text-sm text-muted-foreground line-through">
+                                ${product.oldPrice}
+                              </span>
+                            )}
+                          </div>
+                        </td>
+
+                        {/* Rating */}
+
+                        <td className="py-4">
+                          <div className="flex items-center gap-1">
+                            <FiStar
+                              size={15}
+                              className="fill-yellow-400 text-yellow-400"
+                            />
+
+                            <span className="font-medium">
+                              {product.rating}
+                            </span>
+
+                            <span className="text-sm text-muted-foreground">
+                              ({product.reviews})
+                            </span>
+                          </div>
+                        </td>
+
+                        {/* Stock */}
+
+                        <td className="py-4">
+                          {product.inStock ? (
+                            <Badge className="bg-green-500/10 text-green-600 hover:bg-green-500/10">
+                              In Stock
+                            </Badge>
+                          ) : (
+                            <Badge variant="destructive">Out of Stock</Badge>
+                          )}
+                        </td>
+
+                        {/* Actions */}
+
+                        <td className="py-4 text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <FiMoreHorizontal size={18} />
+                              </Button>
+                            </DropdownMenuTrigger>
+
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem asChild>
+                                <Link to={`/products/${product.id}`}>
+                                  <FiEye className="mr-2" />
+                                  View Product
+                                </Link>
+                              </DropdownMenuItem>
+
+                              <DropdownMenuItem disabled>
+                                <FiEdit2 className="mr-2" />
+                                Edit Product
+                              </DropdownMenuItem>
+
+                              <DropdownMenuSeparator />
+
+                              <DropdownMenuItem
+                                className="text-red-600 focus:text-red-600"
+                                disabled={isDeleting}
+                                onClick={() => handleDelete(product)}
+                              >
+                                <FiTrash2 className="mr-2" />
+                                Delete Product
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Cards */}
+
+              <div className="space-y-4 md:hidden">
                 {products.map((product) => (
-                  <tr key={product.id} className="border-b last:border-0">
-                    {/* Product */}
+                  <div key={product.id} className="rounded-xl border p-4">
+                    <div className="flex gap-4">
+                      <img
+                        src={
+                          product.images?.[0] ?? "/placeholder-product.png"
+                        }
+                        alt={product.title}
+                        className="h-16 w-16 rounded-lg object-cover"
+                      />
 
-                    <td className="py-4">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={product.image}
-                          alt={product.title}
-                          className="h-12 w-12 rounded-lg object-cover"
-                        />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <p className="truncate font-medium">
+                              {product.title}
+                            </p>
 
-                        <div>
-                          <p className="font-medium">{product.title}</p>
+                            <p className="mt-1 text-sm text-muted-foreground">
+                              {product.category?.name ?? "Uncategorized"}
+                            </p>
+                          </div>
 
-                          <p className="text-sm text-muted-foreground">
-                            #{product.id}
-                          </p>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <FiMoreHorizontal />
+                              </Button>
+                            </DropdownMenuTrigger>
+
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem asChild>
+                                <Link to={`/products/${product.id}`}>
+                                  <FiEye className="mr-2" />
+                                  View
+                                </Link>
+                              </DropdownMenuItem>
+
+                              <DropdownMenuItem disabled>
+                                <FiEdit2 className="mr-2" />
+                                Edit
+                              </DropdownMenuItem>
+
+                              <DropdownMenuItem
+                                className="text-red-600"
+                                disabled={isDeleting}
+                                onClick={() => handleDelete(product)}
+                              >
+                                <FiTrash2 className="mr-2" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+
+                        <div className="mt-3 flex items-center justify-between">
+                          <div>
+                            <span className="font-semibold">
+                              ${product.price}
+                            </span>
+
+                            {product.oldPrice && (
+                              <span className="ml-2 text-sm text-muted-foreground line-through">
+                                ${product.oldPrice}
+                              </span>
+                            )}
+                          </div>
+
+                          {product.inStock ? (
+                            <Badge className="bg-green-500/10 text-green-600 hover:bg-green-500/10">
+                              In Stock
+                            </Badge>
+                          ) : (
+                            <Badge variant="destructive">Out of Stock</Badge>
+                          )}
                         </div>
                       </div>
-                    </td>
-
-                    {/* Category */}
-
-                    <td className="py-4">
-                      <Badge variant="secondary">{product.category}</Badge>
-                    </td>
-
-                    {/* Price */}
-
-                    <td className="py-4">
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold">${product.price}</span>
-
-                        {product.oldPrice && (
-                          <span className="text-sm text-muted-foreground line-through">
-                            ${product.oldPrice}
-                          </span>
-                        )}
-                      </div>
-                    </td>
-
-                    {/* Rating */}
-
-                    <td className="py-4">
-                      <div className="flex items-center gap-1">
-                        <FiStar
-                          size={15}
-                          className="fill-yellow-400 text-yellow-400"
-                        />
-
-                        <span className="font-medium">{product.rating}</span>
-
-                        <span className="text-sm text-muted-foreground">
-                          ({product.reviews})
-                        </span>
-                      </div>
-                    </td>
-
-                    {/* Stock */}
-
-                    <td className="py-4">
-                      {product.inStock ? (
-                        <Badge className="bg-green-500/10 text-green-600 hover:bg-green-500/10">
-                          In Stock
-                        </Badge>
-                      ) : (
-                        <Badge variant="destructive">Out of Stock</Badge>
-                      )}
-                    </td>
-
-                    {/* Actions */}
-
-                    <td className="py-4 text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <FiMoreHorizontal size={18} />
-                          </Button>
-                        </DropdownMenuTrigger>
-
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem>
-                            <FiEye className="mr-2" />
-                            View Product
-                          </DropdownMenuItem>
-
-                          <DropdownMenuItem>
-                            <FiEdit2 className="mr-2" />
-                            Edit Product
-                          </DropdownMenuItem>
-
-                          <DropdownMenuSeparator />
-
-                          <DropdownMenuItem className="text-red-600 focus:text-red-600">
-                            <FiTrash2 className="mr-2" />
-                            Delete Product
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Mobile Cards */}
-
-          <div className="space-y-4 md:hidden">
-            {products.map((product) => (
-              <div key={product.id} className="rounded-xl border p-4">
-                <div className="flex gap-4">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="h-16 w-16 rounded-lg object-cover"
-                  />
-
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <p className="truncate font-medium">{product.title}</p>
-
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {product.category}
-                        </p>
-                      </div>
-
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <FiMoreHorizontal />
-                          </Button>
-                        </DropdownMenuTrigger>
-
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem>
-                            <FiEye className="mr-2" />
-                            View
-                          </DropdownMenuItem>
-
-                          <DropdownMenuItem>
-                            <FiEdit2 className="mr-2" />
-                            Edit
-                          </DropdownMenuItem>
-
-                          <DropdownMenuItem className="text-red-600">
-                            <FiTrash2 className="mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-
-                    <div className="mt-3 flex items-center justify-between">
-                      <div>
-                        <span className="font-semibold">${product.price}</span>
-
-                        {product.oldPrice && (
-                          <span className="ml-2 text-sm text-muted-foreground line-through">
-                            ${product.oldPrice}
-                          </span>
-                        )}
-                      </div>
-
-                      {product.inStock ? (
-                        <Badge className="bg-green-500/10 text-green-600 hover:bg-green-500/10">
-                          In Stock
-                        </Badge>
-                      ) : (
-                        <Badge variant="destructive">Out of Stock</Badge>
-                      )}
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          )}
         </CardContent>
       </Card>
     </div>
@@ -451,8 +501,10 @@ export default function AdminProducts() {
 // =====================================================
 
 function AddProductDialog() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>
           <FiPlus className="mr-2" />
@@ -464,12 +516,10 @@ function AddProductDialog() {
         <DialogHeader>
           <DialogTitle className="space-y-5 my-5 text-center border p-4 rounded-4xl">
             Create a new product for your store.
-            </DialogTitle>
-
-
+          </DialogTitle>
         </DialogHeader>
 
-        <AddProductForm />
+        <AddProductForm onSuccess={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );

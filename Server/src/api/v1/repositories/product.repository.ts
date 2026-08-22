@@ -19,6 +19,9 @@ export const findAll = async (query: ProductQuery) => {
         categoryId: query.categoryId,
       }),
     },
+    include: {
+      category: true,
+    },
   });
 };
 
@@ -29,7 +32,6 @@ export const findById = async (id: string) => {
     },
     include: {
       category: true,
-      variants: true,
     },
   });
 };
@@ -38,6 +40,9 @@ export const findByTitle = async (title: string) => {
   return prisma.product.findFirst({
     where: {
       title,
+    },
+    include: {
+      category: true,
     },
   });
 };
@@ -49,7 +54,6 @@ export const findByCategoryId = async (categoryId: string) => {
     },
     include: {
       category: true,
-      variants: true,
     },
   });
 };
@@ -57,6 +61,9 @@ export const findByCategoryId = async (categoryId: string) => {
 export const create = async (data: CreateProductInput) => {
   return prisma.product.create({
     data,
+    include: {
+      category: true,
+    },
   });
 };
 export const update = async (
@@ -66,6 +73,9 @@ export const update = async (
   return prisma.product.update({
     where: { id },
     data,
+    include: {
+      category: true,
+    },
   });
 };
 

@@ -1,11 +1,7 @@
 import type { Request, Response } from "express";
 
-import type {
-  CreateUserInput,
-  UpdateUserInput,
-  UserQuery,
-  UserParams,
-} from "../types/user.type";
+import type { UserQuery, UserParams } from "../types/user.type";
+
 import {
   createUserService,
   deleteUserService,
@@ -14,7 +10,11 @@ import {
   updateUserService,
   loginUserService,
 } from "../services/user.service";
-import type { LoginUserInput } from "../../../schemas/user.schema";
+import type {
+  CreateUserInput,
+  LoginUserInput,
+  UpdateUserInput,
+} from "../../../schemas/user.schema";
 
 export const createUser = async (
   req: Request<{}, {}, CreateUserInput>,
@@ -49,10 +49,9 @@ export const loginUser = async (
   });
 };
 
-
 export const getUsers = async (
   req: Request<{}, {}, {}, UserQuery>,
-  res: Response
+  res: Response,
 ) => {
   const users = await getUsersService(req.query);
 
@@ -79,15 +78,17 @@ export const getMe = async (req: Request, res: Response) => {
   });
 };
 
-
 export const updateUser = async (
   req: Request<{}, {}, UpdateUserInput>,
   res: Response,
 ) => {
-  const user = await updateUserService(
-    req.user.id,
-    req.body,
-  );
+  const password = req.body.password;
+
+  if (typeof password !== "string") {
+    throw new Error("Password is required");
+  }
+
+  const user = await updateUserService(req.user.id, { ...req.body, password });
 
   return res.status(200).json({
     success: true,

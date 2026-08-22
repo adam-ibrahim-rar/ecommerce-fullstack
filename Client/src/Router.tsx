@@ -10,9 +10,8 @@ import App from "./App";
 import Home from "./pages/Home/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Cart from "./pages/Cart/Cart";
-import Checkout from "./pages/CheckOut/CheckOut";
-import Products from "./pages/Products/Products";
+import Cart from "./features/Cart/Cart";
+import Products from "./features/Products/Products";
 import Register from "./pages/Singing/Register";
 import Login from "./pages/Singing/Login";
 import NotFound from "./pages/NotFound";
@@ -34,6 +33,10 @@ import ProtectedRoutes from "./components/Helpers/ProtectedRoutes";
 
 // Toast
 import { Toaster } from "sonner";
+import AdminCategories from "./features/admin/Categories/Categories";
+import AdminUsers from "./features/admin/users/AdminUsers";
+import AdminUserDetails from "./features/admin/users/AdminUserDetails";
+import Order from "./features/order/Order";
 
 const Router = createBrowserRouter([
   // ============================
@@ -65,11 +68,15 @@ const Router = createBrowserRouter([
 
       {
         path: "checkout",
-        element: <Checkout />,
+        element: <Order />,
       },
 
       {
         path: "products/:id",
+        element: <Products />,
+      },
+      {
+        path: "products",
         element: <Products />,
       },
 
@@ -185,7 +192,7 @@ const Router = createBrowserRouter([
 
               {
                 path: "categories",
-                element: <div>Categories</div>,
+                element: <AdminCategories/>,
               },
 
               {
@@ -195,8 +202,11 @@ const Router = createBrowserRouter([
 
               {
                 path: "users",
-                element: <div>Users</div>,
-              },
+                element: <AdminUsers/>,
+              },{
+      path: "users/:id",
+      element: <AdminUserDetails />,
+    },
             ],
           },
         ],

@@ -1,9 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 
-export default function PathLocation() {
+type PathLocationProps = {
+  override?: string; // اسم مخصص يتعرض بدل آخر جزء من الرابط
+};
+
+export default function PathLocation({ override }: PathLocationProps) {
   const { pathname } = useLocation();
 
-  const paths = pathname.split("/").filter(Boolean); //avoid the /
+  const paths = pathname.split("/").filter(Boolean);
 
   return (
     <div className="flex gap-3 mt-8 mb-4 text-[14px]">
@@ -11,24 +15,29 @@ export default function PathLocation() {
         Home
       </Link>
 
-      {paths.map((path, index) => (
-        <div key={path} className="flex gap-3">
-          <span className="text-one font-medium text-lg">/</span>
+      {paths.map((path, index) => {
+        const isLast = index === paths.length - 1;
+        const accumulatedPath = "/" + paths.slice(0, index + 1).join("/");
+        const label =
+          isLast && override ? override : path.split("-").join(" ");
 
-          {index === paths.length - 1 ? (
-            <span className="capitalize font-medium text-lg">
-              {path.split("-").join(" ")}
-            </span>
-          ) : (
-            <Link
-              to={`/${path}`}
-              className="text-one capitalize font-medium text-lg"
-            >
-              {path}
-            </Link>
-          )}
-        </div>
-      ))}
+        return (
+          <div key={accumulatedPath} className="flex gap-3">
+            <span className="text-one font-medium text-lg">/</span>
+
+            {isLast ? (
+              <span className="capitalize font-medium text-lg">{label}</span>
+            ) : (
+              <Link
+                to={accumulatedPath}
+                className="text-one capitalize font-medium text-lg"
+              >
+                {label}
+              </Link>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

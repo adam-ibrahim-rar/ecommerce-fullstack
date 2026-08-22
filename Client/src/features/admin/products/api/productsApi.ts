@@ -1,53 +1,47 @@
-import axios from "axios";
-
+import api from "@/lib/axios";
 import type {
   CreateProductInput,
-  ProductDetailsResponse,
+  Product,
   ProductQuery,
-  ProductResponse,
   UpdateProductInput,
 } from "../types/product.types";
-import api from "../../../../lib/axios";
 
 export const productsApi = {
-  getProducts: async (params?: ProductQuery): Promise<ProductResponse[]> => {
-    const { data } = await api.get<ProductResponse[]>("products", {
-      params,
-    });
-
-    return data;
+  getProducts: async (params?: ProductQuery): Promise<Product[]> => {
+    const { data } = await api.get<{ success: boolean; data: Product[] }>(
+      "/products",
+      { params },
+    );
+    return data.data;
   },
 
-  getProduct: async (id: string): Promise<ProductDetailsResponse> => {
-    const { data } = await api.get<ProductDetailsResponse>(`products/${id}`);
-
-    return data;
+  getProduct: async (id: string): Promise<Product> => {
+    const { data } = await api.get<{ success: boolean; data: Product }>(
+      `/products/${id}`,
+    );
+    return data.data;
   },
 
-  createProduct: async (
-    product: CreateProductInput,
-  ): Promise<ProductDetailsResponse> => {
-    const { data } = await api.post<ProductDetailsResponse>(
+  createProduct: async (product: CreateProductInput): Promise<Product> => {
+    const { data } = await api.post<{ success: boolean; data: Product }>(
       "/products",
       product,
     );
-
-    return data;
+    return data.data;
   },
 
   updateProduct: async (
     id: string,
     product: UpdateProductInput,
-  ): Promise<ProductDetailsResponse> => {
-    const { data } = await api.patch<ProductDetailsResponse>(
-      `products/${id}`,
+  ): Promise<Product> => {
+    const { data } = await api.patch<{ success: boolean; data: Product }>(
+      `/products/${id}`,
       product,
     );
-
-    return data;
+    return data.data;
   },
 
   deleteProduct: async (id: string): Promise<void> => {
-    await api.delete(`products/${id}`);
+    await api.delete(`/products/${id}`);
   },
 };

@@ -14,6 +14,7 @@ export interface CreateProductInput {
   }[];
   categoryId: string;
 }
+
 export interface UpdateProductInput {
   title?: string;
   description?: string;

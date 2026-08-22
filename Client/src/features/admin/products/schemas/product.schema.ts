@@ -33,7 +33,24 @@ const optionalDiscount = z.preprocess((value) => {
 // ----------------------------------------
 // Create Product Schema
 // ----------------------------------------
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
+const ALLOWED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+];
+
+const imageFileSchema = z
+  .instanceof(File)
+  .refine(
+    (file) => ALLOWED_IMAGE_TYPES.includes(file.type),
+    "Only JPG, PNG and WEBP images are allowed",
+  )
+  .refine(
+    (file) => file.size <= MAX_IMAGE_SIZE,
+    "Image must be less than 5MB",
+  );
 export const createProductSchema = z.object({
   title: z
     .string()
@@ -64,18 +81,27 @@ export const createProductSchema = z.object({
   oldPrice: optionalNumber,
 
   discount: optionalDiscount,
-
-  images: z
-    .array(
-      z.object({
-        url: z
-          .string()
-          .trim()
-          .min(1, "Image URL is required")
-          .url("Invalid image URL"),
-      }),
-    )
-    .min(1, "At least one image is required"),
+images: z
+  .array(
+    z.object({
+      file: z
+        .instanceof(File, {
+          message: "Please select an image",
+        })
+        .refine(
+          (file) =>
+            ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
+              file.type,
+            ),
+          "Only JPG, PNG and WEBP are allowed",
+        )
+        .refine(
+          (file) => file.size <= MAX_IMAGE_SIZE,
+          "Image must be less than 5MB",
+        ),
+    }),
+  )
+  .min(1, "At least one image is required"),
 
   inStock: z.boolean(),
 

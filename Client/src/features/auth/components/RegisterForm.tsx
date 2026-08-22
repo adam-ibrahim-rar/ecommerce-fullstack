@@ -53,7 +53,7 @@ export default function RegisterForm() {
   return (
     <div className="w-[371px] h-[530px] flex flex-col gap-12 my-auto">
       <div className="gap-7 flex flex-col">
-        <h1 className="h-[30px] capitalize font-normal text-4xl">
+        <h1 className="h-[30px] capitalize font-normal text-3xl">
           Create an account
         </h1>
 

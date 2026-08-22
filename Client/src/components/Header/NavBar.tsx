@@ -14,7 +14,8 @@ export default function NavBar() {
 
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
-  const number = 1;
+
+  const numberOfCartItemds = useAppSelector((state)=>state.cart.cart?.items?.length) ;
 
   return (
     <>
@@ -85,7 +86,7 @@ export default function NavBar() {
               <Link className="relative" to="/wishlist">
                 <FaRegHeart className="size-6 cursor-pointer" />
 
-                {number > 0 && (
+                {numberOfCartItemds! > 0 && (
                   <span
                     className="
                       bg-secondary-two
@@ -102,7 +103,7 @@ export default function NavBar() {
                       text-[12px]
                     "
                   >
-                    {number}
+                    {numberOfCartItemds}
                   </span>
                 )}
               </Link>
@@ -111,7 +112,7 @@ export default function NavBar() {
               <Link className="relative" to="/cart">
                 <GrCart className="size-6 cursor-pointer" />
 
-                {number > 0 && (
+                {numberOfCartItemds! > 0 && (
                   <span
                     className="
                       bg-secondary-two
@@ -128,7 +129,7 @@ export default function NavBar() {
                       text-[12px]
                     "
                   >
-                    {number}
+                    {numberOfCartItemds!}
                   </span>
                 )}
               </Link>

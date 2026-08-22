@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../reduxtoolkit/hooks";
 
 import { addToCart } from "../../reduxtoolkit/slices/cart/cartSlice";
 type ProductCardProps = {
-  id: number;
+  id: string;
   image: string;
   title: string;
   price: number;
@@ -33,7 +33,6 @@ export default function ProductCard({
   const [addToCartHovered, setAddToCartHovered] = useState(false);
   const dispatch = useAppDispatch();
 
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   return (
     <div className="w-[270px] ">
@@ -49,7 +48,7 @@ export default function ProductCard({
           </span>
         ) : (
           discount && (
-            <span className="absolute top-3 left-3 bg-secondary-two text-white text-xs px-3 py-1 rounded">
+            <span className="absolute top-3 left-1.5 bg-secondary-two text-white text-xs px-3 py-1 rounded">
               -{discount}%
             </span>
           )
@@ -75,20 +74,20 @@ export default function ProductCard({
           onClick={() => {
             navigate(`/products/${title.split(" ").join("-")}`);
           }}
-          className="w-[190px] cursor-pointer h-[180px] flex justify-start "
+          className="w-[190px] cursor-pointer h-[180px] flex justify-start items-center "
         >
           <img
             src={image}
             alt={title}
 
-            className="w-[172px]  h-[152px] object-contain"
+            className="w-[172px]  h-[152px] object-cover"
           />
         </div>
         <button
           className={`absolute bottom-0 w-full h-[41px] inset-x-0
     bg-black text-white rounded transition cursor-pointer
-    ${addToCartHovered ? "opacity-100" : "opacity-0"}
-  `}
+      ${addToCartHovered ? "opacity-100" : "opacity-0"}
+      `}
           onClick={() => {
             dispatch(
               addToCart({
@@ -96,6 +95,7 @@ export default function ProductCard({
                 quantity: 1,
               }),
             );
+           
           }}
         >
           Add to Cart

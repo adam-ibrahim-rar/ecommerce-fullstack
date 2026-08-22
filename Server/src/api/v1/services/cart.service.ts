@@ -14,6 +14,7 @@ const formatCart = (cart: any): CartResponse => {
     items: cart.items.map((item: any) => ({
       id: item.id,
       image: item.product.images[0],
+      productId: item.productId,
       name: item.product.title,
       price: Number(item.product.price),
       quantity: item.quantity,

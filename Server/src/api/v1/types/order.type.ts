@@ -1,37 +1,17 @@
-export type OrderStatus =
-  | "PENDING"
-  | "CONFIRMED"
-  | "PROCESSING"
-  | "SHIPPED"
-  | "DELIVERED"
-  | "CANCELLED";
-
-export interface CreateOrderInput {
-  items: CreateOrderItemInput[];
-}
+import type { OrderStatus } from "../../../generated/prisma/client";
 
 export interface CreateOrderItemInput {
   productId: string;
   quantity: number;
 }
 
+export interface CreateOrderInput {
+  items: CreateOrderItemInput[];
+}
+
 export interface UpdateOrderStatusInput {
   status: OrderStatus;
 }
-
-export interface OrderResponse {
+export interface OrderParams {
   id: string;
-  userId: string;
-  status: OrderStatus;
-  totalAmount: number;
-  items: OrderItemResponse[];
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface OrderItemResponse {
-  id: string;
-  productId: string;
-  quantity: number;
-  price: number;
 }

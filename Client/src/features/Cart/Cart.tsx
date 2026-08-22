@@ -1,71 +1,35 @@
+import { useEffect } from "react";
 import PathLocation from "../../components/Helpers/PathLocation";
 import CartProduct from "./CartProduct";
-import iphone from "../../assets/iphone.jpg";
-import { useEffect, useState } from "react";
 import Button from "../../components/Helpers/Button";
 import { useNavigate } from "react-router-dom";
 import CartSkeleton from "../../components/Skeletons/CartSkeleton";
+import { toast } from "sonner";
 
-const CartProducts = [
-  {
-    id: 1,
-    image: iphone,
-    name: "LCD Monitor",
-    price: 650,
-    quantity: 1,
-  },
-  {
-    id: 2,
-    image: iphone,
-    name: "Laptop",
-    price: 1200,
-    quantity: 1,
-  },
-  {
-    id: 3,
-    image: iphone,
-    name: "Mechanical Keyboard",
-    price: 150,
-    quantity: 2,
-  },
-  {
-    id: 4,
-    image: iphone,
-    name: "Gaming Mouse",
-    price: 80,
-    quantity: 1,
-  },
-  {
-    id: 5,
-    image: iphone,
-    name: "Headphones",
-    price: 200,
-    quantity: 1,
-  },
-];
+import { useAppDispatch, useAppSelector } from "../../reduxtoolkit/hooks";
+import {  updateCartItem, deleteCartItem } from "../../reduxtoolkit/slices/cart/cartSlice";
+import { selectCartItems, selectCartLoading } from "./cartSelectors";
 
 const details = ["product", "price", "quantity", "subtotal"];
 
 export default function Cart() {
-  const [cartProducts, setCartProducts] = useState(CartProducts);
-
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  function handleDelete(id: number) {
-    setCartProducts((prev) => prev.filter((product) => product.id !== id));
+  const cartProducts = useAppSelector(selectCartItems);
+  const loading = useAppSelector(selectCartLoading);
+
+
+  function handleDelete(id: string) {
+    dispatch(deleteCartItem(id))
+      .unwrap()
+      .catch(() => toast.error("Failed to remove item"));
   }
 
-  function handleQuantityChange(id: number, quantity: number) {
-    setCartProducts((prev) =>
-      prev.map((product) =>
-        product.id === id
-          ? {
-              ...product,
-              quantity,
-            }
-          : product,
-      ),
-    );
+  function handleQuantityChange(id: string, quantity: number) {
+    dispatch(updateCartItem({ itemId: id, quantity }))
+      .unwrap()
+      .catch(() => toast.error("Failed to update quantity"));
   }
 
   const subtotal = cartProducts.reduce(
@@ -74,17 +38,13 @@ export default function Cart() {
   );
 
   const shipping = 0;
-
   const total = subtotal + shipping;
 
-  const [loading, setlodaing] = useState(true);
-  useEffect(() => {
-    setTimeout(() => setlodaing(false), 500);
-  }, []);
+  if (loading && cartProducts.length === 0) {
+    return <CartSkeleton />;
+  }
 
-  return loading ? (
-    <CartSkeleton />
-  ) : (
+  return (
     <div className="w-[1170px] mx-auto">
       <PathLocation />
 
@@ -121,14 +81,6 @@ export default function Cart() {
               content="Return To Shop"
               handleClick={() => navigate("/")}
             />
-
-            <Button
-              bg="bg-white"
-              text="text-black"
-              classes="border border-gray-400 h-[56px] font-medium"
-              content="Update Cart"
-              handleClick={() => {}}
-            />
           </div>
 
           <div className="w-[470px] min-h-[324px] self-center border border-black px-6 py-7">
@@ -136,27 +88,24 @@ export default function Cart() {
 
             <div className="flex justify-between pb-4 border-b border-gray-300">
               <span>Subtotal:</span>
-
               <span>${subtotal}</span>
             </div>
 
             <div className="flex justify-between py-4 border-b border-gray-300">
               <span>Shipping:</span>
-
               <span>Free</span>
             </div>
 
             <div className="flex justify-between pt-4">
               <span>Total:</span>
-
               <span>${total}</span>
             </div>
 
-            <div className="flex  justify-center mt-6">
+            <div className="flex justify-center mt-6">
               <Button
                 bg="bg-secondary-two"
                 text="text-white"
-                classes="h-[50px]  font-medium"
+                classes="h-[50px] font-medium"
                 content="Proceed to checkout"
                 handleClick={() => navigate("/checkout")}
               />

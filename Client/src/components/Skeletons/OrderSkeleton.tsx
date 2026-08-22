@@ -1,6 +1,6 @@
 import Skeleton from "./Skeleton";
 
-export default function CheckoutSkeleton() {
+export default function OrderSkeleton() {
   return (
     <div className="w-[1170px] mx-auto flex-col flex gap-7">
       <div className="h-[24px] my-9">

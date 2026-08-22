@@ -20,7 +20,7 @@ export const getCart = createAsyncThunk(
     try {
       const response = await api.get("/cart");
 
-      return response.data as Cart;
+      return response.data.data as Cart;
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to get cart",
@@ -46,12 +46,13 @@ export const addToCart = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
+      
       const response = await api.post("/cart/items", {
         productId,
         quantity,
       });
 
-      return response.data as Cart;
+      return response.data.data as Cart;
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to add product to cart",
@@ -81,7 +82,7 @@ export const updateCartItem = createAsyncThunk(
         quantity,
       });
 
-      return response.data as Cart;
+      return response.data.data as Cart;
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to update cart item",
@@ -100,7 +101,7 @@ export const deleteCartItem = createAsyncThunk(
     try {
       const response = await api.delete(`/cart/items/${itemId}`);
 
-      return response.data as Cart;
+      return response.data.data as Cart;
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to delete cart item",

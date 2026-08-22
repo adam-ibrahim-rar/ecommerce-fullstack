@@ -4,21 +4,54 @@ import {
   getOrders,
   getOrder,
   createOrder,
-  // updateOrder,
-  // deleteOrder,
+  updateOrderStatus,
+  cancelOrder,
 } from "../controller/order.controller";
 
 import { asyncHandler } from "../utils/asyncHandler";
 
+import { authMiddleware } from "../middlewares/auth.middleware";
+
 const router = Router();
 
-router.get("/", asyncHandler(getOrders));
-router.get("/:id", asyncHandler(getOrder));
+/*
+ * User routes
+ */
 
-router.post("/", asyncHandler(createOrder));
+router.get(
+  "/",
+  authMiddleware,
+  asyncHandler(getOrders),
+);
 
-// router.patch("/:id", asyncHandler(updateOrder));
+router.get(
+  "/:id",
+  authMiddleware,
+  asyncHandler(getOrder),
+);
 
-// router.delete("/:id", asyncHandler(deleteOrder));
+router.post(
+  "/",
+  authMiddleware,
+  asyncHandler(createOrder),
+);
+
+router.patch(
+  "/:id/cancel",
+  authMiddleware,
+  asyncHandler(cancelOrder),
+);
+
+/*
+ * Admin route
+ *
+ * هنا بعدين نحط adminMiddleware
+ */
+
+router.patch(
+  "/:id/status",
+  authMiddleware,
+  asyncHandler(updateOrderStatus),
+);
 
 export default router;
