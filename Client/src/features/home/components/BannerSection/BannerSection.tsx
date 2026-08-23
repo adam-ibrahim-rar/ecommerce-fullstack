@@ -1,12 +1,13 @@
 import Button from "@/components/Helpers/Button";
-import { usePromoBannerQuery } from "../../api/homeQueries";
 import Countdown from "../shared/CountDown";
+import type { Banner } from "../../types/home";
 
-export default function BannerSection() {
-  const { data: banner, isLoading, isError } = usePromoBannerQuery();
+type BannerSectionProps = {
+  banner: Banner | null;
+};
 
-  if (isLoading) return null;
-  if (isError || !banner) return null;
+export default function BannerSection({ banner }: BannerSectionProps) {
+  if (!banner) return null;
 
   return (
     <div className="mt-7 flex h-[500px] w-[1170px] items-center justify-between bg-black px-[40px] text-white">

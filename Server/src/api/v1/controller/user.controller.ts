@@ -9,11 +9,13 @@ import {
   getUsersService,
   updateUserService,
   loginUserService,
+  googleAuthService,
 } from "../services/user.service";
 import type {
   CreateUserInput,
   LoginUserInput,
   UpdateUserInput,
+  GoogleAuthInput,
 } from "../../../schemas/user.schema";
 
 export const createUser = async (
@@ -45,6 +47,24 @@ export const loginUser = async (
   return res.status(200).json({
     success: true,
     message: "Login successful",
+    data: user,
+  });
+};
+
+export const googleAuth = async (
+  req: Request<{}, {}, GoogleAuthInput>,
+  res: Response,
+) => {
+  const { user, token } = await googleAuthService(req.body);
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Signed in with Google successfully",
     data: user,
   });
 };

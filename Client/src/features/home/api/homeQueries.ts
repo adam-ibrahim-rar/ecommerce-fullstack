@@ -2,6 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { homeApi } from "./homeApi";
 import type { FeaturedSlot } from "../types/home";
 
+// ريكوست واحد بيجيب كل داتا الهوم بيج (يستخدمه Home.tsx بس)
+export function useHomeDataQuery() {
+  return useQuery({
+    queryKey: ["home"],
+    queryFn: homeApi.getHomeData,
+  });
+}
+
 export function useCategoriesQuery() {
   const { data, ...rest } = useQuery({
     queryKey: ["categories"],

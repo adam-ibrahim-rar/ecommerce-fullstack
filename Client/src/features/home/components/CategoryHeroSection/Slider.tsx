@@ -20,7 +20,7 @@ export default function Slider({ slides }: SliderProps) {
       loop
       className="hero-swiper w-[892px] h-[344px] mt-8 bg-black"
     >
-      {slides.map((slide) => (
+      {slides&&slides.map((slide) => (
         <SwiperSlide key={slide.id}>
           <div className="flex h-full">
             <div className="w-[45%] flex flex-col justify-center pl-16 text-white">

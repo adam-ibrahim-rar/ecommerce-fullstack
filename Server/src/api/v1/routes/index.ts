@@ -6,6 +6,8 @@ import productRoutes from "./product.routes";
 import cartRoutes from "./cart.routes";
 import orderRoutes from "./order.routes";
 import bannerRouter from "./banner.router";
+import wishlistRoutes from "./wishlist.routes";
+import homeRoutes from "./home.routes";
 
 const router = Router();
 
@@ -15,4 +17,6 @@ router.use("/products", productRoutes);
 router.use("/cart", cartRoutes);
 router.use("/orders", orderRoutes);
 router.use("/banners", bannerRouter);
+router.use("/wishlist", wishlistRoutes);
+router.use("/home", homeRoutes);
 export default router;

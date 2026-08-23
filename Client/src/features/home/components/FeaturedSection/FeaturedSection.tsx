@@ -1,16 +1,15 @@
 import Frame from "@/components/Helpers/Frame";
 import { Link } from "react-router-dom";
-import { useFeaturedProductQuery } from "../../api/homeQueries";
+import type { FeaturedSlot, Product } from "../../types/home";
 
-export default function SeventhSection() {
-  const { data: large, isLoading: largeLoading } = useFeaturedProductQuery("large");
-  const { data: wide, isLoading: wideLoading } = useFeaturedProductQuery("wide");
-  const { data: smallLeft, isLoading: smallLeftLoading } = useFeaturedProductQuery("smallLeft");
-  const { data: smallRight, isLoading: smallRightLoading } = useFeaturedProductQuery("smallRight");
+type FeaturedSectionProps = {
+  featured: Record<FeaturedSlot, Product | null>;
+};
 
-  const isLoading = largeLoading || wideLoading || smallLeftLoading || smallRightLoading;
+export default function SeventhSection({ featured }: FeaturedSectionProps) {
+    if (!featured) return null;
+const { large, wide, smallLeft, smallRight } = featured;
 
-  if (isLoading) return null;
   if (!large || !wide || !smallLeft || !smallRight) return null;
 
   return (

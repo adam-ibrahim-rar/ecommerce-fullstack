@@ -158,6 +158,14 @@ export const createProductSchema = z
       )
       .optional(),
 
+    sizes: z
+      .array(
+        z.object({
+          value: z.string().trim().min(1, "Size is required"),
+        }),
+      )
+      .optional(),
+
     categoryId: z.string().trim().min(1, "Category is required"),
   })
   .refine((data) => !data.isFlashSale || Boolean(data.flashSaleEndsAt), {

@@ -47,6 +47,46 @@ import type { CreateUserInput, UpdateUserInput } from "../../../schemas/user.sch
     });
   };
 
+  export const findByGoogleId = async (googleId: string) => {
+    return prisma.user.findUnique({
+      where: {
+        googleId,
+      },
+    });
+  };
+
+  export const findByUsernamePrefix = async (username: string) => {
+    return prisma.user.findMany({
+      where: {
+        username: {
+          startsWith: username,
+        },
+      },
+      select: { username: true },
+    });
+  };
+
+  export const createFromGoogle = async (data: {
+    username: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    googleId: string;
+  }) => {
+    return prisma.user.create({
+      data,
+      select: userSelect,
+    });
+  };
+
+  export const linkGoogleId = async (id: string, googleId: string) => {
+    return prisma.user.update({
+      where: { id },
+      data: { googleId },
+      select: userSelect,
+    });
+  };
+
   export const create = async (data: CreateUserInput) => {
     return prisma.user.create({
       data,

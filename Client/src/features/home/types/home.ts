@@ -26,6 +26,7 @@ export type Product = {
   image: string;
   images: string[];
   title: string;
+  description?: string;
   price: number;
   oldPrice?: number;
   discount?: number;
@@ -41,3 +42,15 @@ export type Product = {
 };
 
 export type FeaturedSlot = "large" | "wide" | "smallLeft" | "smallRight";
+
+// الشكل اللي بيرجع من /home: كل داتا الصفحة الرئيسية في ريكوست واحد
+// بدل ما كل سكشن يعمل الـ fetch بتاعه لوحده
+export type HomeData = {
+  categories: Category[];
+  heroBanners: Banner[];
+  promoBanner: Banner | null;
+  flashSaleProducts: Product[];
+  bestSellingProducts: Product[];
+  allProducts: Product[];
+  featured: Record<FeaturedSlot, Product | null>;
+};

@@ -2,7 +2,7 @@ import PathLocation from "../../components/Helpers/PathLocation";
 import CartProduct from "./CartProduct";
 import Button from "../../components/Helpers/Button";
 import { useNavigate } from "react-router-dom";
-import CartSkeleton from "../../components/Skeletons/CartSkeleton";
+import CartSkeleton from "./CartSkeleton";
 import { toast } from "sonner";
 
 import { useAppDispatch, useAppSelector } from "../../reduxtoolkit/hooks";

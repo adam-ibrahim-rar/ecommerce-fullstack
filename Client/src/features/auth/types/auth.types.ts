@@ -9,3 +9,7 @@ export type { CreateUserInput, LoginUserInput, UpdateUserInput };
 export type UserParams = {
   id: string;
 };
+export interface GoogleAuthInput {
+  credential: string;
+}
+ 

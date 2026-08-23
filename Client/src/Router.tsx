@@ -11,6 +11,7 @@ import Home from "./features/home/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Cart from "./features/Cart/Cart";
+import Wishlist from "./features/Wishlist/Wishlist";
 import Products from "./features/Products/Products";
 import Register from "./pages/Singing/Register";
 import Login from "./pages/Singing/Login";
@@ -70,6 +71,10 @@ const Router = createBrowserRouter([
           {
             path: "cart",
             element: <Cart />,
+          },
+          {
+            path: "wishlist",
+            element: <Wishlist />,
           },
           {
             path: "checkout",

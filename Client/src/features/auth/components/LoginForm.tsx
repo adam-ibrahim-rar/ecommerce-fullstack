@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import axios from "axios";
 import { toast } from "sonner";
@@ -10,12 +11,14 @@ import Button from "../../../components/Helpers/Button";
 
 import { loginUserSchema, type LoginUserInput } from "../schemas/auth.schema";
 
-import { useLoginMutation } from "../api/authQueries";
+import { useLoginMutation, useGoogleAuthMutation } from "../api/authQueries";
+import { useGoogleSignIn } from "../hooks/Usegooglesignin";
 
 import { useAppDispatch } from "../../../reduxtoolkit/hooks";
 
 import { setUser } from "../../../reduxtoolkit/slices/auth/authSlice";
 import { getCart } from "../../../reduxtoolkit/slices/cart/cartSlice";
+import { getWishlist } from "../../../reduxtoolkit/slices/wishlist/wishlistSlice";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +28,8 @@ export default function LoginForm() {
   const dispatch = useAppDispatch();
 
   const { mutateAsync, isPending } = useLoginMutation();
+  const { mutateAsync: googleMutateAsync, isPending: isGooglePending } =
+    useGoogleAuthMutation();
 
   const {
     register,
@@ -42,6 +47,7 @@ export default function LoginForm() {
         dispatch(setUser(response.data));
 
         dispatch(getCart());
+        dispatch(getWishlist());
 
         navigate("/");
 
@@ -57,6 +63,35 @@ export default function LoginForm() {
       },
     });
   };
+
+  const handleGoogleCredential = (credential: string) => {
+    toast.promise(googleMutateAsync({ credential }), {
+      loading: "Signing in with Google...",
+
+      success: (response) => {
+        dispatch(setUser(response.data));
+
+        dispatch(getCart());
+        dispatch(getWishlist());
+
+        navigate("/");
+
+        return "Signed in with Google successfully!";
+      },
+
+      error: (error) => {
+        if (axios.isAxiosError(error)) {
+          return error.response?.data?.message ?? "Could not sign in with Google.";
+        }
+
+        return "Something went wrong.";
+      },
+    });
+  };
+
+  const { promptGoogleSignIn, isReady: isGoogleReady } = useGoogleSignIn(
+    handleGoogleCredential
+  );
 
   return (
     <div className="w-[371px] h-[530px] flex flex-col gap-9 my-auto">
@@ -156,6 +191,18 @@ export default function LoginForm() {
               Forget Password?
             </Link>
           </div>
+
+          <Button
+            icon={<FcGoogle size={24} />}
+            content={isGooglePending ? "Signing in..." : "Sign in with Google"}
+            text="text-black"
+            bg="bgtransparent"
+            classes="w-full border"
+            type="button"
+            disabled={!isGoogleReady || isGooglePending}
+            handleClick={() => promptGoogleSignIn()}
+          />
+
           <div className="flex gap-3 self-center ">
             <span
               className="text-[18px] capitalize

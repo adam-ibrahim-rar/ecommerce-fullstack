@@ -17,6 +17,7 @@ export interface Product {
   reviews: number;
   inStock: boolean;
   colors: ProductColor[];
+  sizes: string[];
   categoryId: string;
   category: {
     id: string;
@@ -38,6 +39,7 @@ export interface CreateProductInput {
   images: string[];
   inStock?: boolean;
   colors?: ProductColor[];
+  sizes?: string[];
   categoryId: string;
   // ✅ الحقول الجديدة
   isFlashSale?: boolean;
@@ -56,6 +58,7 @@ export interface UpdateProductInput {
   inStock?: boolean;
   categoryId?: string;
   colors?: ProductColor[];
+  sizes?: string[];
   // ✅ الحقول الجديدة
   isFlashSale?: boolean;
   flashSaleEndsAt?: string;

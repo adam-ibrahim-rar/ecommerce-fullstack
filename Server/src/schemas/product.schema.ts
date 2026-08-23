@@ -25,6 +25,7 @@ export const createProductSchema = z
     reviews: z.number().int().min(0).optional(),
     inStock: z.boolean().optional(),
     colors: z.array(z.string()).optional(),
+    sizes: z.array(z.string()).optional(),
     categoryId: z.string().uuid(),
 
     isFlashSale: z.boolean().optional(),
@@ -54,6 +55,7 @@ export const updateProductSchema = z
     reviews: z.number().int().min(0).optional(),
     inStock: z.boolean().optional(),
     colors: z.array(z.string()).optional(),
+    sizes: z.array(z.string()).optional(),
     categoryId: z.string().uuid().optional(),
 
     isFlashSale: z.boolean().optional(),

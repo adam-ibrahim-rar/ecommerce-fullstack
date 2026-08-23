@@ -45,6 +45,7 @@ export const getProductsService = async (
     rating: product.rating,
     reviews: product.reviews,
     colors: (product.colors as string[]) ?? [],
+    sizes: product.sizes ?? [],
     image: product.images[0] ?? "",
     images: product.images,
     inStock: product.inStock,
@@ -91,6 +92,8 @@ export const getProductService = async (
         name?: string;
         value: string;
       }[]) ?? [],
+
+    sizes: product.sizes ?? [],
 
     ...(product.description !== null && {
       description: product.description,

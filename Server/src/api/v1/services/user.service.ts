@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
 import * as userRepository from "../repositories/user.repository";
 
 import type { UserQuery } from "../types/user.type";
@@ -9,8 +10,91 @@ import type {
   CreateUserInput,
   LoginUserInput,
   updateUserSchemaFromClient,
-  
+  GoogleAuthInput,
 } from "../../../schemas/user.schema";
+
+const googleClient = new OAuth2Client(env.GOOGLE_CLIENT_ID);
+
+const generateUniqueUsername = async (base: string) => {
+  const cleanBase = base.replace(/[^a-zA-Z0-9]/g, "").slice(0, 8) || "user";
+
+  const existing = await userRepository.findByUsernamePrefix(cleanBase);
+  const takenUsernames = new Set(existing.map((u) => u.username));
+
+  if (!takenUsernames.has(cleanBase)) {
+    return cleanBase;
+  }
+
+  let suffix = 1;
+  while (takenUsernames.has(`${cleanBase}${suffix}`)) {
+    suffix++;
+  }
+
+  return `${cleanBase}${suffix}`;
+};
+
+const issueTokenForUser = (userId: string) => {
+  return jwt.sign(
+    {
+      userId,
+    },
+    env.JWT_SECRET!,
+    {
+      expiresIn: "7d",
+    }
+  );
+};
+
+export const googleAuthService = async (data: GoogleAuthInput) => {
+  let payload;
+
+  try {
+    const ticket = await googleClient.verifyIdToken({
+      idToken: data.credential,
+      audience: env.GOOGLE_CLIENT_ID,
+    });
+
+    payload = ticket.getPayload();
+  } catch {
+    throw new AppError("Invalid Google credential", 401);
+  }
+
+  if (!payload || !payload.email) {
+    throw new AppError("Invalid Google credential", 401);
+  }
+
+  const googleId = payload.sub;
+  const email = payload.email;
+
+  let user = await userRepository.findByGoogleId(googleId);
+
+  if (!user) {
+    const existingByEmail = await userRepository.findByEmail(email);
+
+    if (existingByEmail) {
+      user = await userRepository.linkGoogleId(existingByEmail.id, googleId);
+    } else {
+      const username = await generateUniqueUsername(
+        email.split("@")[0]
+      );
+
+      user = await userRepository.createFromGoogle({
+        username,
+        email,
+        firstName: payload.given_name ?? "",
+        lastName: payload.family_name ?? "",
+        googleId,
+      });
+    }
+  }
+
+  const token = issueTokenForUser(user.id);
+
+  return {
+    user,
+    token,
+  };
+};
 
 export const createUserService = async (data: CreateUserInput) => {
   const existingUserByEmail = await userRepository.findByEmail(data.email);
@@ -42,6 +126,13 @@ export const loginUserService = async (data: LoginUserInput) => {
 
   if (!user) {
     throw new AppError("Email does not exists", 401);
+  }
+
+  if (!user.password) {
+    throw new AppError(
+      "This account was created with Google. Please log in with Google.",
+      401
+    );
   }
 
   const isPasswordValid = await bcrypt.compare(data.password, user.password);

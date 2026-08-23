@@ -3,7 +3,7 @@ import Button from "../../components/Helpers/Button";
 import { useEffect, useState } from "react";
 import { useCreateOrderMutation } from "./api/orderQueries";
 import { toast } from "sonner";
-import OrderSkeleton from "../../components/Skeletons/OrderSkeleton";
+import OrderSkeleton from "./OrderSkeleton";
 
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -75,6 +75,7 @@ defaultValues: {
   images: [],
   inStock: true,
   colors: [],
+  sizes: [],
   categoryId: "",
 
   isFlashSale: false,
@@ -111,6 +112,19 @@ defaultValues: {
   });
 
   // ----------------------------------------
+  // Sizes
+  // ----------------------------------------
+
+  const {
+    fields: sizeFields,
+    append: appendSize,
+    remove: removeSize,
+  } = useFieldArray({
+    control,
+    name: "sizes",
+  });
+
+  // ----------------------------------------
   // Mutation
   // ----------------------------------------
 
@@ -143,6 +157,9 @@ const payload: CreateProductInput = {
   images: imageUrls,
   inStock: data.inStock,
   colors: data.colors?.filter((color) => color.value.trim() !== ""),
+  sizes: data.sizes
+    ?.map((size) => size.value.trim())
+    .filter((value) => value !== ""),
   categoryId: data.categoryId,
   // ✅ جديد
   isFlashSale: data.isFlashSale,
@@ -477,6 +494,55 @@ await mutateAsync(payload);
           >
             <FiPlus className="mr-2" />
             Add Color
+          </Button>
+        </div>
+      </section>
+
+      {/* ================================== */}
+      {/* Sizes */}
+      {/* ================================== */}
+
+      <section className="space-y-5 border p-4 rounded-4xl">
+        <h3 className="font-semibold">
+          Add available product sizes.
+        </h3>
+
+        <Separator />
+
+        <div className="space-y-4">
+          {sizeFields.map((field, index) => (
+            <div key={field.id} className="space-y-1">
+              <div className="flex gap-3">
+                <Input
+                  placeholder="e.g. S, M, L, XL or 42, 43..."
+                  {...register(`sizes.${index}.value`)}
+                />
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => removeSize(index)}
+                >
+                  <FiTrash2 />
+                </Button>
+              </div>
+
+              {errors.sizes?.[index]?.value && (
+                <p className="text-sm text-destructive">
+                  {errors.sizes[index]?.value?.message}
+                </p>
+              )}
+            </div>
+          ))}
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => appendSize({ value: "" })}
+          >
+            <FiPlus className="mr-2" />
+            Add Size
           </Button>
         </div>
       </section>

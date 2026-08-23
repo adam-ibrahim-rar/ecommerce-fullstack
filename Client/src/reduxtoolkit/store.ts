@@ -8,6 +8,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "./slices/auth/authSlice";
 import cartReducer from "./slices/cart/cartSlice";
+import wishlistReducer from "./slices/wishlist/wishlistSlice";
 // const authPersistConfig = {
 //   key: 'auth',
 //   storage,
@@ -22,6 +23,7 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     cart: cartReducer,
+    wishlist: wishlistReducer,
   },
 });
 

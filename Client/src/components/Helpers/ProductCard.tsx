@@ -1,11 +1,16 @@
 import { useState } from "react";
-import { FaRegHeart, FaStar } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "../../reduxtoolkit/hooks";
 
 import { addToCart } from "../../reduxtoolkit/slices/cart/cartSlice";
+import {
+  addToWishlist,
+  deleteWishlistItem,
+} from "../../reduxtoolkit/slices/wishlist/wishlistSlice";
+import { selectWishlistItems } from "../../features/Wishlist/wishlistSelectors";
 
 export type ProductCardProps = {
   id: string;
@@ -37,8 +42,30 @@ export default function ProductCard({
   const dispatch = useAppDispatch();
 
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const wishlistItems = useAppSelector(selectWishlistItems);
+  const wishlistItem = wishlistItems.find((item) => item.productId === id);
 
   const navigate = useNavigate();
+
+  const handleToggleWishlist = () => {
+    if (!isAuthenticated) {
+      toast.error("Please login to use your wishlist", { duration: 4000 });
+      navigate("/account/login");
+      return;
+    }
+
+    if (wishlistItem) {
+      dispatch(deleteWishlistItem(wishlistItem.id))
+        .unwrap()
+        .catch(() => toast.error("Failed to remove from wishlist"));
+    } else {
+      dispatch(addToWishlist({ productId: String(id) }))
+        .unwrap()
+        .then(() => toast.success("Added to wishlist"))
+        .catch(() => toast.error("Failed to add to wishlist"));
+    }
+  };
+
   return (
     <div className="w-[270px] ">
       <div
@@ -61,10 +88,14 @@ export default function ProductCard({
 
         <div className="absolute top-3 w-[34px] h-[76px] right-3 flex flex-col gap-2">
           <button
-            onClick={() => {}}
+            onClick={handleToggleWishlist}
             className="size-[34px] cursor-pointer rounded-full bg-white flex items-center justify-center hover:bg-gray-100 transition"
           >
-            <FaRegHeart size={18} />
+            {wishlistItem ? (
+              <FaHeart size={18} className="text-brand" />
+            ) : (
+              <FaRegHeart size={18} />
+            )}
           </button>
 
           <button

@@ -11,7 +11,8 @@ import Button from "../../../components/Helpers/Button";
 
 import { createUserSchema, type CreateUserInput } from "../schemas/auth.schema";
 
-import { useRegisterMutation } from "../api/authQueries";
+import { useRegisterMutation, useGoogleAuthMutation } from "../api/authQueries";
+import { useGoogleSignIn } from "../api/useGoogleSignIn";
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,6 +28,8 @@ export default function RegisterForm() {
   });
 
   const { mutateAsync, isPending } = useRegisterMutation();
+  const { mutateAsync: googleMutateAsync, isPending: isGooglePending } =
+    useGoogleAuthMutation();
 
   const onSubmit = async (data: CreateUserInput) => {
     toast.promise(mutateAsync(data), {
@@ -49,6 +52,32 @@ export default function RegisterForm() {
       },
     });
   };
+
+  const handleGoogleCredential = (credential: string) => {
+    toast.promise(googleMutateAsync({ credential }), {
+      loading: "Signing up with Google...",
+
+      success: () => {
+        setTimeout(() => {
+          navigate("/");
+        }, 500);
+
+        return "Signed up with Google successfully!";
+      },
+
+      error: (error) => {
+        if (axios.isAxiosError(error)) {
+          return error.response?.data?.message ?? "Could not sign up with Google.";
+        }
+
+        return "Something went wrong.";
+      },
+    });
+  };
+
+  const { promptGoogleSignIn, isReady: isGoogleReady } = useGoogleSignIn(
+    handleGoogleCredential
+  );
 
   return (
     <div className="w-[371px] h-[530px] flex flex-col gap-12 my-auto">
@@ -159,12 +188,13 @@ export default function RegisterForm() {
             <div className="flex flex-col gap-8">
               <Button
                 icon={<FcGoogle size={24} />}
-                content="Sign up with Google"
+                content={isGooglePending ? "Signing up..." : "Sign up with Google"}
                 text="text-black"
                 bg="bgtransparent"
                 classes="w-full border"
                 type="button"
-                handleClick={() => {}}
+                disabled={!isGoogleReady || isGooglePending}
+                handleClick={() => promptGoogleSignIn()}
               />
 
               <div className="flex gap-3 self-center">

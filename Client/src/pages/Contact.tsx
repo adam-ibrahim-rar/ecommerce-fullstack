@@ -26,7 +26,7 @@ export default function Contact() {
               We are available 24/7, 7 days a week.
             </p>
 
-            <p className="text-[14px] font-medium">Phone: +880161112222</p>
+            <p className="text-[14px] font-medium">Phone: +201205647103</p>
           </div>
 
           <div className="bg-gray-700 h-[1.5px] w-[270px]"></div>

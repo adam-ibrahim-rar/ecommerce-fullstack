@@ -70,6 +70,12 @@ export type LoginUserInput = z.infer<typeof loginUserSchema>;
 export type UpdateUserInput = z.infer<typeof updateUserSchema>;
 export type updateUserSchemaFromClient = z.infer<typeof updateUserSchemaFromClient>;
 
+export const googleAuthSchema = z.object({
+  credential: z.string().min(1, "Google credential is required."),
+});
+
+export type GoogleAuthInput = z.infer<typeof googleAuthSchema>;
+
 export const userParamsSchema = z.object({
   id: z.string().uuid(),
 });

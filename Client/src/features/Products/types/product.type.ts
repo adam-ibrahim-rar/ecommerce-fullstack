@@ -10,6 +10,7 @@ export type Product = {
   reviews: number;
   inStock: boolean;
   colors: color[];
+  sizes: string[];
   categoryId: string;
 };
 

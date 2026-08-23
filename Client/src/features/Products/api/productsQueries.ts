@@ -11,11 +11,11 @@ export const useProductQuery = (id: string) => {
   });
 };
 
-// كل المنتجات (لما مفيش id)
-export const useAllProductsQuery = () => {
+// كل المنتجات (لما مفيش id) - ممكن تتفلتر بالكاتيجوري لو موجودة
+export const useAllProductsQuery = (categoryId?: string) => {
   return useQuery<ProductSummary[]>({
-    queryKey: ["products", "all"],
-    queryFn: () => productsApi.getAllProducts(),
+    queryKey: ["products", "all", categoryId ?? null],
+    queryFn: () => productsApi.getAllProducts(categoryId),
   });
 };
 

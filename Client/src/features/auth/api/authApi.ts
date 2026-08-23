@@ -1,5 +1,5 @@
 import api from "../../../lib/axios";
-
+import type{GoogleAuthInput} from "../types/auth.types"
 import type { CreateUserInput, LoginUserInput, UpdateUserInput } from "../schemas/auth.schema";
 export const registerUser = async (data: CreateUserInput) => {
   const { data: response } = await api.post("/users", data);
@@ -22,3 +22,8 @@ export const getCurrentUser = async () => {
   const { data: response } = await api.get("/users/me");
   return response;
 };
+export const googleAuth = async (data: GoogleAuthInput) => {
+  const response = await api.post("/users/google", data);
+  return response.data;
+};
+ 

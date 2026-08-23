@@ -9,6 +9,7 @@ export interface CreateProductInput {
   reviews?: number;
   inStock?: boolean;
   colors?: string[];
+  sizes?: string[];
   categoryId: string;
 
   isFlashSale?: boolean;
@@ -29,6 +30,7 @@ export interface UpdateProductInput {
   inStock?: boolean;
   categoryId?: string;
   colors?: string[];
+  sizes?: string[];
 
   isFlashSale?: boolean;
   flashSaleEndsAt?: Date;
@@ -55,6 +57,7 @@ export interface ProductResponse {
   rating: number;
   reviews: number;
   colors: string[];
+  sizes: string[];
   inStock: boolean;
   flashSaleEndsAt?: string;
   isFlashSale?: boolean;
@@ -76,6 +79,7 @@ export interface ProductDetailsResponse {
   reviews: number;
   images: string[];
   colors: string[];
+  sizes: string[];
   description?: string;
   inStock: boolean;
 }

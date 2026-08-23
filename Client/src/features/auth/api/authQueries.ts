@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { registerUser, loginUser, removeUser, getCurrentUser, updateUser } from "./authApi";
+import { registerUser, loginUser, removeUser, getCurrentUser, updateUser, googleAuth } from "./authApi";
 import { redirect } from "react-router-dom";
 
 export const useRegisterMutation = () => {
@@ -31,3 +31,10 @@ export const useReomvingMutation = () => {
     mutationFn: removeUser,
   });
 };
+
+export const useGoogleAuthMutation = () => {
+  return useMutation({
+    mutationFn: googleAuth,
+  });
+};
+ 

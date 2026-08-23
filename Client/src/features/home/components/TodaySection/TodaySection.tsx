@@ -4,12 +4,18 @@ import Swapers from "@/components/Helpers/Swapers";
 import ProductCard from "@/components/Helpers/ProductCard";
 import Button from "@/components/Helpers/Button";
 import Countdown from "../shared/CountDown";
-import ProductCardSkeleton from "@/components/Skeletons/Products/ProductCardSkeleton";
-import { useFlashSaleProductsQuery } from "../../api/homeQueries";
+import { usePager } from "@/lib/hooks/usePager";
+import type { Product } from "../../types/home";
 
-export default function TodaySection() {
+const PAGE_SIZE = 4;
+
+type TodaySectionProps = {
+  products: Product[];
+};
+
+export default function TodaySection({ products }: TodaySectionProps) {
   const navigate = useNavigate();
-  const { data: products, isLoading, isError } = useFlashSaleProductsQuery();
+  const { pageItems, canPrev, canNext, prev, next } = usePager(products, PAGE_SIZE);
 
   function handleClick() {
     navigate("/products");
@@ -21,24 +27,18 @@ export default function TodaySection() {
     <div className="flex flex-col gap-5 w-[1170px]">
       <Frame
         title="Today's"
-        functionality={<Swapers />}
+        functionality={
+          <Swapers onPrev={prev} onNext={next} prevDisabled={!canPrev} nextDisabled={!canNext} />
+        }
         counter={flashSaleEndsAt ? <Countdown endsAt={flashSaleEndsAt} /> : null}
         description="Flash Sales"
       />
 
-      {isLoading && <ProductCardSkeleton />}
-
-      {isError && (
-        <p className="text-red-500 mt-2">Failed to load products.</p>
-      )}
-
-      {!isLoading && !isError && (
-        <div className="grid grid-cols-4 mt-2 gap-[30px]">
-          {products.map((product) => (
-            <ProductCard key={product.id} {...product} />
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-4 mt-2 gap-[30px]">
+        {pageItems.map((product) => (
+          <ProductCard key={product.id} {...product} />
+        ))}
+      </div>
 
       <div className="self-center mt-14">
         <Button content="view all products" handleClick={handleClick} />

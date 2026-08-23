@@ -10,6 +10,7 @@ import {
   loginUser,
   getMe,
   logoutUser,
+  googleAuth,
 } from "../controller/user.controller";
 
 import { asyncHandler } from "../utils/asyncHandler";
@@ -20,6 +21,7 @@ import {
   loginUserSchema,
   updateUserSchema,
   userParamsSchema,
+  googleAuthSchema,
   type UserParams,
 } from "../../../schemas/user.schema";
 import { authMiddleware } from "../middlewares/auth.middleware";
@@ -37,6 +39,13 @@ router.post(
   validate(loginUserSchema, "body"),
   asyncHandler(loginUser),
 );
+
+router.post(
+  "/google",
+  validate(googleAuthSchema, "body"),
+  asyncHandler(googleAuth),
+);
+
 router.post("/logout", authMiddleware, asyncHandler(logoutUser));
 router.get<UserParams>(
   "/:id",

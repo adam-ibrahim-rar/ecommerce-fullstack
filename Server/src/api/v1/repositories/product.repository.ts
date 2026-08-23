@@ -82,6 +82,7 @@ export const create = async (data: CreateProductInput) => {
       oldPrice: data.oldPrice ?? null,
       discount: data.discount ?? null,
       ...(data.colors !== undefined && { colors: data.colors }),
+      ...(data.sizes !== undefined && { sizes: data.sizes }),
       flashSaleEndsAt: data.flashSaleEndsAt ?? null,
       featuredSlot: data.featuredSlot ?? null,
 
@@ -117,6 +118,9 @@ export const update = async (id: string, data: UpdateProductInput) => {
       ...(data.discount !== undefined && { discount: data.discount ?? null }),
       ...(data.colors !== undefined && {
         colors: data.colors ?? null,
+      }),
+      ...(data.sizes !== undefined && {
+        sizes: data.sizes,
       }),
       ...(data.flashSaleEndsAt !== undefined && {
         flashSaleEndsAt: data.flashSaleEndsAt ?? null,

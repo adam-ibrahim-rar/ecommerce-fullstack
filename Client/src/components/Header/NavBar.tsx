@@ -7,6 +7,7 @@ import { useState } from "react";
 import AccountDropdown from "./AccountDropdown";
 
 import { useAppSelector } from "../../reduxtoolkit/hooks";
+import { selectWishlistItems } from "../../features/Wishlist/wishlistSelectors";
 
 export default function NavBar() {
   const location = useLocation();
@@ -16,6 +17,7 @@ export default function NavBar() {
 
 
   const numberOfCartItemds = useAppSelector((state)=>state.cart.cart?.items?.length) ;
+  const numberOfWishlistItems = useAppSelector((state) => selectWishlistItems(state).length);
 
   return (
     <>
@@ -86,7 +88,7 @@ export default function NavBar() {
               <Link className="relative" to="/wishlist">
                 <FaRegHeart className="size-6 cursor-pointer" />
 
-                {numberOfCartItemds! > 0 && (
+                {numberOfWishlistItems > 0 && (
                   <span
                     className="
                       bg-brand
@@ -103,7 +105,7 @@ export default function NavBar() {
                       text-[12px]
                     "
                   >
-                    {numberOfCartItemds}
+                    {numberOfWishlistItems}
                   </span>
                 )}
               </Link>

@@ -7,8 +7,10 @@ export const productsApi = {
     return data.data;
   },
 
-  getAllProducts: async (): Promise<ProductSummary[]> => {
-    const { data } = await api.get(`/products`);
+  getAllProducts: async (categoryId?: string): Promise<ProductSummary[]> => {
+    const { data } = await api.get(`/products`, {
+      params: categoryId ? { categoryId } : undefined,
+    });
     return data.data;
   },
 

@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { FiHeart, FiMinus, FiPlus, FiTruck, FiRefreshCcw } from "react-icons/fi";
-import { FaStar } from "react-icons/fa";
+import { FaHeart, FaStar } from "react-icons/fa";
 import Button from "../../components/Helpers/Button";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
-import { useAppDispatch } from "../../reduxtoolkit/hooks";
+import { useAppDispatch, useAppSelector } from "../../reduxtoolkit/hooks";
 import { addToCart } from "../../reduxtoolkit/slices/cart/cartSlice";
+import {
+  addToWishlist,
+  deleteWishlistItem,
+} from "../../reduxtoolkit/slices/wishlist/wishlistSlice";
+import { selectWishlistItems } from "../../features/Wishlist/wishlistSelectors";
 import type { Product } from "./types/product.type";
 
 type ProductDetailsProps = {
@@ -14,16 +20,41 @@ type ProductDetailsProps = {
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const wishlistItems = useAppSelector(selectWishlistItems);
+  const wishlistItem = wishlistItems.find((item) => item.productId === product.id);
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] ?? "");
+  const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] ?? "");
 
   const handleAddToCart = () => {
     dispatch(addToCart({ productId: product.id, quantity }))
       .unwrap()
       .then(() => toast.success("Added to cart"))
       .catch(() => toast.error("Failed to add to cart"));
+  };
+
+  const handleToggleWishlist = () => {
+    if (!isAuthenticated) {
+      toast.error("Please login to use your wishlist");
+      navigate("/account/login");
+      return;
+    }
+
+    if (wishlistItem) {
+      dispatch(deleteWishlistItem(wishlistItem.id))
+        .unwrap()
+        .catch(() => toast.error("Failed to remove from wishlist"));
+    } else {
+      dispatch(addToWishlist({ productId: product.id }))
+        .unwrap()
+        .then(() => toast.success("Added to wishlist"))
+        .catch(() => toast.error("Failed to add to wishlist"));
+    }
   };
 
   return (
@@ -112,6 +143,31 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             </div>
           ) : null}
 
+          {product.sizes?.length ? (
+            <div className="flex items-center gap-4">
+              <span className="text-[20px] font-medium">Size:</span>
+
+              <div className="flex items-center gap-2">
+                {product.sizes.map((size, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedSize(size)}
+                    className={`
+                      w-[40px] h-[40px] rounded flex items-center justify-center text-[14px] cursor-pointer
+                      ${
+                        selectedSize === size
+                          ? "bg-brand text-white"
+                          : "border border-gray-400"
+                      }
+                    `}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
           <div className="flex items-center gap-3">
             <div className="flex w-[160px] h-[44px] rounded-md">
               <button
@@ -141,9 +197,14 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
             <button
               type="button"
+              onClick={handleToggleWishlist}
               className="w-[40px] h-[40px] border border-gray-400 rounded flex items-center justify-center cursor-pointer hover:bg-gray-100"
             >
-              <FiHeart size={20} />
+              {wishlistItem ? (
+                <FaHeart size={20} className="text-brand" />
+              ) : (
+                <FiHeart size={20} />
+              )}
             </button>
           </div>
         </div>

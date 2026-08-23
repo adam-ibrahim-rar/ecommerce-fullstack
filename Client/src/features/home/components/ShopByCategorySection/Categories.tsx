@@ -1,13 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { useCategoriesQuery } from "../../api/homeQueries";
+import type { Category } from "../../types/home";
 import { categoryIcons } from "./categoryIcons";
 
-export default function Categories() {
+export default function Categories({ categories }: { categories: Category[] }) {
   const navigate = useNavigate();
-  const { data: categories, isLoading, isError } = useCategoriesQuery();
-
-  if (isLoading) return null;
-  if (isError) return <p className="text-red-500">Failed to load categories.</p>;
 
   return (
     <div className="flex w-full gap-7">
@@ -17,7 +13,7 @@ export default function Categories() {
         return (
           <button
             key={category.id}
-            onClick={() => navigate(`/categories/${category.name}`)}
+            onClick={() => navigate(`/products?category=${category.id}`)}
             className="bg-brand-hover flex h-[145px] w-[175px] 
             cursor-pointer flex-col items-center justify-center gap-5 
             rounded-md border-subtle bg-white 

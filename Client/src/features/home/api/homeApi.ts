@@ -1,7 +1,17 @@
 import api from "../../../lib/axios";
-import type { Banner, Category, Product, FeaturedSlot } from "../types/home";
+import type { Banner, Category, Product, FeaturedSlot, HomeData } from "../types/home";
 
 export const homeApi = {
+  // ريكوست واحد بيرجع كل داتا الهوم بيج مع بعض
+  // (categories, banners, flash sale, best selling, all products, featured slots)
+  // بدل 9-10 ريكوستات منفصلة. لازم الباك إند يعمل GET /home ويرجع الشكل ده:
+  // { data: { categories, heroBanners, promoBanner, flashSaleProducts,
+  //           bestSellingProducts, allProducts, featured: { large, wide, smallLeft, smallRight } } }
+  async getHomeData(): Promise<HomeData> {
+    const response = await api.get("/home");
+    return response.data.data;
+  },
+
   async getCategories(): Promise<Category[]> {
     const response = await api.get("/categories");
     return response.data.data;

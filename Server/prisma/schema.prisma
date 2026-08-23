@@ -22,16 +22,19 @@ enum OrderStatus {
 }
 
 model User {
-  id        String @id @default(uuid())
-  username  String @unique
-  firstName String @default("")
-  lastName  String @default("")
-  email     String @unique
-  password  String
-  role      Role   @default(user)
+  id        String  @id @default(uuid())
+  username  String  @unique
+  firstName String  @default("")
+  lastName  String  @default("")
+  email     String  @unique
+  password  String?
+  googleId  String? @unique
+  role      Role    @default(user)
 
-  cart   Cart?
-  orders Order[]
+  cart     Cart?
+  wishlist Wishlist?
+  orders   Order[]
+  reviews  Review[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -61,6 +64,7 @@ model Product {
   inStock     Boolean  @default(true)
 
   colors Json?
+  sizes  String[] @default([])
 
   isFlashSale     Boolean       @default(false)
   flashSaleEndsAt DateTime?
@@ -70,8 +74,10 @@ model Product {
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
 
-  cartItems  CartItem[]
-  orderItems OrderItem[]
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+  wishlistItems WishlistItem[]
+  productReviews Review[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -112,6 +118,51 @@ model CartItem {
   product   Product @relation(fields: [productId], references: [id])
 
   @@unique([cartId, productId])
+}
+
+model Wishlist {
+  id String @id @default(uuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  items WishlistItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WishlistItem {
+  id String @id @default(uuid())
+
+  wishlistId String
+  wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([wishlistId, productId])
+}
+
+model Review {
+  id String @id @default(uuid())
+
+  rating  Int
+  comment String?
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([productId, userId])
+  @@index([productId])
 }
 
 model Order {
