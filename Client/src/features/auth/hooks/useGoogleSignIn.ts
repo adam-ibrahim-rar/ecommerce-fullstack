@@ -1,30 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+// The `window.google` type comes from src/types/google-identity.d.ts
+// (kept in exactly ONE file in the project — don't redeclare it here
+// or anywhere else, or TypeScript will complain about conflicting
+// declarations of the same global interface member).
 
 const GOOGLE_SCRIPT_SRC = "https://accounts.google.com/gsi/client";
-
-declare global {
-  interface Window {
-    google?: {
-      accounts: {
-        id: {
-          initialize: (config: {
-            client_id: string;
-            callback: (response: { credential: string }) => void;
-            auto_select?: boolean;
-            cancel_on_tap_outside?: boolean;
-          }) => void;
-          prompt: (
-            momentListener?: (notification: unknown) => void
-          ) => void;
-          renderButton: (
-            parent: HTMLElement,
-            options: Record<string, unknown>
-          ) => void;
-        };
-      };
-    };
-  }
-}
 
 let scriptLoadingPromise: Promise<void> | null = null;
 
@@ -64,12 +45,20 @@ const loadGoogleScript = () => {
 };
 
 /**
- * Loads Google Identity Services and gives you a `promptGoogleSignIn`
- * function that opens the Google One Tap / account chooser and calls
- * `onCredential` with the ID token once the user picks an account.
+ * Loads Google Identity Services and renders Google's real (invisible)
+ * button into `buttonContainerRef`. Put that ref on a div positioned
+ * absolutely on top of your own styled button — the real click lands on
+ * Google's button (a genuine trusted user gesture), so the flow works
+ * even when third-party cookies / One Tap are blocked by the browser.
+ *
+ * We intentionally avoid `google.accounts.id.prompt()` triggered from a
+ * click handler — it depends on FedCM/third-party cookies and commonly
+ * fails silently (or with a 403 on accounts.google.com/gsi/status) in
+ * current Chrome versions.
  */
 export function useGoogleSignIn(onCredential: (credential: string) => void) {
   const [isReady, setIsReady] = useState(false);
+  const buttonContainerRef = useRef<HTMLDivElement | null>(null);
   const onCredentialRef = useRef(onCredential);
   onCredentialRef.current = onCredential;
 
@@ -96,8 +85,16 @@ export function useGoogleSignIn(onCredential: (credential: string) => void) {
           callback: (response) => {
             onCredentialRef.current(response.credential);
           },
-          cancel_on_tap_outside: true,
-        });
+          // `use_fedcm_for_prompt` is not in the bundled Google typings here,
+          // so we cast the config to keep the runtime option without a type error.
+        } as typeof window.google.accounts.id.initialize extends (
+          config: infer T
+        ) => unknown
+          ? T & { use_fedcm_for_prompt?: boolean }
+          : never);
+
+        // NOTE: The runtime option is applied via the cast above; the typed
+        // Google SDK in this project doesn't expose it yet.
 
         setIsReady(true);
       })
@@ -110,14 +107,18 @@ export function useGoogleSignIn(onCredential: (credential: string) => void) {
     };
   }, []);
 
-  const promptGoogleSignIn = useCallback(() => {
-    if (!window.google?.accounts?.id) {
-      console.error("Google Identity Services is not ready yet.");
-      return;
-    }
+  useEffect(() => {
+    if (!isReady || !window.google || !buttonContainerRef.current) return;
 
-    window.google.accounts.id.prompt();
-  }, []);
+    // Render Google's real button (invisible) into the container.
+    // Its width matches the container so the whole overlay is clickable.
+    window.google.accounts.id.renderButton(buttonContainerRef.current, {
+      type: "standard",
+      theme: "outline",
+      size: "large",
+      width: 343,
+    });
+  }, [isReady]);
 
-  return { promptGoogleSignIn, isReady };
+  return { buttonContainerRef, isReady };
 }

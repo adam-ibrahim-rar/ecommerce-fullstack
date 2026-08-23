@@ -12,7 +12,7 @@ import Button from "../../../components/Helpers/Button";
 import { loginUserSchema, type LoginUserInput } from "../schemas/auth.schema";
 
 import { useLoginMutation, useGoogleAuthMutation } from "../api/authQueries";
-import { useGoogleSignIn } from "../hooks/Usegooglesignin";
+import { useGoogleSignIn } from "../hooks/useGoogleSignIn";
 
 import { useAppDispatch } from "../../../reduxtoolkit/hooks";
 
@@ -89,7 +89,7 @@ export default function LoginForm() {
     });
   };
 
-  const { promptGoogleSignIn, isReady: isGoogleReady } = useGoogleSignIn(
+  const { buttonContainerRef, isReady: isGoogleReady } = useGoogleSignIn(
     handleGoogleCredential
   );
 
@@ -192,16 +192,26 @@ export default function LoginForm() {
             </Link>
           </div>
 
-          <Button
-            icon={<FcGoogle size={24} />}
-            content={isGooglePending ? "Signing in..." : "Sign in with Google"}
-            text="text-black"
-            bg="bgtransparent"
-            classes="w-full border"
-            type="button"
-            disabled={!isGoogleReady || isGooglePending}
-            handleClick={() => promptGoogleSignIn()}
-          />
+          <div className="relative w-full">
+            <Button
+              icon={<FcGoogle size={24} />}
+              content={isGooglePending ? "Signing in..." : "Sign in with Google"}
+              text="text-black"
+              bg="bgtransparent"
+              classes="w-full border"
+              type="button"
+              disabled={!isGoogleReady || isGooglePending}
+              handleClick={() => {}}
+            />
+
+            {/* Google's real (invisible) button sits on top so the
+                click is a genuine user gesture — see useGoogleSignIn */}
+            <div
+              ref={buttonContainerRef}
+              className="absolute inset-0 opacity-0 overflow-hidden [&>div]:!w-full"
+              aria-hidden="true"
+            />
+          </div>
 
           <div className="flex gap-3 self-center ">
             <span

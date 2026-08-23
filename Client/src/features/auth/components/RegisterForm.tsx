@@ -12,12 +12,20 @@ import Button from "../../../components/Helpers/Button";
 import { createUserSchema, type CreateUserInput } from "../schemas/auth.schema";
 
 import { useRegisterMutation, useGoogleAuthMutation } from "../api/authQueries";
-import { useGoogleSignIn } from "../api/useGoogleSignIn";
+import { useGoogleSignIn } from "../hooks/useGoogleSignIn";
+
+import { useAppDispatch } from "../../../reduxtoolkit/hooks";
+
+import { setUser } from "../../../reduxtoolkit/slices/auth/authSlice";
+import { getCart } from "../../../reduxtoolkit/slices/cart/cartSlice";
+import { getWishlist } from "../../../reduxtoolkit/slices/wishlist/wishlistSlice";
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -57,10 +65,13 @@ export default function RegisterForm() {
     toast.promise(googleMutateAsync({ credential }), {
       loading: "Signing up with Google...",
 
-      success: () => {
-        setTimeout(() => {
-          navigate("/");
-        }, 500);
+      success: (response) => {
+        dispatch(setUser(response.data));
+
+        dispatch(getCart());
+        dispatch(getWishlist());
+
+        navigate("/");
 
         return "Signed up with Google successfully!";
       },
@@ -75,7 +86,7 @@ export default function RegisterForm() {
     });
   };
 
-  const { promptGoogleSignIn, isReady: isGoogleReady } = useGoogleSignIn(
+  const { buttonContainerRef, isReady: isGoogleReady } = useGoogleSignIn(
     handleGoogleCredential
   );
 
@@ -186,16 +197,28 @@ export default function RegisterForm() {
             />
 
             <div className="flex flex-col gap-8">
-              <Button
-                icon={<FcGoogle size={24} />}
-                content={isGooglePending ? "Signing up..." : "Sign up with Google"}
-                text="text-black"
-                bg="bgtransparent"
-                classes="w-full border"
-                type="button"
-                disabled={!isGoogleReady || isGooglePending}
-                handleClick={() => promptGoogleSignIn()}
-              />
+              <div className="relative w-full">
+                <Button
+                  icon={<FcGoogle size={24} />}
+                  content={
+                    isGooglePending ? "Signing up..." : "Sign up with Google"
+                  }
+                  text="text-black"
+                  bg="bgtransparent"
+                  classes="w-full border"
+                  type="button"
+                  disabled={!isGoogleReady || isGooglePending}
+                  handleClick={() => {}}
+                />
+
+                {/* Google's real (invisible) button sits on top so the
+                    click is a genuine user gesture — see useGoogleSignIn */}
+                <div
+                  ref={buttonContainerRef}
+                  className="absolute inset-0 opacity-0 overflow-hidden [&>div]:!w-full"
+                  aria-hidden="true"
+                />
+              </div>
 
               <div className="flex gap-3 self-center">
                 <span className="text-[16px] capitalize text-gray-600">
