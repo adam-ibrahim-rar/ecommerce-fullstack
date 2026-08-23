@@ -1,6 +1,7 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import type { AuthState, User } from "./authTypes";
+import api from "../../../lib/axios"; // ✏️ عدّل المسار حسب مكان الملف عندك لو مختلف
 
 const savedAuth = localStorage.getItem("user");
 
@@ -10,6 +11,23 @@ const initialState: AuthState = savedAuth
       user: null,
       isAuthenticated: false,
     };
+
+// =========================
+// LOGOUT (thunk بيكلم الباك إند عشان يمسح الكوكي فعليًا)
+// =========================
+
+export const logoutThunk = createAsyncThunk(
+  "auth/logoutThunk",
+  async (_, { rejectWithValue }) => {
+    try {
+      await api.post("/users/logout"); // ✏️ عدّل الـ path لو الـ prefix عندك مختلف
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to logout",
+      );
+    }
+  },
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -47,8 +65,25 @@ const authSlice = createSlice({
       localStorage.removeItem("user");
     },
   },
+
+  extraReducers: (builder) => {
+    builder.addCase(logoutThunk.fulfilled, (state) => {
+      state.user = null;
+      state.isAuthenticated = false;
+
+      localStorage.removeItem("user");
+    });
+
+    // حتى لو الـ request فشل (نت مقطوع مثلاً)، تسجيل الخروج محليًا برضو أفضل من إنه يفضل شايف نفسه مسجل دخول
+    builder.addCase(logoutThunk.rejected, (state) => {
+      state.user = null;
+      state.isAuthenticated = false;
+
+      localStorage.removeItem("user");
+    });
+  },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const { setUser, updateUser, logout } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -38,6 +38,12 @@ export default function AdminHeader() {
     });
   };
 
+  const handleProfile = () => {
+    if (!user?.id) return;
+
+    navigate(`/admin/dashboard/users/${user.id}`);
+  };
+
   return (
     <header
       className="
@@ -183,7 +189,7 @@ export default function AdminHeader() {
             className="w-52"
           >
 
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleProfile}>
               Profile
             </DropdownMenuItem>
 

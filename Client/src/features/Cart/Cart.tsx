@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import PathLocation from "../../components/Helpers/PathLocation";
 import CartProduct from "./CartProduct";
 import Button from "../../components/Helpers/Button";

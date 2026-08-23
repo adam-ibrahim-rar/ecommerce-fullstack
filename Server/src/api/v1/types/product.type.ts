@@ -8,11 +8,13 @@ export interface CreateProductInput {
   rating?: number;
   reviews?: number;
   inStock?: boolean;
-  colors?: {
-    name?: string;
-    value: string;
-  }[];
+  colors?: string[];
   categoryId: string;
+
+  isFlashSale?: boolean;
+  flashSaleEndsAt?: Date;
+  isBestSeller?: boolean;
+  featuredSlot?: "large" | "wide" | "smallLeft" | "smallRight" | null;
 }
 
 export interface UpdateProductInput {
@@ -26,10 +28,12 @@ export interface UpdateProductInput {
   reviews?: number;
   inStock?: boolean;
   categoryId?: string;
-  colors?: {
-    name?: string;
-    value: string;
-  }[];
+  colors?: string[];
+
+  isFlashSale?: boolean;
+  flashSaleEndsAt?: Date;
+  isBestSeller?: boolean;
+  featuredSlot?: "large" | "wide" | "smallLeft" | "smallRight" | null;
 }
 
 export interface ProductQuery {
@@ -53,6 +57,9 @@ export interface ProductResponse {
   colors: string[];
   inStock: boolean;
   flashSaleEndsAt?: string;
+  isFlashSale?: boolean;
+  isBestSeller?: boolean;
+  featuredSlot?: "large" | "wide" | "smallLeft" | "smallRight";
   category: {
     id: string;
     name: string;
@@ -68,10 +75,7 @@ export interface ProductDetailsResponse {
   rating: number;
   reviews: number;
   images: string[];
-  colors: {
-    name?: string;
-    value: string;
-  }[];
+  colors: string[];
   description?: string;
   inStock: boolean;
 }

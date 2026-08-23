@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -6,8 +7,12 @@ import {
   FiClock,
   FiMail,
   FiShield,
+  FiTrash2,
   FiUser,
 } from "react-icons/fi";
+
+import { toast } from "sonner";
+import axios from "axios";
 
 import {
   Card,
@@ -22,6 +27,19 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import { useAppSelector } from "@/reduxtoolkit/hooks";
+
+import {
+  useDeleteUserMutation,
   useUserQuery,
 } from "./api/usersQueries";
 
@@ -43,6 +61,41 @@ export default function AdminUserDetails() {
     isError,
   } = useUserQuery(id);
 
+  const currentUser = useAppSelector((state) => state.auth.user);
+
+  const { mutate: deleteUser, isPending: isDeleting } =
+    useDeleteUserMutation();
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const isSelf = Boolean(
+    currentUser?.id && user?.id && currentUser.id === user.id,
+  );
+
+  const handleDelete = () => {
+    if (!user) return;
+
+    deleteUser(user.id, {
+      onSuccess: () => {
+        toast.success("User deleted successfully");
+        setDialogOpen(false);
+        navigate("/admin/dashboard/users");
+      },
+      onError: (error) => {
+        setDialogOpen(false);
+
+        if (axios.isAxiosError(error)) {
+          toast.error(
+            error.response?.data?.message ?? "Could not delete user.",
+          );
+          return;
+        }
+
+        toast.error("Could not delete user.");
+      },
+    });
+  };
+
 
   if (isLoading) {
     return (
@@ -58,9 +111,7 @@ export default function AdminUserDetails() {
 
         <Button
           variant="ghost"
-          onClick={() =>
-            navigate("/admin/users")
-          }
+         onClick={() => navigate("/admin/dashboard/users")}
         >
           <FiArrowLeft className="mr-2" />
           Back to Users
@@ -106,19 +157,70 @@ export default function AdminUserDetails() {
 
       <section>
 
-        <Button
-          variant="ghost"
-          className="mb-4 -ml-3"
-          onClick={() =>
-            navigate("/admin/users")
-          }
-        >
+        <div className="flex items-center justify-between">
 
-          <FiArrowLeft className="mr-2" />
+          <Button
+            variant="ghost"
+            className="mb-4 -ml-3"
+            onClick={() =>
+              navigate("/admin/dashboard/users")
+            }
+          >
 
-          Back to Users
+            <FiArrowLeft className="mr-2" />
 
-        </Button>
+            Back to Users
+
+          </Button>
+
+
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button
+                variant="destructive"
+                disabled={isSelf}
+                title={
+                  isSelf
+                    ? "Use Remove Account from your settings to delete your own account."
+                    : undefined
+                }
+              >
+                <FiTrash2 className="mr-2" />
+                Delete User
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Delete this user?</DialogTitle>
+                <DialogDescription>
+                  This will permanently delete{" "}
+                  <span className="font-medium">{displayName}</span>. This
+                  action cannot be undone.
+                </DialogDescription>
+              </DialogHeader>
+
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setDialogOpen(false)}
+                  disabled={isDeleting}
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  variant="destructive"
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? "Deleting..." : "Delete User"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+        </div>
 
 
         <div>

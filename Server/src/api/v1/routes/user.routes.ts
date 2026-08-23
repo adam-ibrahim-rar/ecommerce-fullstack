@@ -6,9 +6,10 @@ import {
   createUser,
   updateUser,
   deleteUser,
+  deleteUserById,
   loginUser,
   getMe,
-
+  logoutUser,
 } from "../controller/user.controller";
 
 import { asyncHandler } from "../utils/asyncHandler";
@@ -22,24 +23,21 @@ import {
   type UserParams,
 } from "../../../schemas/user.schema";
 import { authMiddleware } from "../middlewares/auth.middleware";
+import { adminMiddleware } from "../middlewares/Admin.middleware";
 
 const router = Router();
 
 router.get("/", asyncHandler(getUsers));
-router.get("/me", authMiddleware,asyncHandler(getMe));
+router.get("/me", authMiddleware, asyncHandler(getMe));
 
-router.post(
-  "/",
-  validate(createUserSchema, "body"),
-  asyncHandler(createUser),
-);
+router.post("/", validate(createUserSchema, "body"), asyncHandler(createUser));
 
 router.post(
   "/login",
   validate(loginUserSchema, "body"),
   asyncHandler(loginUser),
 );
-
+router.post("/logout", authMiddleware, asyncHandler(logoutUser));
 router.get<UserParams>(
   "/:id",
   validate(userParamsSchema, "params"),
@@ -53,10 +51,13 @@ router.patch(
   asyncHandler(updateUser),
 );
 
+router.delete<UserParams>("/me", authMiddleware, asyncHandler(deleteUser));
 router.delete<UserParams>(
-  "/me",
+  "/:id",
   authMiddleware,
-  asyncHandler(deleteUser),
+  adminMiddleware,
+  validate(userParamsSchema, "params"),
+  asyncHandler(deleteUserById),
 );
 
 export default router;

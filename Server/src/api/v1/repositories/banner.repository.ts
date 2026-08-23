@@ -25,9 +25,10 @@ export const findById = async (id: string) => {
 };
 
 export const create = async (data: CreateBannerInput) => {
-  return prisma.banner.create({ data });
+  return prisma.banner.create({
+    data,
+  });
 };
-
 export const update = async (id: string, data: UpdateBannerInput) => {
   return prisma.banner.update({
     where: { id },

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { FaRegHeart, FaStar } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../reduxtoolkit/hooks";
+import { toast } from "sonner";
+import { useAppDispatch, useAppSelector } from "../../reduxtoolkit/hooks";
 
 import { addToCart } from "../../reduxtoolkit/slices/cart/cartSlice";
 
@@ -34,6 +35,8 @@ export default function ProductCard({
 }: ProductCardProps) {
   const [addToCartHovered, setAddToCartHovered] = useState(false);
   const dispatch = useAppDispatch();
+
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   const navigate = useNavigate();
   return (
@@ -91,13 +94,19 @@ export default function ProductCard({
       ${addToCartHovered ? "opacity-100" : "opacity-0"}
       `}
           onClick={() => {
+            if (!isAuthenticated) {
+toast.error("Please login to add items to your cart", {
+  duration: 4000, // 4 ثواني بدل الافتراضي
+});              navigate("/account/login");
+              return;
+            }
+
             dispatch(
               addToCart({
                 productId: String(id),
                 quantity: 1,
               }),
             );
-           
           }}
         >
           Add to Cart

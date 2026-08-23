@@ -1,3 +1,5 @@
+export type FeaturedSlot = "large" | "wide" | "smallLeft" | "smallRight";
+
 export interface ProductColor {
   name?: string;
   value: string;
@@ -20,6 +22,11 @@ export interface Product {
     id: string;
     name: string;
   };
+  // ✅ الحقول الجديدة
+  isFlashSale: boolean;
+  flashSaleEndsAt?: string;
+  isBestSeller: boolean;
+  featuredSlot?: FeaturedSlot | null;
 }
 
 export interface CreateProductInput {
@@ -32,6 +39,11 @@ export interface CreateProductInput {
   inStock?: boolean;
   colors?: ProductColor[];
   categoryId: string;
+  // ✅ الحقول الجديدة
+  isFlashSale?: boolean;
+  flashSaleEndsAt?: string;
+  isBestSeller?: boolean;
+  featuredSlot?: FeaturedSlot | null;
 }
 
 export interface UpdateProductInput {
@@ -44,6 +56,11 @@ export interface UpdateProductInput {
   inStock?: boolean;
   categoryId?: string;
   colors?: ProductColor[];
+  // ✅ الحقول الجديدة
+  isFlashSale?: boolean;
+  flashSaleEndsAt?: string;
+  isBestSeller?: boolean;
+  featuredSlot?: FeaturedSlot | null;
 }
 
 export interface ProductParams {
@@ -53,4 +70,7 @@ export interface ProductParams {
 export interface ProductQuery {
   title?: string;
   categoryId?: string;
+  isFlashSale?: boolean;
+  isBestSeller?: boolean;
+  featuredSlot?: FeaturedSlot;
 }

@@ -1,15 +1,8 @@
+export type BannerType = "hero" | "promo";
 
-export interface BannerQuery {
-  type?: "hero" | "promo";
-}
-
-export interface BannerParams {
+export interface Banner {
   id: string;
-}
-
-export interface BannerResponse {
-  id: string;
-  type: "hero" | "promo";
+  type: BannerType;
   title: string;
   heading?: string;
   description?: string;
@@ -18,10 +11,11 @@ export interface BannerResponse {
   link: string;
   endsAt?: string;
   order: number;
-
+  isActive: boolean;
 }
+
 export interface CreateBannerInput {
-  type: "hero" | "promo";
+  type: BannerType;
   title: string;
   heading?: string;
   description?: string;
@@ -34,14 +28,18 @@ export interface CreateBannerInput {
 }
 
 export interface UpdateBannerInput {
-  type?: "hero" | "promo";
+  type?: BannerType;
   title?: string;
   heading?: string;
   description?: string;
   image?: string;
   buttonText?: string;
   link?: string;
-  endsAt?: string; 
+  endsAt?: string;
   order?: number;
   isActive?: boolean;
+}
+
+export interface BannerQuery {
+  type?: BannerType;
 }

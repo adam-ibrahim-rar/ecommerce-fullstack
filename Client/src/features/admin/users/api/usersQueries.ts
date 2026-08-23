@@ -1,8 +1,11 @@
 import {
+  useMutation,
   useQuery,
+  useQueryClient,
 } from "@tanstack/react-query";
 
 import {
+  deleteUserById,
   getUserById,
   getUsers,
 } from "./usersApi";
@@ -63,5 +66,24 @@ export const useUserQuery = (
       getUserById(id!),
 
     enabled: Boolean(id),
+  });
+};
+
+
+// =====================================================
+// Delete User Mutation
+// =====================================================
+
+export const useDeleteUserMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => deleteUserById(id),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: userKeys.lists(),
+      });
+    },
   });
 };

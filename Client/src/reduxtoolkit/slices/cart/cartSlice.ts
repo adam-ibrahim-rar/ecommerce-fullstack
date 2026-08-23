@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { Cart, CartState } from "./CartTypes";
 
 import api from "../../../lib/axios";
+import { logout } from "../auth/authSlice";
 
 const initialState: CartState = {
   cart: null,
@@ -46,7 +47,6 @@ export const addToCart = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
-      
       const response = await api.post("/cart/items", {
         productId,
         quantity,
@@ -248,6 +248,11 @@ const cartSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
+    builder.addCase(logout, (state) => {
+      state.cart = null;
+      state.loading = false;
+      state.error = null;
+    });
   },
 });
 

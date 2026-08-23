@@ -66,7 +66,7 @@ export default function AddProductForm({ onSuccess }: AddProductFormProps) {
   } = useForm<CreateProductFormInput, unknown, CreateProductFormValues>({
     resolver: zodResolver(createProductSchema),
 
-    defaultValues: {
+defaultValues: {
   title: "",
   description: "",
   price: undefined,
@@ -76,6 +76,11 @@ export default function AddProductForm({ onSuccess }: AddProductFormProps) {
   inStock: true,
   colors: [],
   categoryId: "",
+
+  isFlashSale: false,
+  flashSaleEndsAt: "",
+  isBestSeller: false,
+  featuredSlot: "none",
 },
   });
 
@@ -137,12 +142,14 @@ const payload: CreateProductInput = {
   discount: data.discount,
   images: imageUrls,
   inStock: data.inStock,
-  colors: data.colors?.filter(
-    (color) => color.value.trim() !== "",
-  ),
+  colors: data.colors?.filter((color) => color.value.trim() !== ""),
   categoryId: data.categoryId,
+  // ✅ جديد
+  isFlashSale: data.isFlashSale,
+  flashSaleEndsAt: data.isFlashSale ? data.flashSaleEndsAt : undefined,
+  isBestSeller: data.isBestSeller,
+  featuredSlot: data.featuredSlot ,
 };
-
 console.log("Final payload:", payload);
 
 await mutateAsync(payload);
@@ -170,6 +177,7 @@ await mutateAsync(payload);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 mt-2">
+      
       <section className="space-y-5 border p-4 rounded-4xl">
         
         <div className="space-y-2">
@@ -506,7 +514,96 @@ await mutateAsync(payload);
         </div>
       </section>
 
+{/* ================================== */}
+{/* Home Page Placement */}
+{/* ================================== */}
 
+<section className="space-y-5 border p-4 rounded-4xl">
+  <h3 className="font-semibold">Home page placement</h3>
+  <Separator />
+
+  {/* Flash Sale */}
+  <div className="flex items-center justify-between rounded-xl border p-4">
+    <div>
+      <Label>Flash Sale</Label>
+      <p className="text-sm text-muted-foreground">
+        Show this product in the flash sale section.
+      </p>
+    </div>
+    <Switch
+      checked={watch("isFlashSale")}
+      onCheckedChange={(value) =>
+        setValue("isFlashSale", value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      }
+    />
+  </div>
+
+  {watch("isFlashSale") && (
+    <div className="space-y-2">
+      <Label htmlFor="flashSaleEndsAt">Flash Sale Ends At</Label>
+      <Input
+        id="flashSaleEndsAt"
+        type="datetime-local"
+        {...register("flashSaleEndsAt")}
+      />
+      {errors.flashSaleEndsAt && (
+        <p className="text-sm text-destructive">
+          {errors.flashSaleEndsAt.message}
+        </p>
+      )}
+    </div>
+  )}
+
+  {/* Best Seller */}
+  <div className="flex items-center justify-between rounded-xl border p-4">
+    <div>
+      <Label>Best Seller</Label>
+      <p className="text-sm text-muted-foreground">
+        Show this product in the best selling section.
+      </p>
+    </div>
+    <Switch
+      checked={watch("isBestSeller")}
+      onCheckedChange={(value) =>
+        setValue("isBestSeller", value, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      }
+    />
+  </div>
+
+  {/* Featured Slot */}
+  <div className="space-y-2">
+    <Label>Featured Slot</Label>
+    <Select
+      value={String(watch("featuredSlot") ?? "none")}
+      onValueChange={(value) =>
+        setValue("featuredSlot", value as never, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      }
+    >
+      <SelectTrigger>
+        <SelectValue placeholder="none" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="none">None</SelectItem>
+        <SelectItem value="large">Large</SelectItem>
+        <SelectItem value="wide">Wide</SelectItem>
+        <SelectItem value="smallLeft">Small Left</SelectItem>
+        <SelectItem value="smallRight">Small Right</SelectItem>
+      </SelectContent>
+    </Select>
+    <p className="text-sm text-muted-foreground">
+      Only one product per slot should be active at a time.
+    </p>
+  </div>
+</section>
 
       <div className="flex justify-center justify-self-center bg-gray-100/90 mb-2 w-40 py-2 rounded-4xl">
         <Button type="submit" disabled={isPending || isSubmitting}>

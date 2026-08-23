@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "@/lib/axios";
 
 import type {
   AdminUser,
@@ -15,8 +15,8 @@ import type {
 export const getUsers = async (
   params?: UsersQuery
 ): Promise<AdminUser[]> => {
-  const { data } = await axios.get<UsersResponse>(
-    "/api/users",
+  const { data } = await api.get<UsersResponse>(
+    "/users",
     {
       params,
     }
@@ -33,9 +33,18 @@ export const getUsers = async (
 export const getUserById = async (
   id: string
 ): Promise<AdminUser> => {
-  const { data } = await axios.get<UserResponse>(
-    `/api/users/${id}`
+  const { data } = await api.get<UserResponse>(
+    `/users/${id}`
   );
 
   return data.data;
+};
+
+
+// =====================================================
+// Delete User By ID
+// =====================================================
+
+export const deleteUserById = async (id: string): Promise<void> => {
+  await api.delete(`/users/${id}`);
 };

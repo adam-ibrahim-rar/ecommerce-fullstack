@@ -6,8 +6,9 @@ import {
 } from "react-icons/fi";
 import {IoSettingsOutline  } from "react-icons/io5"
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../reduxtoolkit/slices/auth/authSlice";
-import { useAppDispatch } from "../../reduxtoolkit/hooks";
+import { logoutThunk } from "../../reduxtoolkit/slices/auth/authSlice";
+import { clearCartState } from "../../reduxtoolkit/slices/cart/cartSlice"; // عدّل المسار لو مختلف
+import { useAppDispatch } from "@/reduxtoolkit/hooks";
 
 const menuItems = [
   {
@@ -98,10 +99,12 @@ export default function AccountDropdown({
 
         <button
           type="button"
-          onClick={() => {
-            dispatch(logout());
-            setOpen(false);
-          }}
+      onClick={() => {
+  dispatch(logoutThunk()).then(() => {
+    dispatch(clearCartState());
+  });
+  setOpen(false);
+}}
           className="
             w-[192px]
             h-[32px]

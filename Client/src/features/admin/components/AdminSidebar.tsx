@@ -2,12 +2,19 @@ import {
   FiGrid,
   FiPackage,
   FiFolder,
+  FiImage,        
   FiShoppingBag,
   FiUsers,
   FiLogOut,
 } from "react-icons/fi";
 
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+
+import { useAppDispatch } from "@/reduxtoolkit/hooks";
+import { logout } from "@/reduxtoolkit/slices/auth/authSlice";
+
 
 const links = [
   {
@@ -26,6 +33,11 @@ const links = [
     icon: FiFolder,
   },
   {
+    title: "Banners",
+    path: "/admin/dashboard/banners",
+    icon: FiImage,
+  },
+  {
     title: "Orders",
     path: "/admin/dashboard/orders",
     icon: FiShoppingBag,
@@ -36,8 +48,20 @@ const links = [
     icon: FiUsers,
   },
 ];
-
 export default function AdminSidebar() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+
+    toast.success("Logged out successfully.");
+
+    navigate("/admin/login", {
+      replace: true,
+    });
+  };
+
   return (
     <aside
       className="
@@ -130,32 +154,33 @@ export default function AdminSidebar() {
         "
       >
         <button
-          className="
-            w-full
-            rounded-xl
-            px-4
-            py-3
+  onClick={handleLogout}
+  className="
+    w-full
+    rounded-xl
+    px-4
+    py-3
 
-            flex
-            items-center
-            gap-3
+    flex
+    items-center
+    gap-3
 
-            hover:bg-destructive/10
-            transition
-            cursor-pointer
-          "
-        >
-          <FiLogOut size={20} />
+    hover:bg-destructive/10
+    transition
+    cursor-pointer
+  "
+>
+  <FiLogOut size={20} />
 
-          <span
-            className="
-              text-[15px]
-              font-medium
-            "
-          >
-            Logout
-          </span>
-        </button>
+  <span
+    className="
+      text-[15px]
+      font-medium
+    "
+  >
+    Logout
+  </span>
+</button>
       </div>
     </aside>
   );

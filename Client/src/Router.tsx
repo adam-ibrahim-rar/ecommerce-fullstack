@@ -39,6 +39,7 @@ import AdminUserDetails from "./features/admin/users/AdminUserDetails";
 import Order from "./features/order/Order";
 import AdminOrders from "./features/admin/order/AdminOrder";
 import AdminOrderDetails from "./features/order/Adminorderdetails";
+import AdminBanners from "./features/admin/banners/Banners";
 
 const Router = createBrowserRouter([
   // ============================
@@ -64,37 +65,16 @@ const Router = createBrowserRouter([
       },
 
       {
-        path: "cart",
-        element: <Cart />,
-      },
-
-      {
-        path: "checkout",
-        element: <Order />,
-      },
-
-      {
-        path: "products/:id",
-        element: <Products />,
-      },
-      {
-        path: "products",
-        element: <Products />,
-      },
-
-      {
-        path: "account/register",
-        element: <Register />,
-      },
-
-      {
-        path: "account/login",
-        element: <Login />,
-      },
-
-      {
         element: <ProtectedRoutes index="/account/login" />,
         children: [
+          {
+            path: "cart",
+            element: <Cart />,
+          },
+          {
+            path: "checkout",
+            element: <Order />,
+          },
           {
             path: "settings",
             element: <Settings />,
@@ -125,9 +105,30 @@ const Router = createBrowserRouter([
                 ),
               },
             ],
-          },
+          }
         ],
       },
+
+      {
+        path: "products/:id",
+        element: <Products />,
+      },
+      {
+        path: "products",
+        element: <Products />,
+      },
+
+      {
+        path: "account/register",
+        element: <Register />,
+      },
+
+      {
+        path: "account/login",
+        element: <Login />,
+      },
+
+     
 
       {
         path: "*",
@@ -135,7 +136,9 @@ const Router = createBrowserRouter([
       },
     ],
   },
-
+ // ============================
+  // admin
+  // ============================
 
   {
     path: "/admin",
@@ -165,7 +168,7 @@ const Router = createBrowserRouter([
       // /admin --> /admin/login
       {
         index: true,
-        element: <Navigate to="login" replace />,
+        element: <Navigate to="/admin/login" replace />,
       },
 
       // Login
@@ -198,6 +201,11 @@ const Router = createBrowserRouter([
               },
 
               {
+                path: "banners",
+                element: <AdminBanners/>,
+              },
+
+              {
                 path: "orders",
                 element: <AdminOrders/>,
               },
@@ -209,10 +217,11 @@ const Router = createBrowserRouter([
               {
                 path: "users",
                 element: <AdminUsers/>,
-              },{
-      path: "users/:id",
-      element: <AdminUserDetails />,
-    },
+              },
+              {
+                path: "users/:id",
+                element: <AdminUserDetails />,
+              },
             ],
           },
         ],
@@ -220,7 +229,7 @@ const Router = createBrowserRouter([
 
       {
         path: "*",
-        element: <Navigate to="login" replace />,
+        element: <Navigate to="/admin/login" replace />,
       },
     ],
   },

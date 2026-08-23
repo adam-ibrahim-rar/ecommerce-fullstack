@@ -102,6 +102,24 @@ export const deleteUser = async (req: Request, res: Response) => {
 
   return res.status(204).send();
 };
+
+export const deleteUserById = async (
+  req: Request<UserParams>,
+  res: Response,
+) => {
+  await deleteUserService(req.params.id);
+
+  return res.status(204).send();
+};export const logoutUser = async (req: Request, res: Response) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Logged out successfully",
+  });
+};
 // Request<P = core.ParamsDictionary, // دلوقتي بقى اليوزر برامس
 //  ResBody = any,
 //  ReqBody = any,
