@@ -8,7 +8,7 @@ export default function NotFound() {
         <PathLocation />
       </div>
       <div className="text-center">
-        <h1 className="text-[120px] font-bold text-secondary-two leading-none">
+        <h1 className="text-[120px] font-bold text-brand leading-none">
           404
         </h1>
 
@@ -24,7 +24,7 @@ export default function NotFound() {
         <div className="mt-10 flex justify-center gap-4">
           <Link
             to="/"
-            className="bg-secondary-two hover:bg-secondary-two text-white px-6 py-3 rounded-md transition"
+            className="bg-brand hover:bg-brand text-white px-6 py-3 rounded-md transition"
           >
             Back to Home
           </Link>

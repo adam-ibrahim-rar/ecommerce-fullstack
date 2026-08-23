@@ -214,7 +214,7 @@ export default function Order() {
                 <input
                   type="checkbox"
                   {...register("saveInformation")}
-                  className="w-5 h-5 accent-secondary-two cursor-pointer"
+                  className="w-5 h-5 accent-brand cursor-pointer"
                 />
                 <span className="text-[16px]">
                   Save this information for faster check-out next time
@@ -307,7 +307,7 @@ export default function Order() {
 
               <Button
                 type="button"
-                bg="bg-secondary-two"
+                bg="bg-brand"
                 text="text-white"
                 classes="h-[56px]"
                 content="Apply Coupon"
@@ -318,7 +318,7 @@ export default function Order() {
             <div className="mt-6">
               <Button
                 type="submit"
-                bg="bg-secondary-two"
+                bg="bg-brand"
                 text="text-white"
                 classes="h-[50px]"
                 content={

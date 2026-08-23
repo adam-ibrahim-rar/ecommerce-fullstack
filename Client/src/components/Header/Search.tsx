@@ -69,7 +69,7 @@ export default function Search() {
             }
           }}
           placeholder="What are you looking for?"
-          className="w-[200px] bg-transparent placeholder:text-one placeholder:text-xs focus:outline-none"
+          className="w-[200px] bg-transparent placeholder:text-subtle placeholder:text-xs focus:outline-none"
         />
 
         <button

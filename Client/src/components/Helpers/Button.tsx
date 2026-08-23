@@ -25,7 +25,7 @@ export default function Button({
       type={type}
       disabled={disabled}
       className={`${classes} hover:opacity-95 px-[40px]
-       ${text ? text : "text-white"} ${bg ? bg : "bg-secondary-two"}
+       ${text ? text : "text-white"} ${bg ? bg : "bg-brand"}
        capitalize rounded-sm text-[18px] cursor-pointer py-[16px]
        flex items-center justify-center gap-4
        disabled:opacity-50 disabled:cursor-not-allowed`}

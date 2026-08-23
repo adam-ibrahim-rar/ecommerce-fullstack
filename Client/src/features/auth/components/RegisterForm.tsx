@@ -80,7 +80,7 @@ export default function RegisterForm() {
             />
 
             {errors.username && (
-              <p className="text-secondary-two text-sm mt-1">
+              <p className="text-brand text-sm mt-1">
                 {errors.username.message}
               </p>
             )}
@@ -101,7 +101,7 @@ export default function RegisterForm() {
             />
 
             {errors.email && (
-              <p className="text-secondary-two text-sm mt-1">
+              <p className="text-brand text-sm mt-1">
                 {errors.email.message}
               </p>
             )}
@@ -140,7 +140,7 @@ export default function RegisterForm() {
             </button>
 
             {errors.password && (
-              <p className="text-secondary-two text-sm mt-1">
+              <p className="text-brand text-sm mt-1">
                 {errors.password.message}
               </p>
             )}
@@ -180,7 +180,7 @@ export default function RegisterForm() {
                     underline
                     underline-offset-6
                     text-gray-600
-                    text-secondary-two-hover
+                    text-brand-hover
                   "
                 >
                   Log in

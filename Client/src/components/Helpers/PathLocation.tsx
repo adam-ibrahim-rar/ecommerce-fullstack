@@ -11,7 +11,7 @@ export default function PathLocation({ override }: PathLocationProps) {
 
   return (
     <div className="flex gap-3 mt-8 mb-4 text-[14px]">
-      <Link to="/" className="text-one font-medium text-lg">
+      <Link to="/" className="text-subtle font-medium text-lg">
         Home
       </Link>
 
@@ -23,14 +23,14 @@ export default function PathLocation({ override }: PathLocationProps) {
 
         return (
           <div key={accumulatedPath} className="flex gap-3">
-            <span className="text-one font-medium text-lg">/</span>
+            <span className="text-subtle font-medium text-lg">/</span>
 
             {isLast ? (
               <span className="capitalize font-medium text-lg">{label}</span>
             ) : (
               <Link
                 to={accumulatedPath}
-                className="text-one capitalize font-medium text-lg"
+                className="text-subtle capitalize font-medium text-lg"
               >
                 {label}
               </Link>

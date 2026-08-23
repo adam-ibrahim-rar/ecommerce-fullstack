@@ -1,29 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FiPhone, FiMail } from "react-icons/fi";
 import Button from "../components/Helpers/Button";
 import PathLocation from "../components/Helpers/PathLocation";
-import ContactSkeleton from "../components/Skeletons/ContactSkeleton";
 
 export default function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  const [loading, setlodaing] = useState(true);
-  useEffect(() => {
-    setTimeout(() => setlodaing(false), 500);
-  }, []);
-
-  return loading ? (
-    <ContactSkeleton />
-  ) : (
+  return (
     <div className="w-[1170px] mx-auto">
       <PathLocation />
       <div className="flex gap-5">
         <div className="w-[340px] shadow-lg inset-shadow-xs h-[457px] flex flex-col items-start px-[50px] justify-center gap-6">
           <div className="flex flex-col gap-4 w-[262px]">
             <div className="flex items-center gap-3">
-              <div className="w-[40px] h-[40px] rounded-full bg-secondary-two text-white flex items-center justify-center">
+              <div className="w-[40px] h-[40px] rounded-full bg-brand text-white flex items-center justify-center">
                 <FiPhone size={20} />
               </div>
 
@@ -41,7 +33,7 @@ export default function Contact() {
 
           <div className="flex flex-col gap-4 h-[180px] items-start w-[250px]">
             <div className="flex items-center gap-3">
-              <div className="w-[40px] h-[40px] rounded-full bg-secondary-two text-white flex items-center justify-center">
+              <div className="w-[40px] h-[40px] rounded-full bg-brand text-white flex items-center justify-center">
                 <FiMail size={20} />
               </div>
 
@@ -77,7 +69,7 @@ export default function Contact() {
                 />
 
                 <span
-                  className={`absolute left-[88px] top-1/2 -translate-y-1/2 text-secondary-two ${
+                  className={`absolute left-[88px] top-1/2 -translate-y-1/2 text-brand ${
                     name ? "hidden" : ""
                   }`}
                 >
@@ -95,7 +87,7 @@ export default function Contact() {
                 />
 
                 <span
-                  className={`absolute left-[85px] top-1/2 -translate-y-1/2 text-secondary-two ${
+                  className={`absolute left-[85px] top-1/2 -translate-y-1/2 text-brand ${
                     email ? "hidden" : ""
                   }`}
                 >
@@ -113,7 +105,7 @@ export default function Contact() {
                 />
 
                 <span
-                  className={`absolute left-[90px] top-1/2 -translate-y-1/2 text-secondary-two ${
+                  className={`absolute left-[90px] top-1/2 -translate-y-1/2 text-brand ${
                     phone ? "hidden" : ""
                   }`}
                 >

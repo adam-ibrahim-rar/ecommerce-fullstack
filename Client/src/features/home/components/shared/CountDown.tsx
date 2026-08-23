@@ -39,15 +39,15 @@ export default function Countdown({ endsAt }: CountdownProps) {
     <div className="flex items-end gap-3">
       <TimeBox label="Days" value={time.days} />
 
-      <span className="mb-1 text-2xl font-bold text-secondary-two">:</span>
+      <span className="mb-1 text-2xl font-bold text-brand">:</span>
 
       <TimeBox label="Hours" value={time.hours} />
 
-      <span className="mb-1 text-2xl font-bold text-secondary-two">:</span>
+      <span className="mb-1 text-2xl font-bold text-brand">:</span>
 
       <TimeBox label="Minutes" value={time.minutes} />
 
-      <span className="mb-1 text-2xl font-bold text-secondary-two">:</span>
+      <span className="mb-1 text-2xl font-bold text-brand">:</span>
 
       <TimeBox label="Seconds" value={time.seconds} />
     </div>

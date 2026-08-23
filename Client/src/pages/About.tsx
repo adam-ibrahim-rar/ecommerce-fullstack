@@ -13,8 +13,7 @@ import emmaWatson from "../assets/iphone.jpg";
 import willSmith from "../assets/iphone.jpg";
 import PathLocation from "../components/Helpers/PathLocation";
 import OurServices from "../components/Helpers/OurServices";
-import { useEffect, useState } from "react";
-import AboutSkeleton from "../components/Skeletons/AboutSkeleton";
+import { useState } from "react";
 
 const statistics = [
   {
@@ -60,14 +59,8 @@ const team = [
 export default function About() {
   const [page, setPage] = useState(1);
   const pages = [1, 2, 3, 4, 5];
-  const [loading, setlodaing] = useState(true);
-  useEffect(() => {
-    setTimeout(() => setlodaing(false), 500);
-  }, []);
 
-  return loading ? (
-    <AboutSkeleton />
-  ) : (
+  return (
     <div className="w-[1170px] mx-auto">
       <PathLocation />
       <div className="flex items-center justify-between ">
@@ -106,7 +99,7 @@ export default function About() {
         border border-gray-300
         rounded-sm
         flex items-center justify-between
-        ${item.active ? "bg-secondary-two text-white" : "bg-white"}
+        ${item.active ? "bg-brand text-white" : "bg-white"}
       `}
             >
               <div className="w-full h-[170px] flex flex-col items-center justify-center gap-2">
@@ -119,7 +112,7 @@ export default function About() {
             mb-2
             ${
               item.active
-                ? "bg-white  text-secondary-two border-red-300"
+                ? "bg-white  text-brand border-red-300"
                 : "bg-black text-white border-gray-300"
             }
           `}
@@ -171,7 +164,7 @@ export default function About() {
             onClick={() => setPage(item)}
             className={`
         w-2 h-2 rounded-full cursor-pointer
-        ${page === item ? "bg-secondary-two outline-1 outline-offset-2" : "bg-gray-300"}
+        ${page === item ? "bg-brand outline-1 outline-offset-2" : "bg-gray-300"}
       `}
           />
         ))}

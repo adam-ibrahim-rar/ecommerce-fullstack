@@ -65,15 +65,15 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   key={index}
                   size={20}
                   className={
-                    index < product.rating ? "text-secondary-four" : "text-gray-400"
+                    index < product.rating ? "text-warning" : "text-gray-400"
                   }
                 />
               ))}
             </div>
 
-            <span className="text-[14px] text-one">({product.reviews} Reviews)</span>
-            <span className="text-one text-[14px]">|</span>
-            <span className="text-[14px] text-secondary-three">
+            <span className="text-[14px] text-subtle">({product.reviews} Reviews)</span>
+            <span className="text-subtle text-[14px]">|</span>
+            <span className="text-[14px] text-success">
               {product.inStock ? "In Stock" : "Out of Stock"}
             </span>
           </div>
@@ -84,7 +84,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <p className="text-[14px] leading-4">{product.description}</p>
           )}
 
-          <div className="h-[1.5px] w-full bg-one" />
+          <div className="h-[1.5px] w-full bg-subtle" />
         </div>
 
         <div className="gap-3 flex flex-col">
@@ -127,7 +127,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
               <button
                 onClick={() => setQuantity((prev) => prev + 1)}
-                className="w-[40px] bg-secondary-two text-white flex items-center justify-center cursor-pointer"
+                className="w-[40px] bg-brand text-white flex items-center justify-center cursor-pointer"
               >
                 <FiPlus size={24} strokeWidth={1.5} />
               </button>

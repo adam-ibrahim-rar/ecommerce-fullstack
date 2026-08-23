@@ -102,7 +102,7 @@ export default function Cart() {
 
             <div className="flex justify-center mt-6">
               <Button
-                bg="bg-secondary-two"
+                bg="bg-brand"
                 text="text-white"
                 classes="h-[50px] font-medium"
                 content="Proceed to checkout"

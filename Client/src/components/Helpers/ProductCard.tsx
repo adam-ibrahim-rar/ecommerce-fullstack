@@ -48,12 +48,12 @@ export default function ProductCard({
         className="relative h-[250px] bg-[#F5F5F5] rounded flex items-center justify-center"
       >
         {isNew ? (
-          <span className=" capitalize absolute top-3 left-3 bg-secondary-three text-white text-xs px-3 py-1 rounded">
+          <span className=" capitalize absolute top-3 left-3 bg-success text-white text-xs px-3 py-1 rounded">
             new
           </span>
         ) : (
           discount && (
-            <span className="absolute top-3 left-1.5 bg-secondary-two text-white text-xs px-3 py-1 rounded">
+            <span className="absolute top-3 left-1.5 bg-brand text-white text-xs px-3 py-1 rounded">
               -{discount}%
             </span>
           )
@@ -117,7 +117,7 @@ toast.error("Please login to add items to your cart", {
         <h3 className="font-medium text-base line-clamp-1">{title}</h3>
 
         <div className="flex items-center gap-3 ">
-          <span className="text-secondary-two font-medium">${price}</span>
+          <span className="text-brand font-medium">${price}</span>
 
           {oldPrice && (
             <span className="text-gray-400 line-through">${oldPrice}</span>
@@ -125,13 +125,13 @@ toast.error("Please login to add items to your cart", {
         </div>
 
         <div className="flex items-center  gap-2 ">
-          <div className="flex text-secondary-four">
+          <div className="flex text-warning">
             {Array.from({ length: 5 }).map((_, index) => (
               <FaStar
                 key={index}
                 size={15}
                 className={
-                  index < rating ? "text-secondary-four" : "text-gray-300"
+                  index < rating ? "text-warning" : "text-gray-300"
                 }
               />
             ))}

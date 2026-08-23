@@ -89,7 +89,7 @@ export default function NavBar() {
                 {numberOfCartItemds! > 0 && (
                   <span
                     className="
-                      bg-secondary-two
+                      bg-brand
                       absolute
                       bottom-3.5
                       left-4
@@ -115,7 +115,7 @@ export default function NavBar() {
                 {numberOfCartItemds! > 0 && (
                   <span
                     className="
-                      bg-secondary-two
+                      bg-brand
                       absolute
                       bottom-3.5
                       left-4
@@ -151,7 +151,7 @@ export default function NavBar() {
                       cursor-pointer
                       ${
                         location.pathname === "/settings/my-account"
-                          ? "bg-secondary-two text-white"
+                          ? "bg-brand text-white"
                           : "text-black"
                       }
                     `}

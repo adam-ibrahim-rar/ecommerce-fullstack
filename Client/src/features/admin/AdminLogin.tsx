@@ -4,22 +4,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
-import iphone from "../../../assets/iphone.jpg";
+import iphone from "../../assets/iphone.jpg";
 import axios from "axios";
 import { toast } from "sonner";
 
-import Button from "../../../components/Helpers/Button";
+import Button from "../../components/Helpers/Button";
 
 import {
   loginUserSchema,
   type LoginUserInput,
-} from "../../auth/schemas/auth.schema";
+} from "../auth/schemas/auth.schema";
 
-import { useLoginMutation } from "../../auth/api/authQueries";
+import { useLoginMutation } from "../auth/api/authQueries";
 
-import { useAppDispatch } from "../../../reduxtoolkit/hooks";
+import { useAppDispatch } from "../../reduxtoolkit/hooks";
 
-import { setUser } from "../../../reduxtoolkit/slices/auth/authSlice";
+import { setUser } from "../../reduxtoolkit/slices/auth/authSlice";
 
 export default function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -126,7 +126,7 @@ const onSubmit = async (data: LoginUserInput) => {
                 />
 
                 {errors.email && (
-                  <p className="text-secondary-two text-sm mt-1">
+                  <p className="text-brand text-sm mt-1">
                     {errors.email.message}
                   </p>
                 )}
@@ -170,7 +170,7 @@ const onSubmit = async (data: LoginUserInput) => {
                 </button>
 
                 {errors.password && (
-                  <p className="text-secondary-two text-sm mt-1">
+                  <p className="text-brand text-sm mt-1">
                     {errors.password.message}
                   </p>
                 )}

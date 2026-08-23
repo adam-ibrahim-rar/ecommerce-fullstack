@@ -3,7 +3,7 @@ import Button from "@/components/Helpers/Button";
 export default function AddressForm() {
   return (
     <form className="flex flex-col  items-center">
-      <h1 className="text-[20px] font-medium text-secondary-two mb-[18px]">
+      <h1 className="text-[20px] font-medium text-brand mb-[18px]">
         Address Book
       </h1>
 
@@ -11,7 +11,7 @@ export default function AddressForm() {
          <Button
                   content="Cancel"
                   type="button"
-                  text="text-secondary-two"
+                  text="text-brand"
                   bg="bg-gray-100"
                   classes="text-[15px] !py-2.5 !px-8 hover:bg-gray-200"
                 />
@@ -20,7 +20,7 @@ export default function AddressForm() {
 "
                   type="button"
                   text="text-white"
-                  bg="bg-secondary-two"
+                  bg="bg-brand"
                   classes="text-[15px] !py-2.5 !px-8"
                 />
       </div>

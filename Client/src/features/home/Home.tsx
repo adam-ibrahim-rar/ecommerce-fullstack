@@ -42,7 +42,7 @@ export default function Home() {
       </div>
 
       {isScrollButtonVisible && (
-        <div className="fixed bottom-10 right-14 text-secondary-two animate-bounce">
+        <div className="fixed bottom-10 right-14 text-brand animate-bounce">
           <Arrow onClick={scrollToTop} icon={<HiArrowLongUp />} />
         </div>
       )}

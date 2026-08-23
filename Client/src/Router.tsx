@@ -25,7 +25,7 @@ import RemoveAccount from "./features/auth/components/RemoveAccount";
 // Admin
 import Admin from "./features/admin/Admin";
 import AdminHome from "./features/admin/AdminHome";
-import AdminLogin from "./features/admin/pages/AdminLogin";
+import AdminLogin from "./features/admin/AdminLogin";
 import AdminProducts from "./features/admin/products/Products";
 
 // Helpers

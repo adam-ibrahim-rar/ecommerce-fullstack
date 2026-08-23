@@ -33,7 +33,7 @@ export default function RemoveAccount() {
   };
   return (
     <form className="w-full max-w-[500px] mx-auto flex flex-col items-center">
-      <h1 className="text-[22px] font-semibold text-secondary-two mb-2">
+      <h1 className="text-[22px] font-semibold text-brand mb-2">
         RemoveAccount
       </h1>
 
@@ -45,7 +45,7 @@ export default function RemoveAccount() {
         <Button
           content="Cancel"
           type="button"
-          text="text-secondary-two"
+          text="text-brand"
           bg="bg-gray-100"
           classes="text-[15px] !py-2.5 !px-8 hover:bg-gray-200"
           handleClick={onSubmit}
@@ -55,7 +55,7 @@ export default function RemoveAccount() {
           content="RemoveAccount"
           type="button"
           text="text-white"
-          bg="bg-secondary-two"
+          bg="bg-brand"
           classes="text-[15px] !py-2.5 !px-8"
         />
       </div>

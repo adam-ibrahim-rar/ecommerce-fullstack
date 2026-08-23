@@ -15,7 +15,7 @@ export default function Settings() {
         <PathLocation />
 
         <p className="text-[18px]">
-          Welcome! <span className="font-medium text-secondary-two">{firstName||username}</span>
+          Welcome! <span className="font-medium text-brand">{firstName||username}</span>
         </p>
       </div>
 
@@ -31,7 +31,7 @@ export default function Settings() {
                 to="/Settings/my-account"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${
-                    isActive ? "text-secondary-two" : "text-gray-500"
+                    isActive ? "text-brand" : "text-gray-500"
                   }`
                 }
               >
@@ -42,7 +42,7 @@ export default function Settings() {
                 to="/Settings/my-address"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${
-                    isActive ? "text-secondary-two" : "text-gray-500"
+                    isActive ? "text-brand" : "text-gray-500"
                   }`
                 }
               >
@@ -53,7 +53,7 @@ export default function Settings() {
                 to="/Settings/payment-options"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${
-                    isActive ? "text-secondary-two" : "text-gray-500"
+                    isActive ? "text-brand" : "text-gray-500"
                   }`
                 }
               >
@@ -63,7 +63,7 @@ export default function Settings() {
                 to="remove-account"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer capitalize ${
-                    isActive ? "text-secondary-two" : "text-gray-500"
+                    isActive ? "text-brand" : "text-gray-500"
                   }`
                 }
               >
@@ -80,7 +80,7 @@ export default function Settings() {
                 to="/Settings/my-returns"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${
-                    isActive ? "text-secondary-two" : "text-gray-500"
+                    isActive ? "text-brand" : "text-gray-500"
                   }`
                 }
               >
@@ -91,7 +91,7 @@ export default function Settings() {
                 to="/Settings/my-cancellations"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${
-                    isActive ? "text-secondary-two" : "text-gray-500"
+                    isActive ? "text-brand" : "text-gray-500"
                   }`
                 }
               >

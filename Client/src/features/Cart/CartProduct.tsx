@@ -18,7 +18,7 @@ export default function CartProduct({
     <div className="h-[102px] shadow-lg inset-shadow-xs select-none w-full px-10 grid grid-cols-4 items-center">
       <div className="relative flex items-center gap-5">
         <TbXboxXFilled
-          className="w-[24px] h-[24px] text-secondary-two cursor-pointer absolute top-0.5 right-52"
+          className="w-[24px] h-[24px] text-brand cursor-pointer absolute top-0.5 right-52"
           onClick={() => onDelete(Product.id)}
         />
 

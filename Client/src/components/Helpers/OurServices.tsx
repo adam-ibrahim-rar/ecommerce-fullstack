@@ -4,7 +4,7 @@ export default function OurServices() {
   return (
     <section className="w-[943px] h-[161px] mx-auto flex justify-between">
       <div className="w-[280px] flex flex-col items-center text-center">
-        <div className="w-[62px] h-[62px] rounded-full bg-one flex items-center justify-center mb-5">
+        <div className="w-[62px] h-[62px] rounded-full bg-subtle flex items-center justify-center mb-5">
           <div className="w-[44px] h-[44px] rounded-full bg-black flex items-center justify-center">
             <FaTruck className="text-white text-[22px]" />
           </div>
@@ -20,7 +20,7 @@ export default function OurServices() {
       </div>
 
       <div className="w-[280px] flex flex-col items-center text-center">
-        <div className="w-[62px] h-[62px] rounded-full bg-one flex items-center justify-center mb-5">
+        <div className="w-[62px] h-[62px] rounded-full bg-subtle flex items-center justify-center mb-5">
           <div className="w-[44px] h-[44px] rounded-full bg-black flex items-center justify-center">
             <FaHeadphones className="text-white text-[22px]" />
           </div>
@@ -34,7 +34,7 @@ export default function OurServices() {
       </div>
 
       <div className="w-[280px] flex flex-col items-center text-center">
-        <div className="w-[62px] h-[62px] rounded-full bg-one flex items-center justify-center mb-5">
+        <div className="w-[62px] h-[62px] rounded-full bg-subtle flex items-center justify-center mb-5">
           <div className="w-[44px] h-[44px] rounded-full bg-black flex items-center justify-center">
             <FaShieldAlt className="text-white text-[22px]" />
           </div>

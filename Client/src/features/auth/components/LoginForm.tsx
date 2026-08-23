@@ -88,7 +88,7 @@ export default function LoginForm() {
             />
 
             {errors.email && (
-              <p className="text-secondary-two text-sm mt-1">
+              <p className="text-brand text-sm mt-1">
                 {errors.email.message}
               </p>
             )}
@@ -127,7 +127,7 @@ export default function LoginForm() {
             </button>
 
             {errors.password && (
-              <p className="text-secondary-two text-sm mt-1">
+              <p className="text-brand text-sm mt-1">
                 {errors.password.message}
               </p>
             )}
@@ -150,7 +150,7 @@ export default function LoginForm() {
             font-medium
             underline
             underline-offset-6
-            text-secondary-two
+            text-brand
             "
             >
               Forget Password?
@@ -172,7 +172,7 @@ export default function LoginForm() {
                     underline
                     underline-offset-6
                     text-gray-600
-                    text-secondary-two-hover
+                    text-brand-hover
                   "
             >
               Create account

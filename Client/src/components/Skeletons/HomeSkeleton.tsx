@@ -102,7 +102,7 @@ export default function HomeSkeleton() {
           <Skeleton ClassName="mt-2 w-full h-[1.5px]" />
         </div>
 
-        <div className="mt-7 flex h-[500px] w-[1170px] items-center justify-between bg-one px-[40px]">
+        <div className="mt-7 flex h-[500px] w-[1170px] items-center justify-between bg-subtle px-[40px]">
           <div className="flex h-full w-[45%] flex-col justify-center">
             <Skeleton ClassName="mb-8 w-[100px] h-[24px] rounded" />
 
@@ -160,7 +160,7 @@ export default function HomeSkeleton() {
           </div>
 
           <div className="h-[600px] flex gap-7 justify-between">
-            <div className="w-[570px] h-[600px] bg-one relative overflow-hidden">
+            <div className="w-[570px] h-[600px] bg-subtle relative overflow-hidden">
               <Skeleton ClassName="w-[511px] h-[511px] rounded mx-auto" />
 
               <div className="absolute bottom-10 left-10 flex flex-col items-start gap-2">
@@ -171,7 +171,7 @@ export default function HomeSkeleton() {
             </div>
 
             <div className="w-[570px] h-[600px] flex flex-col gap-7">
-              <div className="w-[570px] h-[284px] bg-one relative overflow-hidden">
+              <div className="w-[570px] h-[284px] bg-subtle relative overflow-hidden">
                 <Skeleton ClassName="absolute right-0 bottom-0 w-full h-full rounded-none" />
 
                 <div className="absolute bottom-6 left-5 flex flex-col items-start gap-2">
@@ -182,7 +182,7 @@ export default function HomeSkeleton() {
               </div>
 
               <div className="w-[570px] h-[284px] flex gap-7">
-                <div className="w-[270px] h-[284px] bg-one relative overflow-hidden">
+                <div className="w-[270px] h-[284px] bg-subtle relative overflow-hidden">
                   <Skeleton ClassName="w-full h-full rounded-none" />
 
                   <div className="absolute bottom-5 left-5 flex flex-col items-start gap-1">
@@ -192,7 +192,7 @@ export default function HomeSkeleton() {
                   </div>
                 </div>
 
-                <div className="w-[270px] h-[284px] bg-one relative overflow-hidden">
+                <div className="w-[270px] h-[284px] bg-subtle relative overflow-hidden">
                   <Skeleton ClassName="w-full h-full rounded-none" />
 
                   <div className="absolute bottom-5 left-5 flex flex-col items-start gap-1">

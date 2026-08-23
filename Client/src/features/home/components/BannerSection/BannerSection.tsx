@@ -12,7 +12,7 @@ export default function BannerSection() {
     <div className="mt-7 flex h-[500px] w-[1170px] items-center justify-between bg-black px-[40px] text-white">
       <section className="flex h-full w-[45%] flex-col justify-center">
         {banner.description && (
-          <span className="mb-8 text-lg font-medium capitalize text-secondary-three">
+          <span className="mb-8 text-lg font-medium capitalize text-success">
             {banner.description}
           </span>
         )}
@@ -29,7 +29,7 @@ export default function BannerSection() {
 
         <Button
           content={banner.buttonText ?? "Shop Now"}
-          bg="bg-secondary-three"
+          bg="bg-success"
           classes="mt-9 w-fit hover:opacity-80 font-medium"
           handleClick={() => {}}
         />

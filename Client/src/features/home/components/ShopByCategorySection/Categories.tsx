@@ -18,9 +18,9 @@ export default function Categories() {
           <button
             key={category.id}
             onClick={() => navigate(`/categories/${category.name}`)}
-            className="bg-secondary-two-hover flex h-[145px] w-[175px] 
+            className="bg-brand-hover flex h-[145px] w-[175px] 
             cursor-pointer flex-col items-center justify-center gap-5 
-            rounded-md border-one bg-white 
+            rounded-md border-subtle bg-white 
             transition-all duration-200 hover:text-white"
           >
             {Icon && <Icon size={32} strokeWidth={1.5} className="transition-colors" />}

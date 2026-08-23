@@ -43,6 +43,11 @@ export default function AdminHeader() {
 
     navigate(`/admin/dashboard/users/${user.id}`);
   };
+  const handleSettinges = () => {
+    if (!user?.id) return;
+
+    navigate(`/settings/my-account`);
+  };
 
   return (
     <header
@@ -151,7 +156,7 @@ export default function AdminHeader() {
 
                 <AvatarFallback>
                   {user
-                    ? `${user.firstName?.[0] ?? ""}${user.lastName?.[0] ?? ""}`
+                    ? `${user.firstName?.[0] ?? ":"}${user.lastName?.[0] ?? "/"}`
                     : "AD"}
                 </AvatarFallback>
 
@@ -194,7 +199,7 @@ export default function AdminHeader() {
             </DropdownMenuItem>
 
 
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSettinges}>
               Settings
             </DropdownMenuItem>
 

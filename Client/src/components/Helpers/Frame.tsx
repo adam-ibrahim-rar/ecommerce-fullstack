@@ -13,9 +13,9 @@ export default function Frame({
     <div className="max-h-[103px] h-fit space-y-5">
       <p
         className="h-[40px]  gap-3
-     font-semibold text-secondary-two capitalize flex items-center"
+     font-semibold text-brand capitalize flex items-center"
       >
-        <div className="h-[40px] w-[20px] rounded-[5px] bg-secondary-two"></div>
+        <div className="h-[40px] w-[20px] rounded-[5px] bg-brand"></div>
         {title}
       </p>
       {(description || functionality) && (

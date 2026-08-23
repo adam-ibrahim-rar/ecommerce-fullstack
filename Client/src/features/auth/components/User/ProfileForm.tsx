@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import FormSkeleton from "../../../../components/Skeletons/FormSkeleton";
 import { useAppDispatch, useAppSelector } from "@/reduxtoolkit/hooks";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,12 +15,6 @@ import { setUser } from "@/reduxtoolkit/slices/auth/authSlice";
 
 export default function ProfileForm() {
   const dispatch = useAppDispatch();
-
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 500);
-  }, []);
 
   const { firstName, lastName, email } = useAppSelector(
     (state) => state.auth.user!
@@ -93,13 +86,9 @@ export default function ProfileForm() {
     });
   };
 
-  if (loading) {
-    return <FormSkeleton />;
-  }
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="text-[20px] font-medium text-secondary-two mb-[18px]">
+      <h1 className="text-[20px] font-medium text-brand mb-[18px]">
         Edit Your Profile
       </h1><div className="flex gap-[50px]">
   <div className="w-[330px]">
@@ -120,11 +109,11 @@ export default function ProfileForm() {
                 text-[18px]
                 outline-none
                 
-                ${firstName?"":"text-secondary-two-placeholder"}`}
+                ${firstName?"":"text-brand-placeholder"}`}
           />
 
     {errors.firstName && (
-      <p className="text-secondary-two text-sm mt-1">
+      <p className="text-brand text-sm mt-1">
         {errors.firstName.message}
       </p>
     )}
@@ -148,12 +137,12 @@ export default function ProfileForm() {
                 text-[18px]
                 outline-none
                 
-                ${lastName?"":"text-secondary-two-placeholder"}`}
+                ${lastName?"":"text-brand-placeholder"}`}
           />
 
 
     {errors.lastName && (
-      <p className="text-secondary-two text-sm mt-1">
+      <p className="text-brand text-sm mt-1">
         {errors.lastName.message}
       </p>
     )}
@@ -246,7 +235,7 @@ export default function ProfileForm() {
       </button>
 
       {errors.password && (
-        <p className="text-secondary-two text-sm mt-1">
+        <p className="text-brand text-sm mt-1">
           {errors.password.message}
         </p>
       )}
@@ -273,7 +262,7 @@ export default function ProfileForm() {
 
 
       {errors.newPassword && (
-        <p className="text-secondary-two text-sm mt-1">
+        <p className="text-brand text-sm mt-1">
           {errors.newPassword.message}
         </p>
       )}
@@ -301,7 +290,7 @@ export default function ProfileForm() {
     
 
       {errors.confirmPassword && (
-        <p className="text-secondary-two text-sm mt-1">
+        <p className="text-brand text-sm mt-1">
           {errors.confirmPassword.message}
         </p>
       )}
@@ -333,7 +322,7 @@ export default function ProfileForm() {
     className="
       w-[178px]
       h-[48px]
-      bg-secondary-two
+      bg-brand
       text-white
       rounded
       text-[16px]

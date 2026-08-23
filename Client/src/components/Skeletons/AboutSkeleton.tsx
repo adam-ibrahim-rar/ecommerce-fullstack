@@ -80,7 +80,7 @@ function StatisticSkeleton({ active = false }: { active?: boolean }) {
         border border-gray-300
         rounded-sm
         flex items-center justify-between
-        ${active ? "bg-one" : "bg-white"}
+        ${active ? "bg-subtle" : "bg-white"}
       `}
     >
       <div className="w-full h-[170px] flex flex-col items-center justify-center gap-2">
