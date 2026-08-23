@@ -1,17 +1,49 @@
-import type { OrderStatus } from "../../../generated/prisma/client";
+import type { OrderStatus, PaymentMethod } from "../../../generated/prisma/client";
 
-export interface CreateOrderItemInput {
-  productId: string;
-  quantity: number;
+// ملاحظة: CreateOrderInput و UpdateOrderStatusInput بييجوا من
+// "../../../schemas/order.schema" (zod) مش من هنا — متضافهمش تاني هنا.
+
+// ---------------------------------------------
+// Query types
+// ---------------------------------------------
+
+export interface OrderQuery {
+  status?: OrderStatus;
+  search?: string; // بحث باسم/إيميل العميل أو رقم الأوردر
+  userId?: string;
 }
 
-export interface CreateOrderInput {
-  items: CreateOrderItemInput[];
-}
+// ---------------------------------------------
+// Response types
+// ---------------------------------------------
 
-export interface UpdateOrderStatusInput {
-  status: OrderStatus;
-}
-export interface OrderParams {
+export interface OrderItemResponse {
   id: string;
+  productId: string;
+  productTitle: string;
+  productImage?: string;
+  quantity: number;
+  price: number;
+}
+
+export interface OrderResponse {
+  id: string;
+  status: OrderStatus;
+  paymentMethod: PaymentMethod;
+  totalAmount: number;
+  itemsCount: number;
+  createdAt: Date;
+
+  customer: {
+    id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+}
+
+export interface OrderDetailsResponse extends OrderResponse {
+  items: OrderItemResponse[];
+  updatedAt: Date;
 }

@@ -1,44 +1,32 @@
 import { useNavigate } from "react-router-dom";
-import Frame from "../../../components/Helpers/Frame";
-import Swapers from "../../../components/Helpers/Swapers";
-import ProductCard from "../../../components/Helpers/ProductCard";
-import Button from "../../../components/Helpers/Button";
-import Countdown from "./CountDown";
-import { useQuery } from "@tanstack/react-query";
-import api from "../../../lib/axios";
+import Frame from "@/components/Helpers/Frame";
+import Swapers from "@/components/Helpers/Swapers";
+import ProductCard from "@/components/Helpers/ProductCard";
+import Button from "@/components/Helpers/Button";
+import Countdown from "../shared/CountDown";
 import ProductCardSkeleton from "@/components/Skeletons/Products/ProductCardSkeleton";
+import { useFlashSaleProductsQuery } from "../../api/homeQueries";
 
-export default function SecondSection() {
+export default function TodaySection() {
   const navigate = useNavigate();
-
-  const {
-    data: products,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["products"],
-    queryFn: async () => {
-      const response = await api.get("/products");
-      return response.data.data;
-    },
-  });
+  const { data: products, isLoading, isError } = useFlashSaleProductsQuery();
 
   function handleClick() {
     navigate("/products");
   }
 
+  const flashSaleEndsAt = products[0]?.flashSaleEndsAt;
+
   return (
     <div className="flex flex-col gap-5 w-[1170px]">
       <Frame
-        title="Today’s"
+        title="Today's"
         functionality={<Swapers />}
-        counter={<Countdown endsAt="2026-08-20T18:00:00Z" />}
+        counter={flashSaleEndsAt ? <Countdown endsAt={flashSaleEndsAt} /> : null}
         description="Flash Sales"
       />
 
-      {isLoading && (
-        <ProductCardSkeleton/>
-      )}
+      {isLoading && <ProductCardSkeleton />}
 
       {isError && (
         <p className="text-red-500 mt-2">Failed to load products.</p>
@@ -46,7 +34,7 @@ export default function SecondSection() {
 
       {!isLoading && !isError && (
         <div className="grid grid-cols-4 mt-2 gap-[30px]">
-          {products?.map((product: any) => (
+          {products.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}
         </div>

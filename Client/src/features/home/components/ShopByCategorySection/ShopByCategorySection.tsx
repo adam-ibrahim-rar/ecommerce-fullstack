@@ -1,8 +1,8 @@
-import Frame from "../../../components/Helpers/Frame";
-import Swapers from "../../../components/Helpers/Swapers";
+import Frame from "@/components/Helpers/Frame";
+import Swapers from "@/components/Helpers/Swapers";
 import Categories from "./Categories";
 
-export default function ThirdSection() {
+export default function ShopByCategorySection() {
   return (
     <div className="flex flex-col  gap-14 w-[1170px]">
       <Frame

@@ -32,13 +32,28 @@ export const getProducts = async (
   req: Request<{}, {}, {}, ProductQuery>,
   res: Response
 ) => {
-  const products = await getProductsService(req.query);
+  const { title, categoryId, isFlashSale, isBestSeller, featuredSlot } = req.query;
+
+  const query: ProductQuery = {
+    ...(title && { title }),
+    ...(categoryId && { categoryId }),
+    ...(isFlashSale !== undefined && {
+      isFlashSale: isFlashSale === true || (isFlashSale as unknown) === "true",
+    }),
+    ...(isBestSeller !== undefined && {
+      isBestSeller: isBestSeller === true || (isBestSeller as unknown) === "true",
+    }),
+    ...(featuredSlot && { featuredSlot }),
+  };
+
+  const products = await getProductsService(query);
 
   return res.status(200).json({
     success: true,
     data: products,
   });
 };
+
 
 export const getProduct = async (
   req: Request<ProductParams>,

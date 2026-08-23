@@ -18,6 +18,15 @@ export const findAll = async (query: ProductQuery) => {
       ...(query.categoryId && {
         categoryId: query.categoryId,
       }),
+      ...(query.isFlashSale !== undefined && {
+        isFlashSale: query.isFlashSale,
+      }),
+      ...(query.isBestSeller !== undefined && {
+        isBestSeller: query.isBestSeller,
+      }),
+      ...(query.featuredSlot && {
+        featuredSlot: query.featuredSlot,
+      }),
     },
     include: {
       category: true,

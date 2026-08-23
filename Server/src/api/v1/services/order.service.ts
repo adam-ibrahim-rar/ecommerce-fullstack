@@ -1,14 +1,28 @@
 import prisma from "../../../config/prisma";
 
-import { AppError } from "../utils/app-error.util";
+import {
+  countByStatus,
+  findAllAdmin,
+} from "../repositories/order.repository";
 
 import { orderRepository } from "../repositories/order.repository";
+
+import { AppError } from "../utils/app-error.util";
+
+import type {
+  OrderQuery,
+  OrderResponse,
+  OrderDetailsResponse,
+} from "../types/order.type";
 
 import type {
   CreateOrderInput,
   UpdateOrderStatusInput,
 } from "../../../schemas/order.schema";
 
+// ---------------------------------------------
+// User: إنشاء أوردر
+// ---------------------------------------------
 export const createOrderService = async (
   userId: string,
   data: CreateOrderInput,
@@ -18,10 +32,6 @@ export const createOrderService = async (
   }
 
   return prisma.$transaction(async (tx) => {
-    /*
-     * 1. Get products from database
-     */
-
     const productIds = data.items.map((item) => item.productId);
 
     const products = await tx.product.findMany({
@@ -32,20 +42,14 @@ export const createOrderService = async (
       },
     });
 
-    /*
-     * 2. Check that all products exist
-     */
-
     if (products.length !== productIds.length) {
       throw new AppError("One or more products were not found", 404);
     }
 
-    /*
-     * 3. Calculate prices
-     */
-
     const orderItems = data.items.map((item) => {
-      const product = products.find((product) => product.id === item.productId);
+      const product = products.find(
+        (product) => product.id === item.productId,
+      );
 
       if (!product) {
         throw new AppError("Product not found", 404);
@@ -60,31 +64,19 @@ export const createOrderService = async (
       };
     });
 
-    /*
-     * 4. Calculate total
-     */
-
     const totalAmount = orderItems.reduce((total, item) => {
       return total + item.price * item.quantity;
     }, 0);
 
-    /*
-     * 5. Create order
-     */
-
     const order = await tx.order.create({
       data: {
         userId,
-
         paymentMethod: data.paymentMethod,
-
         totalAmount,
-
         items: {
           create: orderItems,
         },
       },
-
       include: {
         items: {
           include: {
@@ -97,9 +89,14 @@ export const createOrderService = async (
     return order;
   });
 };
+
+// ---------------------------------------------
+// User: أوردرز اليوزر نفسه
+// ---------------------------------------------
 export const getOrdersService = async (userId: string) => {
   return orderRepository.findAllByUserId(userId);
 };
+
 export const getOrderService = async (userId: string, orderId: string) => {
   const order = await orderRepository.findByIdForUser(orderId, userId);
 
@@ -109,6 +106,7 @@ export const getOrderService = async (userId: string, orderId: string) => {
 
   return order;
 };
+
 export const updateOrderStatusService = async (
   orderId: string,
   data: UpdateOrderStatusInput,
@@ -119,17 +117,9 @@ export const updateOrderStatusService = async (
     throw new AppError("Order not found", 404);
   }
 
-  /*
-   * Don't allow updating cancelled orders
-   */
-
   if (order.status === "CANCELLED") {
     throw new AppError("Cancelled order cannot be updated", 400);
   }
-
-  /*
-   * Don't allow updating delivered orders
-   */
 
   if (order.status === "DELIVERED") {
     throw new AppError("Delivered order cannot be updated", 400);
@@ -137,6 +127,7 @@ export const updateOrderStatusService = async (
 
   return orderRepository.updateStatus(orderId, data.status);
 };
+
 export const cancelOrderService = async (userId: string, orderId: string) => {
   const order = await orderRepository.findByIdForUser(orderId, userId);
 
@@ -149,4 +140,87 @@ export const cancelOrderService = async (userId: string, orderId: string) => {
   }
 
   return orderRepository.updateStatus(orderId, "CANCELLED");
+};
+
+// ---------------------------------------------
+// Admin: كل الأوردرز
+// ---------------------------------------------
+export const getAdminOrdersService = async (
+  query: OrderQuery,
+): Promise<OrderResponse[]> => {
+  const orders = await findAllAdmin(query);
+
+  return orders.map((order) => ({
+    id: order.id,
+    status: order.status,
+    paymentMethod: order.paymentMethod,
+    totalAmount: Number(order.totalAmount),
+    itemsCount: order.items.length,
+    createdAt: order.createdAt,
+
+    customer: {
+      id: order.user.id,
+      username: order.user.username,
+      firstName: order.user.firstName,
+      lastName: order.user.lastName,
+      email: order.user.email,
+    },
+  }));
+};
+
+// ---------------------------------------------
+// Admin: تفاصيل أوردر واحد
+// ---------------------------------------------
+export const getAdminOrderService = async (
+  id: string,
+): Promise<OrderDetailsResponse> => {
+  const order = await prisma.order.findUnique({
+    where: { id },
+    include: {
+      user: true,
+      items: {
+        include: {
+          product: true,
+        },
+      },
+    },
+  });
+
+  if (!order) {
+    throw new AppError("Order not found", 404);
+  }
+
+  return {
+    id: order.id,
+    status: order.status,
+    paymentMethod: order.paymentMethod,
+    totalAmount: Number(order.totalAmount),
+    itemsCount: order.items.length,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+
+    customer: {
+      id: order.user.id,
+      username: order.user.username,
+      firstName: order.user.firstName,
+      lastName: order.user.lastName,
+      email: order.user.email,
+    },
+
+    items: order.items.map((item) => ({
+      id: item.id,
+      productId: item.productId,
+      productTitle: item.product.title,
+      productImage: item.product.images?.[0] ?? "",
+      quantity: item.quantity,
+      price: Number(item.price),
+    })),
+  };
+};
+
+// ---------------------------------------------
+// Admin: إحصائيات
+// ---------------------------------------------
+export const getOrderStatsService = async () => {
+  return countByStatus();
 };

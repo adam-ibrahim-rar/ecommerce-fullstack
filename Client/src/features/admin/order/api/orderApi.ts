@@ -1,5 +1,5 @@
 // ✏️ عدّل المسار ده حسب مكان axios instance عندك (زي اللي مستخدمينه في cartApi.ts / productsApi.ts)
-import api from "@/lib/axios";
+import  api  from "../../..//../lib/axios";
 
 import type {
   Order,
@@ -8,26 +8,8 @@ import type {
   OrderStats,
   OrderStatus,
 } from "../types/order.types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateOrderInput } from "../../../../../Server/src/schemas/order.schema";
-import { orderKeys } from "./orderQueries";
 
-export const useCreateOrderMutation = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: CreateOrderInput) => ordersApi.createOrder(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: ["orders", "stats"] });
-    },
-  });
-};
 export const ordersApi = {
-  createOrder: async (data: CreateOrderInput): Promise<Order> => {
-    const { data: response } = await api.post("/orders", data);
-    return response.data;
-  },
-
   getAdminOrders: async (query?: OrderQuery): Promise<Order[]> => {
     const { data } = await api.get("/orders/admin", {
       params: query,
@@ -47,7 +29,7 @@ export const ordersApi = {
 
   updateOrderStatus: async (
     id: string,
-    status: OrderStatus,
+    status: OrderStatus
   ): Promise<Order> => {
     const { data } = await api.patch(`/orders/${id}/status`, {
       status,

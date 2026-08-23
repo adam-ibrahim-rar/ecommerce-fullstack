@@ -26,15 +26,24 @@ export interface UpdateProductInput {
   reviews?: number;
   inStock?: boolean;
   categoryId?: string;
-
-  variants?: {
+  colors?: {
     name?: string;
     value: string;
   }[];
 }
+
+export interface ProductQuery {
+  title?: string;
+  categoryId?: string;
+  isFlashSale?: boolean;
+  isBestSeller?: boolean;
+  featuredSlot?: "large" | "wide" | "smallLeft" | "smallRight";
+}
+
 export interface ProductResponse {
   id: string;
   image: string;
+  images: string[];
   title: string;
   price: number;
   oldPrice?: number;
@@ -42,7 +51,14 @@ export interface ProductResponse {
   rating: number;
   reviews: number;
   colors: string[];
+  inStock: boolean;
+  flashSaleEndsAt?: string;
+  category: {
+    id: string;
+    name: string;
+  };
 }
+
 export interface ProductDetailsResponse {
   id: string;
   title: string;
@@ -62,9 +78,4 @@ export interface ProductDetailsResponse {
 
 export interface ProductParams {
   id: string;
-}
-
-export interface ProductQuery {
-  title?: string;
-  categoryId?: string;
 }

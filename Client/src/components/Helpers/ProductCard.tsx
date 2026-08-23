@@ -2,24 +2,26 @@ import { useState } from "react";
 import { FaRegHeart, FaStar } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../reduxtoolkit/hooks";
+import { useAppDispatch } from "../../reduxtoolkit/hooks";
 
 import { addToCart } from "../../reduxtoolkit/slices/cart/cartSlice";
-type ProductCardProps = {
+
+export type ProductCardProps = {
   id: string;
-  image: string;
   title: string;
   price: number;
   oldPrice?: number;
   discount?: number;
-  isNew?: boolean;
+  images: string[];
   rating: number;
   reviews: number;
-  colors?: string[];
+  inStock: boolean;
+  colors: string[];
+  isNew?: boolean;
 };
 
 export default function ProductCard({
-  image,
+  images,
   id,
   title,
   price,
@@ -72,12 +74,12 @@ export default function ProductCard({
 
         <div
           onClick={() => {
-            navigate(`/products/${title.split(" ").join("-")}`);
+            navigate(`/products/${id.split(" ").join("-")}`);
           }}
           className="w-[190px] cursor-pointer h-[180px] flex justify-start items-center "
         >
           <img
-            src={image}
+            src={images[0]}
             alt={title}
 
             className="w-[172px]  h-[152px] object-cover"
@@ -131,13 +133,13 @@ export default function ProductCard({
 
         {colors?.length ? (
           <div className="flex gap-2">
-            {colors.map((color, index) => (
+            {colors.map((colorValue, index) => (
               <button
                 key={index}
                 type="button"
                 className="size-3 cursor-pointer rounded-full
         focus:outline focus:outline-2 focus:outline-black focus:outline-offset-2"
-                style={{ backgroundColor: color }}
+                style={{ backgroundColor: colorValue }}
               />
             ))}
           </div>

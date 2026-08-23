@@ -1,4 +1,3 @@
-
 import * as productRepository from "../repositories/product.repository";
 
 import type {
@@ -32,18 +31,32 @@ export const getProductsService = async (
 
   return products.map((product) => ({
     id: product.id,
-    image: product.images[0]!,
     title: product.title,
     price: Number(product.price),
+
     ...(product.oldPrice !== null && {
       oldPrice: Number(product.oldPrice),
     }),
+
     ...(product.discount !== null && {
       discount: product.discount,
     }),
+
     rating: product.rating,
     reviews: product.reviews,
     colors: (product.colors as string[]) ?? [],
+    image: product.images[0] ?? "",
+    images: product.images,
+    inStock: product.inStock,
+
+    ...(product.flashSaleEndsAt && {
+      flashSaleEndsAt: product.flashSaleEndsAt.toISOString(),
+    }),
+
+    category: {
+      id: product.category.id,
+      name: product.category.name,
+    },
   }));
 };
 
@@ -84,9 +97,9 @@ export const getProductService = async (
     }),
 
     inStock: product.inStock,
+
   };
 };
-
 
 export const updateProductService = async (
   id: string,
@@ -120,4 +133,3 @@ export const deleteProductService = async (id: string) => {
 
   await productRepository.remove(id);
 };
-

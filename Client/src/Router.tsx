@@ -7,7 +7,7 @@ import {
 import App from "./App";
 
 // Pages
-import Home from "./pages/Home/Home";
+import Home from "./features/home/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Cart from "./features/Cart/Cart";
@@ -37,6 +37,8 @@ import AdminCategories from "./features/admin/Categories/Categories";
 import AdminUsers from "./features/admin/users/AdminUsers";
 import AdminUserDetails from "./features/admin/users/AdminUserDetails";
 import Order from "./features/order/Order";
+import AdminOrders from "./features/admin/order/AdminOrder";
+import AdminOrderDetails from "./features/order/Adminorderdetails";
 
 const Router = createBrowserRouter([
   // ============================
@@ -197,7 +199,11 @@ const Router = createBrowserRouter([
 
               {
                 path: "orders",
-                element: <div>Orders</div>,
+                element: <AdminOrders/>,
+              },
+              {
+                path: "orders:id",
+                element: <AdminOrderDetails/>,
               },
 
               {
