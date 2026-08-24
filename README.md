@@ -516,3 +516,4 @@ The project continues to evolve as new features, improvements, and architectural
 Author
 
 Built independently as a full-stack development project, with the goal of gaining practical experience building and maintaining a complete web application from frontend to database.
+AI tools were used as a development assistant to accelerate implementation of repetitive and boilerplate features.
