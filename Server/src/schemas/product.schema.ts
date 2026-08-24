@@ -24,8 +24,12 @@ export const createProductSchema = z
     rating: z.number().min(0).max(5).optional(),
     reviews: z.number().int().min(0).optional(),
     inStock: z.boolean().optional(),
-    colors: z.array(z.string()).optional(),
-    sizes: z.array(z.string()).optional(),
+colors: z.array(
+  z.object({
+    name: z.string().trim().optional(),
+    value: z.string().trim().min(1),
+  })
+).optional(),    sizes: z.array(z.string()).optional(),
     categoryId: z.string().uuid(),
 
     isFlashSale: z.boolean().optional(),
@@ -54,7 +58,12 @@ export const updateProductSchema = z
     rating: z.number().min(0).max(5).optional(),
     reviews: z.number().int().min(0).optional(),
     inStock: z.boolean().optional(),
-    colors: z.array(z.string()).optional(),
+    colors: z.array(
+  z.object({
+    name: z.string().trim().optional(),
+    value: z.string().trim().min(1),
+  })
+).optional(),
     sizes: z.array(z.string()).optional(),
     categoryId: z.string().uuid().optional(),
 

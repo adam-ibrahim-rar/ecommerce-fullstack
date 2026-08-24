@@ -152,6 +152,7 @@ export const orderRepository = {
             product: true,
           },
         },
+        user: true,
       },
 
       orderBy: {
@@ -191,6 +192,7 @@ export const orderRepository = {
             product: true,
           },
         },
+        user: true,
       },
     });
   },

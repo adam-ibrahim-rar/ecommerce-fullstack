@@ -1,4 +1,3 @@
-// ✏️ عدّل المسار ده حسب مكان axios instance عندك (زي اللي مستخدمينه في cartApi.ts / productsApi.ts)
 import  api  from "../../..//../lib/axios";
 
 import type {
@@ -14,6 +13,7 @@ export const ordersApi = {
     const { data } = await api.get("/orders/admin", {
       params: query,
     });
+    console.log("ADMIN ORDERS RESPONSE:", data);
     return data.data;
   },
 

@@ -77,6 +77,17 @@ export default function Settings() {
 
             <div className="flex flex-col gap-3 pl-[29px]">
               <NavLink
+                to="/Settings/my-orders"
+                className={({ isActive }) =>
+                  `text-[16px] text-left cursor-pointer ${
+                    isActive ? "text-brand" : "text-gray-500"
+                  }`
+                }
+              >
+                My Orders
+              </NavLink>
+
+              <NavLink
                 to="/Settings/my-returns"
                 className={({ isActive }) =>
                   `text-[16px] text-left cursor-pointer ${

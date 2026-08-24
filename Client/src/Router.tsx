@@ -38,6 +38,8 @@ import AdminCategories from "./features/admin/Categories/Categories";
 import AdminUsers from "./features/admin/users/AdminUsers";
 import AdminUserDetails from "./features/admin/users/AdminUserDetails";
 import Order from "./features/order/Order";
+import MyOrders from "./features/order/MyOrders";
+import MyOrderDetails from "./features/order/MyOrderDetails";
 import AdminOrders from "./features/admin/order/AdminOrder";
 import AdminOrderDetails from "./features/order/Adminorderdetails";
 import AdminBanners from "./features/admin/banners/Banners";
@@ -91,6 +93,14 @@ const Router = createBrowserRouter([
               {
                 path: "my-account",
                 element: <ProfileForm />,
+              },
+              {
+                path: "my-orders",
+                element: <MyOrders />,
+              },
+              {
+                path: "my-orders/:id",
+                element: <MyOrderDetails />,
               },
               {
                 path: "my-address",

@@ -48,7 +48,6 @@ export default function RemoveAccount() {
           text="text-brand"
           bg="bg-gray-100"
           classes="text-[15px] !py-2.5 !px-8 hover:bg-gray-200"
-          handleClick={onSubmit}
         />
 
         <Button
@@ -57,6 +56,8 @@ export default function RemoveAccount() {
           text="text-white"
           bg="bg-brand"
           classes="text-[15px] !py-2.5 !px-8"
+                    handleClick={onSubmit}
+
         />
       </div>
     </form>

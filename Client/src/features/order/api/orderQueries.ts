@@ -1,10 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { ordersApi } from "./ordersApi";
-
-type OrderQuery = Parameters<typeof ordersApi.getAdminOrders>[0];
-type OrderStatus = Parameters<typeof ordersApi.updateOrderStatus>[1];
-type Order = Awaited<ReturnType<typeof ordersApi.getAdminOrders>>[number];
+import type { OrderQuery, OrderStatus } from "../types/order.types";
 
 export const orderKeys = {
   all: ["orders"] as const,
@@ -12,35 +9,58 @@ export const orderKeys = {
   lists: () => [...orderKeys.all, "list"] as const,
 
   detail: (id: string) => [...orderKeys.all, "detail", id] as const,
+
+  myLists: () => [...orderKeys.all, "my-list"] as const,
+
+  myDetail: (id: string) => [...orderKeys.all, "my-detail", id] as const,
 };
 
 export const useCreateOrderMutation = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (data: Parameters<typeof ordersApi.createOrder>[0]) =>
       ordersApi.createOrder(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: orderKeys.myLists() });
+    },
   });
 };
 
-export const useOrdersQuery = () => {
+// ---------------------------------------------
+// User: My Orders
+// ---------------------------------------------
+
+export const useMyOrdersQuery = () => {
   return useQuery({
-    queryKey: orderKeys.lists(),
-    queryFn: () => ordersApi.getAdminOrders(),
+    queryKey: orderKeys.myLists(),
+    queryFn: () => ordersApi.getMyOrders(),
   });
 };
 
-export const useOrderQuery = (id: string) => {
+export const useMyOrderQuery = (id: string) => {
   return useQuery({
-    queryKey: orderKeys.detail(id),
-    queryFn: () => ordersApi.getAdminOrder(id),
+    queryKey: orderKeys.myDetail(id),
+    queryFn: () => ordersApi.getMyOrder(id),
     enabled: !!id,
   });
 };
 
-export const useCancelOrderMutation = () => {
+export const useCancelMyOrderMutation = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (id: string) => ordersApi.updateOrderStatus(id, "CANCELLED"),
+    mutationFn: (id: string) => ordersApi.cancelMyOrder(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: orderKeys.myLists() });
+      queryClient.invalidateQueries({ queryKey: orderKeys.all });
+    },
   });
 };
+
+// ---------------------------------------------
+// Admin
+// ---------------------------------------------
 
 export const useAdminOrdersQuery = (query?: OrderQuery) => {
   return useQuery({
@@ -66,6 +86,8 @@ export const useOrderStatsQuery = () => {
 
 export const useUpdateOrderStatusMutation = () => {
   const queryClient = useQueryClient();
+
+  type Order = Awaited<ReturnType<typeof ordersApi.getAdminOrders>>[number];
 
   return useMutation({
     mutationFn: ({ id, status }: { id: string; status: OrderStatus }) =>

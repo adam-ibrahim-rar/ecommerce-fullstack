@@ -8,7 +8,7 @@ export interface CreateProductInput {
   rating?: number;
   reviews?: number;
   inStock?: boolean;
-  colors?: string[];
+colors?: { name?: string; value: string }[];
   sizes?: string[];
   categoryId: string;
 
@@ -29,7 +29,7 @@ export interface UpdateProductInput {
   reviews?: number;
   inStock?: boolean;
   categoryId?: string;
-  colors?: string[];
+colors?: { name?: string; value: string }[];
   sizes?: string[];
 
   isFlashSale?: boolean;
@@ -56,7 +56,7 @@ export interface ProductResponse {
   discount?: number;
   rating: number;
   reviews: number;
-  colors: string[];
+  colors?: { name?: string; value: string }[];
   sizes: string[];
   inStock: boolean;
   flashSaleEndsAt?: string;
@@ -78,7 +78,7 @@ export interface ProductDetailsResponse {
   rating: number;
   reviews: number;
   images: string[];
-  colors: string[];
+  colors?: { name?: string; value: string }[];
   sizes: string[];
   description?: string;
   inStock: boolean;

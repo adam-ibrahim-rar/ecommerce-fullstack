@@ -8,10 +8,10 @@ interface CategoriesListProps {
 export default function CategoriesList({ categories }: CategoriesListProps) {
   return (
     <div className="mt-8">
-      <ul className="w-[217px] h-[344px] flex flex-col justify-between">
+      <ul className="w-[217px] h-[344px] flex flex-col gap-4">
         {categories.map((category) => (
           <Link
-            to={`/categories/${category.name}`}
+            to={`/products?category=${category.id}`}
             key={category.id}
             className="cursor-default"
           >

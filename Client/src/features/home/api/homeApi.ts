@@ -9,6 +9,8 @@ export const homeApi = {
   //           bestSellingProducts, allProducts, featured: { large, wide, smallLeft, smallRight } } }
   async getHomeData(): Promise<HomeData> {
     const response = await api.get("/home");
+    console.log(response.data.data);
+    
     return response.data.data;
   },
 

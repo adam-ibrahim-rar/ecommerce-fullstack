@@ -2,18 +2,17 @@ import type { BannerResponse } from "./banner.type";
 import type { ProductResponse } from "./product.type";
 
 export interface HomeDataResponse {
-  banners: {
-    hero: BannerResponse[];
-    promo: BannerResponse[];
-  };
   categories: {
     id: string;
     name: string;
     icon: string | null;
   }[];
+  heroBanners: BannerResponse[];
+  promoBanner: BannerResponse | null;
   flashSaleProducts: ProductResponse[];
-  bestSellerProducts: ProductResponse[];
-  featuredProducts: {
+  bestSellingProducts: ProductResponse[];
+  allProducts: ProductResponse[];
+  featured: {
     large: ProductResponse | null;
     wide: ProductResponse | null;
     smallLeft: ProductResponse | null;

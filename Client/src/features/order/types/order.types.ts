@@ -50,3 +50,14 @@ export interface OrderQuery {
   status?: OrderStatus;
   search?: string;
 }
+
+// Payload بتاع إنشاء أوردر جديد من صفحة الـ Checkout
+export interface CreateOrderInput {
+  totalAmount: number;
+  paymentMethod: PaymentMethod;
+  items: {
+    productId: string;
+    quantity: number;
+    price: number;
+  }[];
+}

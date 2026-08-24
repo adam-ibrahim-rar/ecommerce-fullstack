@@ -91,20 +91,61 @@ export const createOrderService = async (
 };
 
 // ---------------------------------------------
+// شكل موحّد للـ order response (مستخدم للـ user وللـ admin)
+// ---------------------------------------------
+const formatOrder = (order: any): OrderResponse => ({
+  id: order.id,
+  status: order.status,
+  paymentMethod: order.paymentMethod,
+  totalAmount: Number(order.totalAmount),
+  itemsCount: order.items.length,
+  createdAt: order.createdAt,
+
+  customer: {
+    id: order.user.id,
+    username: order.user.username,
+    firstName: order.user.firstName,
+    lastName: order.user.lastName,
+    email: order.user.email,
+  },
+});
+
+const formatOrderDetails = (order: any): OrderDetailsResponse => ({
+  ...formatOrder(order),
+  updatedAt: order.updatedAt,
+
+  items: order.items.map((item: any) => ({
+    id: item.id,
+    productId: item.productId,
+    productTitle: item.product.title,
+    productImage: item.product.images?.[0] ?? "",
+    quantity: item.quantity,
+    price: Number(item.price),
+  })),
+});
+
+// ---------------------------------------------
 // User: أوردرز اليوزر نفسه
 // ---------------------------------------------
-export const getOrdersService = async (userId: string) => {
-  return orderRepository.findAllByUserId(userId);
+export const getOrdersService = async (
+  userId: string,
+): Promise<OrderResponse[]> => {
+  const orders = await orderRepository.findAllByUserId(userId);
+
+  return orders.map(formatOrder);
 };
 
-export const getOrderService = async (userId: string, orderId: string) => {
+export const getOrderService = async (
+  userId: string,
+  orderId: string,
+): Promise<OrderDetailsResponse> => {
   const order = await orderRepository.findByIdForUser(orderId, userId);
 
   if (!order) {
     throw new AppError("Order not found", 404);
   }
 
-  return order;
+  return formatOrderDetails(order);
 };
 
 export const updateOrderStatusService = async (
@@ -150,22 +191,7 @@ export const getAdminOrdersService = async (
 ): Promise<OrderResponse[]> => {
   const orders = await findAllAdmin(query);
 
-  return orders.map((order) => ({
-    id: order.id,
-    status: order.status,
-    paymentMethod: order.paymentMethod,
-    totalAmount: Number(order.totalAmount),
-    itemsCount: order.items.length,
-    createdAt: order.createdAt,
-
-    customer: {
-      id: order.user.id,
-      username: order.user.username,
-      firstName: order.user.firstName,
-      lastName: order.user.lastName,
-      email: order.user.email,
-    },
-  }));
+  return orders.map(formatOrder);
 };
 
 // ---------------------------------------------
@@ -190,32 +216,7 @@ export const getAdminOrderService = async (
     throw new AppError("Order not found", 404);
   }
 
-  return {
-    id: order.id,
-    status: order.status,
-    paymentMethod: order.paymentMethod,
-    totalAmount: Number(order.totalAmount),
-    itemsCount: order.items.length,
-    createdAt: order.createdAt,
-    updatedAt: order.updatedAt,
-
-    customer: {
-      id: order.user.id,
-      username: order.user.username,
-      firstName: order.user.firstName,
-      lastName: order.user.lastName,
-      email: order.user.email,
-    },
-
-    items: order.items.map((item) => ({
-      id: item.id,
-      productId: item.productId,
-      productTitle: item.product.title,
-      productImage: item.product.images?.[0] ?? "",
-      quantity: item.quantity,
-      price: Number(item.price),
-    })),
-  };
+  return formatOrderDetails(order);
 };
 
 // ---------------------------------------------

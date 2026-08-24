@@ -16,7 +16,7 @@ const menuItems = [
     icon: IoSettingsOutline ,
   },
   {
-    label: "My Order",
+    label: "My Orders",
     icon: FiShoppingBag,
   },
   {

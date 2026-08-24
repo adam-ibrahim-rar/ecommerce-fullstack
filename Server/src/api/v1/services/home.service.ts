@@ -9,7 +9,8 @@ export const getHomeDataService = async (): Promise<HomeDataResponse> => {
     banners,
     categories,
     flashSaleProducts,
-    bestSellerProducts,
+    bestSellingProducts,
+    allProducts,
     largeSlotProducts,
     wideSlotProducts,
     smallLeftSlotProducts,
@@ -19,25 +20,27 @@ export const getHomeDataService = async (): Promise<HomeDataResponse> => {
     getCategoriesService(),
     getProductsService({ isFlashSale: true }),
     getProductsService({ isBestSeller: true }),
+    getProductsService({}),
     getProductsService({ featuredSlot: "large" }),
     getProductsService({ featuredSlot: "wide" }),
     getProductsService({ featuredSlot: "smallLeft" }),
     getProductsService({ featuredSlot: "smallRight" }),
   ]);
 
+  const promoBanners = banners.filter((banner) => banner.type === "promo");
+
   return {
-    banners: {
-      hero: banners.filter((banner) => banner.type === "hero"),
-      promo: banners.filter((banner) => banner.type === "promo"),
-    },
     categories: categories.map((category) => ({
       id: category.id,
       name: category.name,
       icon: category.icon,
     })),
+    heroBanners: banners.filter((banner) => banner.type === "hero"),
+    promoBanner: promoBanners[0] ?? null,
     flashSaleProducts,
-    bestSellerProducts,
-    featuredProducts: {
+    bestSellingProducts,
+    allProducts,
+    featured: {
       large: largeSlotProducts[0] ?? null,
       wide: wideSlotProducts[0] ?? null,
       smallLeft: smallLeftSlotProducts[0] ?? null,

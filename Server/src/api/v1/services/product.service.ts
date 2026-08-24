@@ -46,7 +46,7 @@ export const getProductsService = async (
     reviews: product.reviews,
     colors: (product.colors as string[]) ?? [],
     sizes: product.sizes ?? [],
-    image: product.images[0] ?? "",
+    image: product.images[3] ?? "",
     images: product.images,
     inStock: product.inStock,
 

@@ -11,14 +11,16 @@ export interface UpdateCartInput {
 }
 
 export const cartApi = {
+  // الباك إند بيرجع الشكل: { success, data }
+  // فلازم ناخد .data.data مش .data، وإلا هنرجع الـ wrapper كله بدل الكارت نفسه
   getCart: async (): Promise<CartResponse> => {
     const { data } = await api.get("/cart");
-    return data;
+    return data.data;
   },
 
   addToCart: async (input: AddToCartInput): Promise<CartResponse> => {
     const { data } = await api.post("/cart/items", input);
-    return data;
+    return data.data;
   },
 
   updateCartItem: async (
@@ -26,7 +28,7 @@ export const cartApi = {
     input: UpdateCartInput,
   ): Promise<CartResponse> => {
     const { data } = await api.patch(`/cart/items/${itemId}`, input);
-    return data;
+    return data.data;
   },
 
   deleteCartItem: async (itemId: string): Promise<void> => {

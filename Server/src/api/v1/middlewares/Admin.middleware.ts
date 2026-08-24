@@ -6,10 +6,14 @@ export const adminMiddleware = (
   _res: Response,
   next: NextFunction
 ) => {
-  console.log("USER FROM TOKEN:", req.user); // ⬅️ ضيف السطر ده مؤقتًا
+  console.log("USER FROM TOKEN:", req.user);
+  console.log("ROLE:", req.user?.role);
 
   if (req.user?.role !== "admin") {
-    throw new AppError("You are not authorized to perform this action", 403);
+    throw new AppError(
+      "You are not authorized to perform this action",
+      403
+    );
   }
 
   next();

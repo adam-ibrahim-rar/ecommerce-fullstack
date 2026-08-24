@@ -1,33 +1,41 @@
-// ✏️ عدّل المسار ده حسب مكان axios instance عندك (زي اللي مستخدمينه في cartApi.ts / productsApi.ts)
 import api from "@/lib/axios";
 
 import type {
+  CreateOrderInput,
   Order,
   OrderDetails,
   OrderQuery,
   OrderStats,
   OrderStatus,
 } from "../types/order.types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateOrderInput } from "../../../../../Server/src/schemas/order.schema";
-import { orderKeys } from "./orderQueries";
 
-export const useCreateOrderMutation = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: CreateOrderInput) => ordersApi.createOrder(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: ["orders", "stats"] });
-    },
-  });
-};
 export const ordersApi = {
   createOrder: async (data: CreateOrderInput): Promise<Order> => {
     const { data: response } = await api.post("/orders", data);
     return response.data;
   },
 
+  // ---------------------------------------------
+  // User: أوردرز اليوزر الحالي (My Orders)
+  // ---------------------------------------------
+  getMyOrders: async (): Promise<Order[]> => {
+    const { data } = await api.get("/orders");
+    return data.data;
+  },
+
+  getMyOrder: async (id: string): Promise<OrderDetails> => {
+    const { data } = await api.get(`/orders/${id}`);
+    return data.data;
+  },
+
+  cancelMyOrder: async (id: string): Promise<Order> => {
+    const { data } = await api.patch(`/orders/${id}/cancel`);
+    return data.data;
+  },
+
+  // ---------------------------------------------
+  // Admin
+  // ---------------------------------------------
   getAdminOrders: async (query?: OrderQuery): Promise<Order[]> => {
     const { data } = await api.get("/orders/admin", {
       params: query,
